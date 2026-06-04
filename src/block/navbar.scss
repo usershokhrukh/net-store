@@ -1,0 +1,30 @@
+.navbar {
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  margin: auto;
+  max-width: 1200px;
+  z-index: 10;
+  padding: 20px 10px;
+  // background-color: red;
+  margin-top: 10px;
+  border-radius: 50px;
+  backdrop-filter: blur(5px);
+  background-color: rgba(83, 79, 79, 0.514);
+  border: 1px solid rgba(0, 0, 0, 0.288)
+
+
+}
+
+
+.navbar-list {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 18px;
+  font-weight: 900;
+  color: rgb(252, 255, 73);
+  filter: brightness(2);
+  text-transform: uppercase;
+  letter-spacing: 1.1px;
+}

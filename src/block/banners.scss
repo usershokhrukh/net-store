@@ -1,0 +1,25 @@
+.swiper{
+  width: 100% !important;
+}
+
+.swiper-slider {
+  min-height: 60vh;
+}
+
+.swiper-banner {
+  max-height: 60vh;
+  width: 100%;
+  filter: blur(5px) brightness(0.7);
+
+
+}
+
+.header {
+  position: relative;
+  padding: 0px;
+  display: flex;
+  justify-content: center;
+  // background-color: red;
+  height: auto;
+
+}
