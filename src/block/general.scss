@@ -10,11 +10,13 @@ li {
 }
 
 .wrapper {
+  position: relative;
   width: 100%;
   display: flex;
-  align-items: center;
   justify-content: start;
+  align-items: center;
   flex-direction: column;
+  height: 100vh;
 }
 
 .container {
@@ -27,6 +29,32 @@ li {
   font-size: 24px;
 }
 
+.main-icon {
+  padding: 10px;
+  font-size: 50px;
+  border-radius: 50px;
+  color: rgba(153, 93, 3, 0.959);
+}
+
+
+.cart-icon{
+  color: black;
+  padding: 10px;
+  font-size: 45px;
+  background-color: rgba(153, 93, 3, 0.959);
+  border-radius: 50px;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+body {
+  background-color: rgb(31, 28, 28);
+  display: block;
+  height: 100vh;
+}
 
 
 /* Force standard visibility on the initial track rendering layout */
@@ -54,4 +82,17 @@ li {
 .slick-slide {
   height: auto !important;
   display: block !important;
+}
+
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  &__text {
+    color: white;
+    font-size: 14px;
+  }
 }
