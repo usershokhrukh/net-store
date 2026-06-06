@@ -1,6 +1,6 @@
 .products {
   display: flex;
-  gap: 20px;
+  gap: 40px;
   justify-content: center;
   flex-grow: 1;
   flex-wrap: wrap;
@@ -19,6 +19,12 @@
     &:hover {
       border-radius: 0px;
     }
+  }
+
+  &__del-price{
+    font-size: 11px;
+    color: gray;
+    font-weight: 300;
   }
 
   &__top {
@@ -55,7 +61,7 @@
     &:hover {
       transform: scale(1.04);
     }
-    width: 300px;
+    width: 350px;
     height: 300px;
   }
 
@@ -66,8 +72,12 @@
   }
 
   &__price {
+    display: flex;
+    align-items: end;
+    gap: 4px;
     font-size: 13px;
     color: rgb(49, 224, 49);
+    font-weight: 600;
   }
 
   &__views{
@@ -101,6 +111,12 @@
     border-radius: 50px;
     border: none;
     background-color: rgba(214, 131, 6, 0.959);
+    outline: none;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgb(248, 199, 39);
+    }
 
   }
 

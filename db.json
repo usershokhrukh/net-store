@@ -24,12 +24,12 @@
   ],
 
   "categories": [
-    { "id": 1, "name": "Elektronika", "icon": "💻" },
-    { "id": 2, "name": "Kiyim", "icon": "👕" },
-    { "id": 3, "name": "Sport", "icon": "⚽" },
-    { "id": 4, "name": "Uy-ro'zg'or", "icon": "🏠" },
-    { "id": 5, "name": "Go'zallik", "icon": "💄" },
-    { "id": 6, "name": "Kitoblar", "icon": "📚" }
+    { "id": 1, "name": "Elektronika", "icon":"https://cdn.jsdelivr.net/npm/remixicon@4.9.1/icons/Weather/flashlight-line.svg" },
+    { "id": 2, "name": "Kiyim", "icon": "https://cdn.jsdelivr.net/npm/remixicon@4.9.1/icons/Others/shirt-fill.svg" },
+    { "id": 3, "name": "Sport", "icon": "https://cdn.jsdelivr.net/npm/remixicon@4.9.1/icons/Game%20%26%20Sports/football-fill.svg" },
+    { "id": 4, "name": "Uy-ro'zg'or", "icon": "https://cdn.jsdelivr.net/npm/remixicon@4.9.1/icons/Others/fridge-fill.svg" },
+    { "id": 5, "name": "Go'zallik", "icon": "https://cdn.jsdelivr.net/npm/remixicon@4.9.1/icons/Logos/bard-fill.svg" },
+    { "id": 6, "name": "Kitoblar", "icon": "https://cdn.jsdelivr.net/npm/remixicon@4.9.1/icons/Others/book-shelf-fill.svg" }
   ],
 
   "products": [
