@@ -20,7 +20,7 @@ const Header = () => {
   };
 
   return (
-    <header className="container header">
+    <header className=" container header">
       <nav className="navbar">
         <ul className="navbar__ul-list">
           <li className="navbar-list">

@@ -51,7 +51,7 @@ a {
 }
 
 body {
-  background-color: rgb(31, 28, 28);
+  // background-color: rgb(31, 28, 28);
   display: block;
   height: 100vh;
 }
@@ -90,7 +90,9 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 20px;
+  padding: 10px;
   flex-wrap: wrap;
+  background-color: rgb(0, 0, 0);
   &__text {
     color: white;
     font-size: 14px;

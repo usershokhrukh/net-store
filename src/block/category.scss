@@ -14,7 +14,7 @@
     justify-content: start;
     gap: 10px;
     backdrop-filter: blur(5px);
-    background-color: rgba(83, 79, 79, 0.514);
+    background-color: rgba(214, 131, 6, 0.959);
     border: 1px solid rgba(0, 0, 0, 0.288);
     flex-grow: 1;
     max-width: 300px;
@@ -24,11 +24,11 @@
     // color: rgba(214, 131, 6, 0.959);
     padding: 5px;
     border-radius: 50px;
-    background-color: rgb(228, 227, 227);
+    // background-color: rgb(228, 227, 227);
   }
 
   &__text {
-    color: white;
+    color: black;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;

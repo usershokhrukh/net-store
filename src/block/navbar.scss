@@ -54,7 +54,7 @@
   color: white;
   font-size: 14px;
   &::placeholder {
-    color: white;
+    color: rgba(255, 255, 255, 0.336);
   }
   flex-grow: 1;
   outline: none;

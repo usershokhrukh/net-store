@@ -3,7 +3,7 @@ import {MdOutlineStorefront} from "react-icons/md";
 
 const Footer = () => {
   return (
-    <div className="footer container">
+    <div className="footer wrapper">
       <ul className="navbar__ul-list">
         <li className="navbar-list">
           <MdOutlineStorefront className="icons main-icon" />
