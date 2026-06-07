@@ -1,4 +1,7 @@
 {
+  "user": {
+    "cartCount": 1
+  },
   "banners": [
     {
       "id": 1,
@@ -251,6 +254,19 @@
       "categoryId": 6,
       "rating": 4.7,
       "reviewCount": 167,
+      "inStock": true
+    }
+  ],
+  "cart": [
+    {
+      "id": 1,
+      "title": "Apple MacBook Air M2",
+      "price": 14990000,
+      "oldPrice": 16500000,
+      "image": "https://images.unsplash.com/photo-1611186871525-de2d1a9d4e71?w=400",
+      "categoryId": 1,
+      "rating": 4.9,
+      "reviewCount": 128,
       "inStock": true
     }
   ]

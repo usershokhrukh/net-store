@@ -7,17 +7,19 @@
   gap: 10px;
   flex-wrap: wrap;
   &__item {
-    padding: 30px;
+    padding: 10px;
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: start;
     gap: 10px;
     backdrop-filter: blur(5px);
-    background-color: rgba(214, 131, 6, 0.959);
-    border: 1px solid rgba(0, 0, 0, 0.288);
+    background-color: rgba(221, 216, 208, 0.281);
+    // border: 1px solid rgba(0, 0, 0, 0.288);
     flex-grow: 1;
     max-width: 300px;
+    cursor: pointer;
+    min-width: 200px;
   }
 
   &__icon{
@@ -33,4 +35,6 @@
     text-transform: uppercase;
     letter-spacing: 1px;
   }
+
+
 }

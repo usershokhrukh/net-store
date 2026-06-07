@@ -21,7 +21,7 @@ li {
 
 .container {
   width: 100%;
-  max-width: 1440px;
+  max-width: 1240px;
   padding: 2% 5%;
 }
 
@@ -33,16 +33,17 @@ li {
   padding: 10px;
   font-size: 50px;
   border-radius: 50px;
-  color: rgba(153, 93, 3, 0.959);
+  color: rgba(243, 178, 37, 0.959);
 }
 
 
 .cart-icon{
-  color: black;
-  padding: 10px;
-  font-size: 45px;
-  background-color: rgba(153, 93, 3, 0.959);
-  border-radius: 50px;
+  color: rgb(129, 52, 16);
+  padding: 8px;
+  font-size: 39px;
+  background-color: rgba(243, 178, 37, 0.959);
+  // border-radius: 50px;
+  cursor: pointer;
 }
 
 a {
@@ -90,11 +91,28 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  padding: 10px;
+  padding: 0px;
   flex-wrap: wrap;
-  background-color: rgb(0, 0, 0);
+  background-color: rgb(129, 52, 16);
+  max-height: 50px;
   &__text {
     color: white;
     font-size: 14px;
   }
+
+  &__box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    padding: 0px;
+  }
+}
+
+.app {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-direction: column;
+  gap: 30px;
+  
 }

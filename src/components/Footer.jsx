@@ -4,7 +4,8 @@ import {MdOutlineStorefront} from "react-icons/md";
 const Footer = () => {
   return (
     <div className="footer wrapper">
-      <ul className="navbar__ul-list">
+      <div className="footer__box container">
+        <ul className="navbar__ul-list">
         <li className="navbar-list">
           <MdOutlineStorefront className="icons main-icon" />
         </li>
@@ -12,12 +13,14 @@ const Footer = () => {
           Net store copyright
         </li>
         <li>
-          <a className="navbar__link" href="">
+          <a className="footer__text" href="">
             Home
           </a>
         </li>
       </ul>
       <p className="footer__text">2026</p>
+      </div>
+      
     </div>
   );
 };
