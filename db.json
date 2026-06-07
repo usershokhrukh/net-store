@@ -68,7 +68,8 @@
       "rating": 4.9,
       "reviewCount": 128,
       "title": "Apple MacBook Air M2",
-      "categoryId": 1
+      "categoryId": 1,
+      "secondaryId": ""
     },
     {
       "id": "2",
@@ -78,21 +79,36 @@
       "image": "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400",
       "rating": 4.7,
       "reviewCount": 94,
-      "inStock": false,
+      "inStock": true,
       "categoryId": 1,
-      "inStockCount": 0
+      "inStockCount": 1,
+      "secondaryId": "5bUNDMSK4bY"
     },
     {
       "id": "3",
-      "inStock": false,
-      "inStockCount": 0,
+      "inStock": true,
+      "inStockCount": 2,
       "image": "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400",
       "oldPrice": 3990000,
       "price": 3490000,
       "rating": 4.8,
       "reviewCount": 210,
       "title": "Sony WH-1000XM5 Naushnik",
-      "categoryId": 1
+      "categoryId": 1,
+      "secondaryId": "akdoHxHouhY"
+    },
+    {
+      "id": "4",
+      "title": "iPad Pro 11\" M4",
+      "price": 11200000,
+      "oldPrice": null,
+      "image": "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400",
+      "rating": 4.8,
+      "reviewCount": 76,
+      "inStock": true,
+      "categoryId": 1,
+      "inStockCount": 1,
+      "secondaryId": "_VClhKMyMpE"
     },
     {
       "id": "5",
@@ -104,7 +120,8 @@
       "reviewCount": 312,
       "inStock": false,
       "categoryId": 3,
-      "inStockCount": 0
+      "inStockCount": 0,
+      "secondaryId": ""
     },
     {
       "id": "6",
@@ -116,7 +133,8 @@
       "reviewCount": 187,
       "inStock": false,
       "categoryId": 3,
-      "inStockCount": 0
+      "inStockCount": 0,
+      "secondaryId": ""
     },
     {
       "id": "7",
@@ -128,7 +146,8 @@
       "reviewCount": 55,
       "inStock": false,
       "categoryId": 2,
-      "inStockCount": 0
+      "inStockCount": 0,
+      "secondaryId": ""
     },
     {
       "id": "8",
@@ -140,7 +159,8 @@
       "reviewCount": 98,
       "inStock": false,
       "categoryId": 2,
-      "inStockCount": 0
+      "inStockCount": 0,
+      "secondaryId": ""
     },
     {
       "id": "9",
@@ -152,7 +172,8 @@
       "reviewCount": 43,
       "inStock": false,
       "categoryId": 2,
-      "inStockCount": 0
+      "inStockCount": 0,
+      "secondaryId": ""
     },
     {
       "id": "10",
@@ -164,7 +185,8 @@
       "reviewCount": 72,
       "inStock": false,
       "categoryId": 3,
-      "inStockCount": 0
+      "inStockCount": 0,
+      "secondaryId": ""
     },
     {
       "id": "11",
@@ -176,7 +198,8 @@
       "reviewCount": 134,
       "inStock": false,
       "categoryId": 3,
-      "inStockCount": 0
+      "inStockCount": 0,
+      "secondaryId": ""
     },
     {
       "id": "12",
@@ -188,7 +211,8 @@
       "reviewCount": 89,
       "inStock": false,
       "categoryId": 4,
-      "inStockCount": 0
+      "inStockCount": 0,
+      "secondaryId": ""
     },
     {
       "id": "13",
@@ -200,7 +224,8 @@
       "rating": 4.5,
       "reviewCount": 61,
       "title": "Philips Changichli Supurgich",
-      "categoryId": 4
+      "categoryId": 4,
+      "secondaryId": ""
     },
     {
       "id": "14",
@@ -212,7 +237,8 @@
       "reviewCount": 47,
       "inStock": false,
       "categoryId": 4,
-      "inStockCount": 0
+      "inStockCount": 0,
+      "secondaryId": ""
     },
     {
       "id": "15",
@@ -224,7 +250,8 @@
       "reviewCount": 256,
       "inStock": false,
       "categoryId": 5,
-      "inStockCount": 0
+      "inStockCount": 0,
+      "secondaryId": ""
     },
     {
       "id": "16",
@@ -236,7 +263,8 @@
       "reviewCount": 178,
       "inStock": false,
       "categoryId": 5,
-      "inStockCount": 0
+      "inStockCount": 0,
+      "secondaryId": ""
     },
     {
       "id": "17",
@@ -248,7 +276,8 @@
       "rating": 4.7,
       "reviewCount": 115,
       "inStock": false,
-      "inStockCount": 0
+      "inStockCount": 0,
+      "secondaryId": ""
     },
     {
       "id": "18",
@@ -260,7 +289,8 @@
       "rating": 4.9,
       "reviewCount": 423,
       "inStock": false,
-      "inStockCount": 0
+      "inStockCount": 0,
+      "secondaryId": ""
     },
     {
       "id": "19",
@@ -272,7 +302,8 @@
       "rating": 4.8,
       "reviewCount": 198,
       "inStock": false,
-      "inStockCount": 0
+      "inStockCount": 0,
+      "secondaryId": ""
     },
     {
       "id": "20",
@@ -284,24 +315,39 @@
       "rating": 4.7,
       "reviewCount": 167,
       "inStock": false,
-      "inStockCount": 0
-    },
-    {
-      "id": "ywvvEy7o7t0",
-      "title": "iPad Pro 11\" M4",
-      "price": 11200000,
-      "oldPrice": null,
-      "image": "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400",
-      "rating": 4.8,
-      "reviewCount": 76,
-      "inStock": true,
-      "categoryId": 1,
-      "inStockCount": 1
+      "inStockCount": 0,
+      "secondaryId": ""
     }
   ],
   "cart": [
     {
-      "id": "4kObZM6D5CU",
+      "id": "akdoHxHouhY",
+      "inStock": true,
+      "inStockCount": 2,
+      "image": "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400",
+      "oldPrice": 3990000,
+      "price": 3490000,
+      "rating": 4.8,
+      "reviewCount": 210,
+      "title": "Sony WH-1000XM5 Naushnik",
+      "categoryId": 1,
+      "secondaryId": 3
+    },
+    {
+      "id": "5bUNDMSK4bY",
+      "title": "Samsung Galaxy S24",
+      "price": 9990000,
+      "oldPrice": null,
+      "image": "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400",
+      "rating": 4.7,
+      "reviewCount": 94,
+      "inStock": true,
+      "categoryId": 1,
+      "inStockCount": 1,
+      "secondaryId": 2
+    },
+    {
+      "id": "_VClhKMyMpE",
       "title": "iPad Pro 11\" M4",
       "price": 11200000,
       "oldPrice": null,
@@ -310,7 +356,8 @@
       "reviewCount": 76,
       "inStock": true,
       "categoryId": 1,
-      "inStockCount": 1
+      "inStockCount": 1,
+      "secondaryId": 4
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

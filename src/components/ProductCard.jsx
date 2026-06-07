@@ -9,8 +9,8 @@ import {usePutProduct} from "../hooks/PUT/usePutProduct";
 import {useDeleteCart} from "../hooks/DELETE/useDeleteCart";
 import {usePutCart} from "../hooks/PUT/usePutCart";
 import {usePostCart} from "../hooks/POST/usePostCart";
-import { usePostProduct } from "../hooks/POST/usePostProduct";
-import { useDeleteProduct } from "../hooks/DELETE/useDeleteProduct";
+import {usePostProduct} from "../hooks/POST/usePostProduct";
+import {useDeleteProduct} from "../hooks/DELETE/useDeleteProduct";
 
 const ProductCard = () => {
   const {data, isFetching} = useGetProducts();
@@ -24,11 +24,17 @@ const ProductCard = () => {
   const handlePlus = (data) => {
     const currentId = data.id;
     const updaterCount = data.inStockCount + 1;
-    putMutateProduct([currentId, {...data, inStockCount: updaterCount }]);
-    putMutateCart({
-      ...data,
-      inStockCount: updaterCount,
-    });
+    putMutateProduct([currentId, {...data, inStockCount: updaterCount}]);
+    console.log(data);
+
+    putMutateCart([
+      data?.secondaryId,
+      {
+        ...data,
+        inStockCount: updaterCount,
+        secondaryId: currentId,
+      },
+    ]);
   };
 
   const handleMinus = (data) => {
@@ -43,10 +49,14 @@ const ProductCard = () => {
         },
       ]);
 
-      putMutateCart({
-        ...data,
-        inStockCount: updaterCount,
-      });
+      putMutateCart([
+        data?.secondaryId,
+        {
+          ...data,
+          inStockCount: updaterCount,
+          secondaryId: currentId,
+        },
+      ]);
     }
   };
 
@@ -63,20 +73,17 @@ const ProductCard = () => {
         },
       ]);
       postMutateCart(
-        {...data, inStock: true, inStockCount: 1},
+        {...data, inStock: true, inStockCount: 1, secondaryId: currentId},
         {
           onSuccess: async (serverResponse) => {
             const newCartId = serverResponse.id;
-            postMutateProduct({
-              ...data,
-              id: newCartId,
-              inStock: true,
-              inStockCount: 1
-            }, {
-              onSuccess: () => {
-                deleteMutateProduct(currentId)
-              }
-            })
+            putMutateProduct([
+              serverResponse?.secondaryId,
+              {
+                ...serverResponse,
+                secondaryId: newCartId,
+              },
+            ]);
           },
         },
       );
@@ -97,7 +104,7 @@ const ProductCard = () => {
         inStockCount: 0,
       },
     ]);
-    deleteCartMutate(currentId);
+    deleteCartMutate(data?.secondaryId);
   };
 
   if (isFetching) {
@@ -125,6 +132,7 @@ const ProductCard = () => {
             inStock,
             categoryId,
             inStockCount,
+            secondaryId,
           }) => (
             <div key={`${id} ${title}`} className="products__item">
               <div className="products__top">
@@ -162,7 +170,7 @@ const ProductCard = () => {
                     <LuTrash
                       onClick={() => {
                         handleTrash({
-                          id,
+                          id: Number(id) || id,
                           inStock,
                           inStockCount,
                           image,
@@ -172,6 +180,7 @@ const ProductCard = () => {
                           reviewCount,
                           title,
                           categoryId,
+                          secondaryId,
                         });
                       }}
                       className="products__button-s-icons"
@@ -180,7 +189,7 @@ const ProductCard = () => {
                       <GoPlus
                         onClick={() => {
                           handlePlus({
-                            id,
+                            id: Number(id) || id,
                             inStock,
                             inStockCount,
                             image,
@@ -190,6 +199,7 @@ const ProductCard = () => {
                             reviewCount,
                             title,
                             categoryId,
+                            secondaryId,
                           });
                         }}
                         className="products__button-s-icons"
@@ -200,7 +210,7 @@ const ProductCard = () => {
                       <AiOutlineMinus
                         onClick={() => {
                           handleMinus({
-                            id,
+                            id: Number(id) || id,
                             inStock,
                             inStockCount,
                             image,
@@ -210,6 +220,7 @@ const ProductCard = () => {
                             reviewCount,
                             title,
                             categoryId,
+                            secondaryId,
                           });
                         }}
                         className="products__button-s-icons"
@@ -231,6 +242,7 @@ const ProductCard = () => {
                       inStock,
                       categoryId,
                       inStockCount,
+                      secondaryId,
                     });
                   }}
                   className={`products__button-icons ${inStock ? "shopped" : ""}`}
