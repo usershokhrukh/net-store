@@ -21,8 +21,9 @@ li {
 
 .container {
   width: 100%;
-  max-width: 1240px;
+  max-width: 1200px;
   padding: 2% 5%;
+  border-radius: 20px;
 }
 
 .icons {
@@ -44,6 +45,7 @@ li {
   background-color: rgba(243, 178, 37, 0.959);
   // border-radius: 50px;
   cursor: pointer;
+  border-radius: 50px;
 }
 
 a {
@@ -115,4 +117,18 @@ body {
   flex-direction: column;
   gap: 30px;
   
+}
+
+.loading-cart {
+ animation: loading-cart 1s linear infinite;
+ width: 300px;
+ height: 300px;
+}
+
+@keyframes loading-cart {
+  0%{
+    background-color: rgba(128, 128, 128, 0.171);
+  }50%{
+    background-color: rgba(128, 128, 128, 0.24);
+  }
 }

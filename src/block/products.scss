@@ -1,12 +1,12 @@
 .products {
   display: flex;
-  gap: 40px;
+  gap: 20px;
   justify-content: center;
   align-items: start;
   flex-grow: 1;
   flex-wrap: wrap;
-  // background-color: red;
   padding: 0px;
+  min-height: 80vh;
   &__item {
     position: relative;
     display: flex;
@@ -14,7 +14,7 @@
     align-items: start;
     justify-content: start;
     // gap: 10px;
-    background-color: rgba(128, 128, 128, 0.151);
+    // background-color: rgba(128, 128, 128, 0.151);
     overflow: hidden;
     border-radius: 8px;
     transition: all 0.3s ease-in-out;
@@ -66,8 +66,8 @@
 
   &__image {
     transition: all 0.3s ease-in-out;
-    width: 250px;
-    height: 200px;
+    width: 270px;
+    height: 280px;
   }
 
   &__title {
@@ -166,7 +166,7 @@
   }
 
   &__button-s-icons {
-    font-size: 20px;
+    font-size: 24px;
     color: black;
     padding: 3px;
     border: 1px solid transparent;
@@ -175,6 +175,9 @@
       background-color: rgba(179, 90, 7, 0.233);
     }
     border-radius: 50px;
+  }
+  .shopped {
+    width: 35%;
   }
 
   @keyframes basket {

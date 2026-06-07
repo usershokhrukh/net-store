@@ -19,7 +19,7 @@ const Header = () => {
         </ul>
         <ul className="navbar__ul-list">
           <li>
-            <a className="navbar__link" href="">
+            <a onClick={() => navigate("/")} className="navbar__link" href="">
               Home
             </a>
           </li>

@@ -4,8 +4,8 @@
 
 .swiper-slider {
   min-height: 500px;
-  height: 60vh;
-  max-height: 700px !important;
+  height: 50vh;
+  max-height: 600px !important;
   // padding: 10px;
   // background-color: red;
   border-radius: 10px;
@@ -47,17 +47,20 @@
     padding: 10px;
     backdrop-filter: blur(5px);
     background-color: rgba(243, 178, 37, 0.959);
+    border-radius: 10px;
   }
 
   &__title {
-    font-size: 30px;
+    font-size: 27px;
     color: rgb(129, 52, 16);
-    font-weight: 900;
+    font-weight: 400;
+    letter-spacing: -0.2px;
   }
 
   &__subtitle {
     font-size: 14px;
-    font-weight: 600;
+    // font-weight: 600;
+    letter-spacing: 0.2px;
     color: rgba(255, 255, 255, 0.795);
   }
 
@@ -69,5 +72,6 @@
     color: white;;
     outline: none;
     cursor: pointer;
+    border-radius: 5px;
   }
 }

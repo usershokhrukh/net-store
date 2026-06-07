@@ -4,216 +4,242 @@
   },
   "banners": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Yangi Yozgi Kolleksiya",
       "subtitle": "Eng so'nggi trendlar sizni kutmoqda",
       "image": "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200",
       "ctaText": "Ko'rish"
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "Elektronika Chegirmasi",
       "subtitle": "Barcha gadjetlarda 20% chegirma",
       "image": "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=1200",
       "ctaText": "Xarid qilish"
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "Sport Mahsulotlari",
       "subtitle": "Sog'lom hayot uchun eng yaxshi tanlov",
       "image": "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=1200",
       "ctaText": "Batafsil"
     }
   ],
-
   "categories": [
-    { "id": 1, "name": "Elektronika", "icon":"https://cdn.jsdelivr.net/npm/remixicon@4.9.1/icons/Weather/flashlight-line.svg" },
-    { "id": 2, "name": "Kiyim", "icon": "https://cdn.jsdelivr.net/npm/remixicon@4.9.1/icons/Others/shirt-fill.svg" },
-    { "id": 3, "name": "Sport", "icon": "https://cdn.jsdelivr.net/npm/remixicon@4.9.1/icons/Game%20%26%20Sports/football-fill.svg" },
-    { "id": 4, "name": "Uy-ro'zg'or", "icon": "https://cdn.jsdelivr.net/npm/remixicon@4.9.1/icons/Others/fridge-fill.svg" },
-    { "id": 5, "name": "Go'zallik", "icon": "https://cdn.jsdelivr.net/npm/remixicon@4.9.1/icons/Logos/bard-fill.svg" },
-    { "id": 6, "name": "Kitoblar", "icon": "https://cdn.jsdelivr.net/npm/remixicon@4.9.1/icons/Others/book-shelf-fill.svg" }
-  ],
-
-  "products": [
     {
-      "id": 1,
-      "title": "Apple MacBook Air M2",
-      "price": 14990000,
-      "oldPrice": 16500000,
-      "image": "https://images.unsplash.com/photo-1611186871525-de2d1a9d4e71?w=400",
-      "categoryId": 1,
-      "rating": 4.9,
-      "reviewCount": 128,
-      "inStock": true
+      "id": "1",
+      "name": "Elektronika",
+      "icon": "https://cdn.jsdelivr.net/npm/remixicon@4.9.1/icons/Weather/flashlight-line.svg"
     },
     {
-      "id": 2,
+      "id": "2",
+      "name": "Kiyim",
+      "icon": "https://cdn.jsdelivr.net/npm/remixicon@4.9.1/icons/Others/shirt-fill.svg"
+    },
+    {
+      "id": "3",
+      "name": "Sport",
+      "icon": "https://cdn.jsdelivr.net/npm/remixicon@4.9.1/icons/Game%20%26%20Sports/football-fill.svg"
+    },
+    {
+      "id": "4",
+      "name": "Uy-ro'zg'or",
+      "icon": "https://cdn.jsdelivr.net/npm/remixicon@4.9.1/icons/Others/fridge-fill.svg"
+    },
+    {
+      "id": "5",
+      "name": "Go'zallik",
+      "icon": "https://cdn.jsdelivr.net/npm/remixicon@4.9.1/icons/Logos/bard-fill.svg"
+    },
+    {
+      "id": "6",
+      "name": "Kitoblar",
+      "icon": "https://cdn.jsdelivr.net/npm/remixicon@4.9.1/icons/Others/book-shelf-fill.svg"
+    }
+  ],
+  "products": [
+    {
+      "id": "1",
+      "inStock": false,
+      "inStockCount": 0,
+      "image": "https://images.unsplash.com/photo-1611186871525-de2d1a9d4e71?w=400",
+      "oldPrice": 16500000,
+      "price": 14990000,
+      "rating": 4.9,
+      "reviewCount": 128,
+      "title": "Apple MacBook Air M2",
+      "categoryId": 1
+    },
+    {
+      "id": "2",
       "title": "Samsung Galaxy S24",
       "price": 9990000,
       "oldPrice": null,
       "image": "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400",
-      "categoryId": 1,
       "rating": 4.7,
       "reviewCount": 94,
-      "inStock": true
+      "inStock": false,
+      "categoryId": 1,
+      "inStockCount": 0
     },
     {
-      "id": 3,
-      "title": "Sony WH-1000XM5 Naushnik",
-      "price": 3490000,
-      "oldPrice": 3990000,
+      "id": "3",
+      "inStock": false,
+      "inStockCount": 0,
       "image": "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400",
-      "categoryId": 1,
+      "oldPrice": 3990000,
+      "price": 3490000,
       "rating": 4.8,
       "reviewCount": 210,
-      "inStock": true
+      "title": "Sony WH-1000XM5 Naushnik",
+      "categoryId": 1
     },
     {
-      "id": 4,
-      "title": "iPad Pro 11\" M4",
-      "price": 11200000,
-      "oldPrice": null,
-      "image": "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400",
-      "categoryId": 1,
-      "rating": 4.8,
-      "reviewCount": 76,
-      "inStock": false
-    },
-    {
-      "id": 5,
+      "id": "5",
       "title": "Nike Air Max 270 Krossovka",
       "price": 1290000,
       "oldPrice": 1590000,
       "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",
-      "categoryId": 3,
       "rating": 4.6,
       "reviewCount": 312,
-      "inStock": true
+      "inStock": false,
+      "categoryId": 3,
+      "inStockCount": 0
     },
     {
-      "id": 6,
+      "id": "6",
       "title": "Adidas Ultraboost 22",
       "price": 1490000,
       "oldPrice": null,
       "image": "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400",
-      "categoryId": 3,
       "rating": 4.5,
       "reviewCount": 187,
-      "inStock": true
+      "inStock": false,
+      "categoryId": 3,
+      "inStockCount": 0
     },
     {
-      "id": 7,
+      "id": "7",
       "title": "Erkaklar Charm Ko'ylagi",
       "price": 289000,
       "oldPrice": 350000,
       "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400",
-      "categoryId": 2,
       "rating": 4.3,
       "reviewCount": 55,
-      "inStock": true
+      "inStock": false,
+      "categoryId": 2,
+      "inStockCount": 0
     },
     {
-      "id": 8,
+      "id": "8",
       "title": "Ayollar Yozgi Ko'ylagi",
       "price": 320000,
       "oldPrice": null,
       "image": "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400",
-      "categoryId": 2,
       "rating": 4.4,
       "reviewCount": 98,
-      "inStock": true
+      "inStock": false,
+      "categoryId": 2,
+      "inStockCount": 0
     },
     {
-      "id": 9,
+      "id": "9",
       "title": "Denim Jilet",
       "price": 450000,
       "oldPrice": 590000,
       "image": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400",
-      "categoryId": 2,
       "rating": 4.2,
       "reviewCount": 43,
-      "inStock": true
+      "inStock": false,
+      "categoryId": 2,
+      "inStockCount": 0
     },
     {
-      "id": 10,
+      "id": "10",
       "title": "Futbol to'pi Adidas",
       "price": 390000,
       "oldPrice": null,
       "image": "https://images.unsplash.com/photo-1614632537197-38a17061c2bd?w=400",
-      "categoryId": 3,
       "rating": 4.6,
       "reviewCount": 72,
-      "inStock": true
+      "inStock": false,
+      "categoryId": 3,
+      "inStockCount": 0
     },
     {
-      "id": 11,
+      "id": "11",
       "title": "Yoga Mati Pro",
       "price": 220000,
       "oldPrice": 270000,
       "image": "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=400",
-      "categoryId": 3,
       "rating": 4.4,
       "reviewCount": 134,
-      "inStock": true
+      "inStock": false,
+      "categoryId": 3,
+      "inStockCount": 0
     },
     {
-      "id": 12,
+      "id": "12",
       "title": "Tefal Qozon To'plami",
       "price": 980000,
       "oldPrice": 1200000,
       "image": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
-      "categoryId": 4,
       "rating": 4.7,
       "reviewCount": 89,
-      "inStock": true
+      "inStock": false,
+      "categoryId": 4,
+      "inStockCount": 0
     },
     {
-      "id": 13,
-      "title": "Philips Changichli Supurgich",
-      "price": 1850000,
-      "oldPrice": null,
+      "id": "13",
+      "inStock": false,
+      "inStockCount": 0,
       "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400",
-      "categoryId": 4,
+      "oldPrice": null,
+      "price": 1850000,
       "rating": 4.5,
       "reviewCount": 61,
-      "inStock": false
+      "title": "Philips Changichli Supurgich",
+      "categoryId": 4
     },
     {
-      "id": 14,
+      "id": "14",
       "title": "Dekorativ Yostiq To'plami",
       "price": 175000,
       "oldPrice": 210000,
       "image": "https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=400",
-      "categoryId": 4,
       "rating": 4.3,
       "reviewCount": 47,
-      "inStock": true
+      "inStock": false,
+      "categoryId": 4,
+      "inStockCount": 0
     },
     {
-      "id": 15,
+      "id": "15",
       "title": "The Ordinary Sero'yog' To'plam",
       "price": 320000,
       "oldPrice": null,
       "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400",
-      "categoryId": 5,
       "rating": 4.8,
       "reviewCount": 256,
-      "inStock": true
+      "inStock": false,
+      "categoryId": 5,
+      "inStockCount": 0
     },
     {
-      "id": 16,
+      "id": "16",
       "title": "MAC Lipstick To'plami",
       "price": 480000,
       "oldPrice": 550000,
       "image": "https://images.unsplash.com/photo-1586495777744-4e6232bf2961?w=400",
-      "categoryId": 5,
       "rating": 4.6,
       "reviewCount": 178,
-      "inStock": true
+      "inStock": false,
+      "categoryId": 5,
+      "inStockCount": 0
     },
     {
-      "id": 17,
+      "id": "17",
       "title": "Parfyum Hugo Boss 100ml",
       "price": 890000,
       "oldPrice": null,
@@ -221,10 +247,11 @@
       "categoryId": 5,
       "rating": 4.7,
       "reviewCount": 115,
-      "inStock": true
+      "inStock": false,
+      "inStockCount": 0
     },
     {
-      "id": 18,
+      "id": "18",
       "title": "Atomic Habits — James Clear",
       "price": 95000,
       "oldPrice": 120000,
@@ -232,10 +259,11 @@
       "categoryId": 6,
       "rating": 4.9,
       "reviewCount": 423,
-      "inStock": true
+      "inStock": false,
+      "inStockCount": 0
     },
     {
-      "id": 19,
+      "id": "19",
       "title": "The Psychology of Money",
       "price": 89000,
       "oldPrice": null,
@@ -243,10 +271,11 @@
       "categoryId": 6,
       "rating": 4.8,
       "reviewCount": 198,
-      "inStock": true
+      "inStock": false,
+      "inStockCount": 0
     },
     {
-      "id": 20,
+      "id": "20",
       "title": "Deep Work — Cal Newport",
       "price": 82000,
       "oldPrice": 100000,
@@ -254,20 +283,35 @@
       "categoryId": 6,
       "rating": 4.7,
       "reviewCount": 167,
-      "inStock": true
+      "inStock": false,
+      "inStockCount": 0
+    },
+    {
+      "id": "ywvvEy7o7t0",
+      "title": "iPad Pro 11\" M4",
+      "price": 11200000,
+      "oldPrice": null,
+      "image": "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400",
+      "rating": 4.8,
+      "reviewCount": 76,
+      "inStock": true,
+      "categoryId": 1,
+      "inStockCount": 1
     }
   ],
   "cart": [
     {
-      "id": 1,
-      "title": "Apple MacBook Air M2",
-      "price": 14990000,
-      "oldPrice": 16500000,
-      "image": "https://images.unsplash.com/photo-1611186871525-de2d1a9d4e71?w=400",
+      "id": "4kObZM6D5CU",
+      "title": "iPad Pro 11\" M4",
+      "price": 11200000,
+      "oldPrice": null,
+      "image": "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400",
+      "rating": 4.8,
+      "reviewCount": 76,
+      "inStock": true,
       "categoryId": 1,
-      "rating": 4.9,
-      "reviewCount": 128,
-      "inStock": true
+      "inStockCount": 1
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

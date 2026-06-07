@@ -1,77 +1,247 @@
-import React from "react";
 import {IoHeartOutline} from "react-icons/io5";
 import {LuEye, LuTrash} from "react-icons/lu";
-import {MdRateReview, MdStarRate} from "react-icons/md";
+import {MdStarRate} from "react-icons/md";
 import {PiShoppingCartLight} from "react-icons/pi";
 import {useGetProducts} from "../hooks/GET/useGetProducts";
 import {GoPlus} from "react-icons/go";
 import {AiOutlineMinus} from "react-icons/ai";
+import {usePutProduct} from "../hooks/PUT/usePutProduct";
+import {useDeleteCart} from "../hooks/DELETE/useDeleteCart";
+import {usePutCart} from "../hooks/PUT/usePutCart";
+import {usePostCart} from "../hooks/POST/usePostCart";
+import { usePostProduct } from "../hooks/POST/usePostProduct";
+import { useDeleteProduct } from "../hooks/DELETE/useDeleteProduct";
 
 const ProductCard = () => {
-  const {data} = useGetProducts();
-  const handleShop = (e) => {
-    if (!e.target.className.baseVal.includes("shopping")) {
+  const {data, isFetching} = useGetProducts();
+  const {mutate: putMutateProduct} = usePutProduct();
+  const {mutate: deleteCartMutate} = useDeleteCart();
+  const {mutate: postMutateCart} = usePostCart();
+  const {mutate: putMutateCart} = usePutCart();
+  const {mutate: postMutateProduct} = usePostProduct();
+  const {mutate: deleteMutateProduct} = useDeleteProduct();
+
+  const handlePlus = (data) => {
+    const currentId = data.id;
+    const updaterCount = data.inStockCount + 1;
+    putMutateProduct([currentId, {...data, inStockCount: updaterCount }]);
+    putMutateCart({
+      ...data,
+      inStockCount: updaterCount,
+    });
+  };
+
+  const handleMinus = (data) => {
+    const currentId = data.id;
+    if (data.inStockCount - 1 >= 1) {
+      const updaterCount = data.inStockCount - 1;
+      putMutateProduct([
+        currentId,
+        {
+          ...data,
+          inStockCount: updaterCount,
+        },
+      ]);
+
+      putMutateCart({
+        ...data,
+        inStockCount: updaterCount,
+      });
+    }
+  };
+
+  const handleShop = (e, data) => {
+    e.preventDefault();
+    if (!e.target.className.baseVal.includes("shopped")) {
+      const currentId = data.id;
+      putMutateProduct([
+        currentId,
+        {
+          ...data,
+          inStock: true,
+          inStockCount: 1,
+        },
+      ]);
+      postMutateCart(
+        {...data, inStock: true, inStockCount: 1},
+        {
+          onSuccess: async (serverResponse) => {
+            const newCartId = serverResponse.id;
+            postMutateProduct({
+              ...data,
+              id: newCartId,
+              inStock: true,
+              inStockCount: 1
+            }, {
+              onSuccess: () => {
+                deleteMutateProduct(currentId)
+              }
+            })
+          },
+        },
+      );
+
       let className = e.target.className.baseVal;
-      className = className.concat(" shopping");
+      className = className.concat(" shopped");
       e.target.className.baseVal = className;
     }
   };
-  return (
-    <div className="products container">
-      {data?.map(
-        ({id, title, price, oldPrice, image, rating, reviewCount, inStock}) => (
-          <div key={`${id} ${title}`} className="products__item">
-            <div className="products__top">
-              <span>
-                <IoHeartOutline className="products__top-icons" />
-              </span>
-            </div>
-            <img className="products__image" src={image} alt={title} />
-            <div className="products__bottom">
-              <h4 className="products__title">{title}</h4>
-              <p className="products__price">
-                ${price}
-                {oldPrice ? (
-                  <span className="products__del-price">
-                    <del>${oldPrice}</del>
+
+  const handleTrash = (data) => {
+    const currentId = data.id;
+    putMutateProduct([
+      currentId,
+      {
+        ...data,
+        inStock: false,
+        inStockCount: 0,
+      },
+    ]);
+    deleteCartMutate(currentId);
+  };
+
+  if (isFetching) {
+    return (
+      <div className="products container">
+        <div className="loading-cart"></div>
+        <div className="loading-cart"></div>
+        <div className="loading-cart"></div>
+        <div className="loading-cart"></div>
+        <div className="loading-cart"></div>
+      </div>
+    );
+  } else {
+    return (
+      <div className="products container">
+        {data?.map(
+          ({
+            id,
+            title,
+            price,
+            oldPrice,
+            image,
+            rating,
+            reviewCount,
+            inStock,
+            categoryId,
+            inStockCount,
+          }) => (
+            <div key={`${id} ${title}`} className="products__item">
+              <div className="products__top">
+                <span>
+                  <IoHeartOutline className="products__top-icons" />
+                </span>
+              </div>
+              <img className="products__image" src={image} alt={title} />
+              <div className="products__bottom">
+                <h4 className="products__title">{title}</h4>
+                <p className="products__price">
+                  ${price}
+                  {oldPrice ? (
+                    <span className="products__del-price">
+                      <del>${oldPrice}</del>
+                    </span>
+                  ) : null}
+                </p>
+                <p className="products__views">
+                  <span>
+                    <LuEye className="products__view-icon" />
                   </span>
+                  {reviewCount}
+                </p>
+                <p className="products__rate">
+                  <span>
+                    <MdStarRate className="products__rate-icon" />
+                  </span>
+                  {rating}
+                </p>
+              </div>
+              <button className="products__button">
+                {inStock ? (
+                  <div className="products__button-box">
+                    <LuTrash
+                      onClick={() => {
+                        handleTrash({
+                          id,
+                          inStock,
+                          inStockCount,
+                          image,
+                          oldPrice,
+                          price,
+                          rating,
+                          reviewCount,
+                          title,
+                          categoryId,
+                        });
+                      }}
+                      className="products__button-s-icons"
+                    />
+                    <span className="products__b-center">
+                      <GoPlus
+                        onClick={() => {
+                          handlePlus({
+                            id,
+                            inStock,
+                            inStockCount,
+                            image,
+                            oldPrice,
+                            price,
+                            rating,
+                            reviewCount,
+                            title,
+                            categoryId,
+                          });
+                        }}
+                        className="products__button-s-icons"
+                      />
+                      <span className="products__b-count">
+                        {inStockCount > 9 ? "9+" : inStockCount}
+                      </span>
+                      <AiOutlineMinus
+                        onClick={() => {
+                          handleMinus({
+                            id,
+                            inStock,
+                            inStockCount,
+                            image,
+                            oldPrice,
+                            price,
+                            rating,
+                            reviewCount,
+                            title,
+                            categoryId,
+                          });
+                        }}
+                        className="products__button-s-icons"
+                      />
+                    </span>
+                  </div>
                 ) : null}
-              </p>
-              <p className="products__views">
-                <span>
-                  <LuEye className="products__view-icon" />
-                </span>
-                {reviewCount}
-              </p>
-              <p className="products__rate">
-                <span>
-                  <MdStarRate className="products__rate-icon" />
-                </span>
-                {rating}
-              </p>
-            </div>
-            <button className="products__button">
-              {inStock ? (
-                <div className="products__button-box">
-                  <LuTrash className="products__button-s-icons" />
-                  <span className="products__b-center">
-                    <GoPlus className="products__button-s-icons" />
-                    <span className="products__b-count">1</span>
-                    <AiOutlineMinus className="products__button-s-icons" />
-                  </span>
-                </div>
-              ) : null}
 
                 <PiShoppingCartLight
-                  onClick={handleShop}
-                  className={`products__button-icons ${inStock ? "shopping" : ""}`}
+                  onClick={(e) => {
+                    handleShop(e, {
+                      id: Number(id) || id,
+                      title,
+                      price,
+                      oldPrice,
+                      image,
+                      rating,
+                      reviewCount,
+                      inStock,
+                      categoryId,
+                      inStockCount,
+                    });
+                  }}
+                  className={`products__button-icons ${inStock ? "shopped" : ""}`}
                 />
-            </button>
-          </div>
-        ),
-      )}
-    </div>
-  );
+              </button>
+            </div>
+          ),
+        )}
+      </div>
+    );
+  }
 };
 
 export default ProductCard;
