@@ -1,6 +1,6 @@
 import {IoHeartOutline} from "react-icons/io5";
 import {LuEye, LuTrash} from "react-icons/lu";
-import {MdStarRate} from "react-icons/md";
+import {MdError, MdStarRate} from "react-icons/md";
 import {PiShoppingCartLight} from "react-icons/pi";
 import {useGetProducts} from "../hooks/GET/useGetProducts";
 import {GoPlus} from "react-icons/go";
@@ -9,17 +9,27 @@ import {usePutProduct} from "../hooks/PUT/usePutProduct";
 import {useDeleteCart} from "../hooks/DELETE/useDeleteCart";
 import {usePutCart} from "../hooks/PUT/usePutCart";
 import {usePostCart} from "../hooks/POST/usePostCart";
-import {usePostProduct} from "../hooks/POST/usePostProduct";
-import {useDeleteProduct} from "../hooks/DELETE/useDeleteProduct";
+import {useGetUser} from "../hooks/GET/useGetUser";
+import {usePutUser} from "../hooks/PUT/usePutUser";
+import {useGetCart} from "../hooks/GET/useGetCart";
+import {useEffect} from "react";
 
 const ProductCard = () => {
-  const {data, isFetching} = useGetProducts();
-  const {mutate: putMutateProduct} = usePutProduct();
-  const {mutate: deleteCartMutate} = useDeleteCart();
-  const {mutate: postMutateCart} = usePostCart();
-  const {mutate: putMutateCart} = usePutCart();
-  const {mutate: postMutateProduct} = usePostProduct();
-  const {mutate: deleteMutateProduct} = useDeleteProduct();
+  const {data, isFetching, error: getErrorProducts} = useGetProducts();
+  const {mutate: putMutateProduct, error: putErrorProduct} = usePutProduct();
+  const {mutate: deleteCartMutate, error: deleteErrorCart} = useDeleteCart();
+  const {mutate: postMutateCart, error: postErrorCart} = usePostCart();
+  const {mutate: putMutateCart, error: putErrorCart} = usePutCart();
+  const {data: userData, error: getUserError} = useGetUser();
+  const {mutate: putMutateUser, error: putErrorUser} = usePutUser();
+  const {data: cartData, error: getErrorCart} = useGetCart();
+
+  useEffect(() => {
+    putMutateUser({
+      ...userData,
+      cartProducts: cartData?.length || 0,
+    });
+  }, [cartData]);
 
   const handlePlus = (data) => {
     const currentId = data.id;
@@ -58,7 +68,7 @@ const ProductCard = () => {
     }
   };
 
-  const handleShop = (e, data) => {    
+  const handleShop = (e, data) => {
     e.preventDefault();
     if (!e.target.className.baseVal.includes("shopped")) {
       const currentId = data.id;
@@ -68,11 +78,17 @@ const ProductCard = () => {
           ...data,
           inStock: true,
           inStockCount: 1,
-          inShop: true
+          inShop: true,
         },
       ]);
       postMutateCart(
-        {...data, inStock: true, inStockCount: 1, secondaryId: currentId, inShop: true},
+        {
+          ...data,
+          inStock: true,
+          inStockCount: 1,
+          secondaryId: currentId,
+          inShop: true,
+        },
         {
           onSuccess: async (serverResponse) => {
             const newCartId = serverResponse.id;
@@ -108,6 +124,15 @@ const ProductCard = () => {
     deleteCartMutate(data?.secondaryId);
   };
 
+  const error =
+    getErrorProducts?.message ||
+    putErrorProduct?.message ||
+    deleteErrorCart?.message ||
+    postErrorCart?.message ||
+    putErrorCart?.message ||
+    getUserError?.message ||
+    putErrorUser?.message;
+
   if (isFetching) {
     return (
       <div className="products container">
@@ -121,6 +146,12 @@ const ProductCard = () => {
   } else {
     return (
       <div className="products container">
+        {error ? (
+          <div className="error-box">
+            <p className="error-text">{error}</p>
+            <MdError className="error-icon" />
+          </div>
+        ) : null}
         {data?.map(
           ({
             id,
@@ -134,7 +165,7 @@ const ProductCard = () => {
             categoryId,
             inStockCount,
             secondaryId,
-            inShop
+            inShop,
           }) => (
             <div key={`${id} ${title}`} className="products__item">
               <div className="products__top">
@@ -183,7 +214,7 @@ const ProductCard = () => {
                           title,
                           categoryId,
                           secondaryId: Number(secondaryId) || secondaryId,
-                          inShop
+                          inShop,
                         });
                       }}
                       className="products__button-s-icons"
@@ -203,7 +234,7 @@ const ProductCard = () => {
                             title,
                             categoryId,
                             secondaryId: Number(secondaryId) || secondaryId,
-                            inShop
+                            inShop,
                           });
                         }}
                         className="products__button-s-icons"
@@ -225,7 +256,7 @@ const ProductCard = () => {
                             title,
                             categoryId,
                             secondaryId: Number(secondaryId) || secondaryId,
-                            inShop
+                            inShop,
                           });
                         }}
                         className="products__button-s-icons"
@@ -248,7 +279,7 @@ const ProductCard = () => {
                       categoryId,
                       inStockCount,
                       secondaryId: Number(secondaryId) || secondaryId,
-                      inShop
+                      inShop,
                     });
                   }}
                   className={`products__button-icons ${inStock ? "shopped" : ""}`}

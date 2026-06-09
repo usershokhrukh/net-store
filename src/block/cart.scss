@@ -7,7 +7,6 @@
   // min-height: 80vh;
   align-items: start;
   height: fit-content;
-  // overflow: auto;
 
   &__top {
     width: 100%;
@@ -207,5 +206,13 @@
     outline: none;
     background-color: rgba(243, 178, 37, 0.959);
     cursor: pointer;
+  }
+
+  &__loading-box {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
   }
 }

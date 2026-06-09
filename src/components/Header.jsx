@@ -1,9 +1,13 @@
 import {MdOutlineStorefront} from "react-icons/md";
 import {IoCart, IoHeartOutline} from "react-icons/io5";
 import {useNavigate} from "react-router-dom";
+import { useGetUser } from "../hooks/GET/useGetUser";
+import { memo } from "react";
 const Header = () => {
   const navigate = useNavigate();
 
+  const {data: userData} = useGetUser();
+      
   return (
     <header className=" container header">
       <nav className="navbar">
@@ -37,7 +41,10 @@ const Header = () => {
             <IoHeartOutline className="navbar__wish-icon" />
           </li>
           <li className="navbar-list">
-            <span className="navbar__count">8</span>
+            {
+              userData?.cartProducts ? <span className="navbar__count">{userData?.cartProducts <= 9 ? userData?.cartProducts : "9+"}</span> : null
+            }
+            
             <IoCart
               onClick={() => navigate("/cart")}
               className="icons cart-icon"
@@ -49,4 +56,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default memo(Header);

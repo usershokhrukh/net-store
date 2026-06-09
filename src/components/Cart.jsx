@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useGetCart} from "../hooks/GET/useGetCart";
-import {MdOutlineStar} from "react-icons/md";
+import {MdError, MdOutlineStar} from "react-icons/md";
 import {TbTrashFilled} from "react-icons/tb";
 import {GoPlus} from "react-icons/go";
 import {FiMinus} from "react-icons/fi";
@@ -11,17 +11,28 @@ import {useGetUser} from "../hooks/GET/useGetUser";
 import {useDeleteCart} from "../hooks/DELETE/useDeleteCart";
 
 const Cart = () => {
-  const {data, isFetching} = useGetCart();
-  const {mutate: putMutateUser} = usePutUser();
-  const {data: userData} = useGetUser();
-  const {mutate: putMutateCart} = usePutCart();
-  const {mutate: putMutateProduct} = usePutProduct();
-  const {mutate: deleteMutateCart} = useDeleteCart();
+  const {data: cartData, isFetching, error: getErrorCarts} = useGetCart();
+  const {mutate: putMutateUser, error: putErrorUser} = usePutUser();
+  const {data: userData, error: getUserError} = useGetUser();
+  const {mutate: putMutateCart, error: putErrorCart} = usePutCart();
+  const {mutate: putMutateProduct, error: putErrorProduct} = usePutProduct();
+  const {
+    mutate: deleteMutateCart,
+    error: deleteErrorCart,
+    data: deleteData,
+  } = useDeleteCart();
+  const error =
+    getErrorCarts?.message ||
+    putErrorProduct?.message ||
+    deleteErrorCart?.message ||
+    getUserError?.message ||
+    putErrorCart?.message ||
+    putErrorUser?.message;
 
-  const cartProducts = data?.length;
+  const cartProducts = cartData?.length;
 
   const blockMoney =
-    data?.reduce((total, item) => {
+    cartData?.reduce((total, item) => {
       if (item.inShop) {
         total += item.price * item.inStockCount;
       }
@@ -29,7 +40,7 @@ const Cart = () => {
     }, 0) || 0;
 
   useEffect(() => {
-    putMutateUser({...userData, cartMoney: blockMoney});
+    putMutateUser({...userData, cartMoney: blockMoney, cartProducts: cartData?.length || 0});
   }, [blockMoney]);
 
   const handlePlus = (data) => {
@@ -95,6 +106,12 @@ const Cart = () => {
   if (!isFetching) {
     return (
       <div className="container cart">
+        {error ? (
+          <div className="error-box">
+            <p className="error-text">{error}</p>
+            <MdError className="error-icon" />
+          </div>
+        ) : null}
         <div className="cart__top">
           <h2 className="cart__t-title">Your cart </h2>
           {cartProducts > 0 ? (
@@ -105,8 +122,8 @@ const Cart = () => {
         </div>
         <div className="cart__container">
           <div className="cart__box">
-            {data.length
-              ? data?.map(
+            {cartData?.length
+              ? cartData?.map(
                   ({
                     id,
                     title,
@@ -255,7 +272,7 @@ const Cart = () => {
     );
   } else {
     return (
-      <div className="container cart">
+      <div className="container cart cart__loading-box">
         <div className="loading-cart"></div>
         <div className="loading-cart"></div>
         <div className="loading-cart"></div>
