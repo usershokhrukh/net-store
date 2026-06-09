@@ -54,8 +54,8 @@ const Cart = () => {
     ]);
 
     putMutateProduct([
-      data.secondaryId,
-      {...data, inStockCount: data.inStockCount + 1, secondaryId: currentId},
+      data.toProductId,
+      {...data, inStockCount: data.inStockCount + 1, toCartId: currentId, toProductId: ""},
     ]);
   };
 
@@ -71,8 +71,8 @@ const Cart = () => {
       ]);
 
       putMutateProduct([
-        data.secondaryId,
-        {...data, inStockCount: data.inStockCount - 1, secondaryId: currentId},
+        data.toProductId,
+        {...data, inStockCount: data.inStockCount - 1, toCartId: currentId, toProductId: ""},
       ]);
     }
   };
@@ -82,14 +82,14 @@ const Cart = () => {
     deleteMutateCart(currentId);
 
     putMutateProduct([
-      data.secondaryId,
+      data.toProductId,
       {
         ...data,
         inStockCount: 0,
-        secondaryId: currentId,
         inStock: false,
-        secondaryId: "",
+        toCartId: "",
         inShop: false,
+        toProductId: ""
       },
     ]);
   };
@@ -98,8 +98,8 @@ const Cart = () => {
     const currentId = data.id;
     putMutateCart([currentId, {...data, inShop: !data.inShop}]);
     putMutateProduct([
-      data.secondaryId,
-      {...data, inShop: !data.inShop, secondaryId: currentId},
+      data.toProductId,
+      {...data, inShop: !data.inShop, toCartId: currentId, toProductId: ""},
     ]);
   };
 
@@ -135,7 +135,7 @@ const Cart = () => {
                     inStock,
                     categoryId,
                     inStockCount,
-                    secondaryId,
+                    toProductId,
                     inShop,
                   }) => (
                     <div key={`${title} ${id}`} className="cart__item">
@@ -157,7 +157,7 @@ const Cart = () => {
                               inStock,
                               categoryId,
                               inStockCount,
-                              secondaryId: Number(secondaryId) || secondaryId,
+                              toProductId: Number(toProductId) || toProductId,
                               inShop,
                             })
                           }
@@ -188,8 +188,8 @@ const Cart = () => {
                                     inStock,
                                     categoryId,
                                     inStockCount,
-                                    secondaryId:
-                                      Number(secondaryId) || secondaryId,
+                                    toProductId:
+                                      Number(toProductId) || toProductId,
                                     inShop,
                                   })
                                 }
@@ -214,8 +214,8 @@ const Cart = () => {
                                       inStock,
                                       categoryId,
                                       inStockCount,
-                                      secondaryId:
-                                        Number(secondaryId) || secondaryId,
+                                      toProductId:
+                                        Number(toProductId) || toProductId,
                                       inShop,
                                     })
                                   }
@@ -236,8 +236,8 @@ const Cart = () => {
                                       inStock,
                                       categoryId,
                                       inStockCount,
-                                      secondaryId:
-                                        Number(secondaryId) || secondaryId,
+                                      toProductId:
+                                        Number(toProductId) || toProductId,
                                       inShop,
                                     })
                                   }

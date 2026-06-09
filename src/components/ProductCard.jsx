@@ -22,7 +22,7 @@ const ProductCard = () => {
   const {mutate: putMutateCart, error: putErrorCart} = usePutCart();
   const {data: userData, error: getUserError} = useGetUser();
   const {mutate: putMutateUser, error: putErrorUser} = usePutUser();
-  const {data: cartData, error: getErrorCart} = useGetCart();
+  const {data: cartData} = useGetCart();
 
   useEffect(() => {
     putMutateUser({
@@ -36,11 +36,11 @@ const ProductCard = () => {
     const updaterCount = data.inStockCount + 1;
     putMutateProduct([currentId, {...data, inStockCount: updaterCount}]);
     putMutateCart([
-      data?.secondaryId,
+      data?.toCartId,
       {
         ...data,
         inStockCount: updaterCount,
-        secondaryId: currentId,
+        toProductId: currentId,
       },
     ]);
   };
@@ -58,11 +58,11 @@ const ProductCard = () => {
       ]);
 
       putMutateCart([
-        data?.secondaryId,
+        data?.toCartId,
         {
           ...data,
           inStockCount: updaterCount,
-          secondaryId: currentId,
+          toProductId: currentId,
         },
       ]);
     }
@@ -86,17 +86,17 @@ const ProductCard = () => {
           ...data,
           inStock: true,
           inStockCount: 1,
-          secondaryId: currentId,
+          toProductId: currentId,
           inShop: true,
         },
         {
           onSuccess: async (serverResponse) => {
             const newCartId = serverResponse.id;
             putMutateProduct([
-              serverResponse?.secondaryId,
+              serverResponse?.toProductId,
               {
                 ...serverResponse,
-                secondaryId: newCartId,
+                toCartId: newCartId,
               },
             ]);
           },
@@ -117,11 +117,11 @@ const ProductCard = () => {
         ...data,
         inStock: false,
         inStockCount: 0,
-        secondaryId: "",
+        toCartId: "",
         inShop: false,
       },
     ]);
-    deleteCartMutate(data?.secondaryId);
+    deleteCartMutate(data?.toCartId);
   };
 
   const error =
@@ -164,8 +164,8 @@ const ProductCard = () => {
             inStock,
             categoryId,
             inStockCount,
-            secondaryId,
             inShop,
+            toCartId,
           }) => (
             <div key={`${id} ${title}`} className="products__item">
               <div className="products__top">
@@ -213,7 +213,7 @@ const ProductCard = () => {
                           reviewCount,
                           title,
                           categoryId,
-                          secondaryId: Number(secondaryId) || secondaryId,
+                          toCartId: Number(toCartId) || toCartId,
                           inShop,
                         });
                       }}
@@ -233,7 +233,7 @@ const ProductCard = () => {
                             reviewCount,
                             title,
                             categoryId,
-                            secondaryId: Number(secondaryId) || secondaryId,
+                            toCartId: Number(toCartId) || toCartId,
                             inShop,
                           });
                         }}
@@ -255,7 +255,7 @@ const ProductCard = () => {
                             reviewCount,
                             title,
                             categoryId,
-                            secondaryId: Number(secondaryId) || secondaryId,
+                            toCartId: Number(toCartId) || toCartId,
                             inShop,
                           });
                         }}
@@ -278,7 +278,7 @@ const ProductCard = () => {
                       inStock,
                       categoryId,
                       inStockCount,
-                      secondaryId: Number(secondaryId) || secondaryId,
+                      toCartId: Number(toCartId) || toCartId,
                       inShop,
                     });
                   }}

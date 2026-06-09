@@ -44,7 +44,6 @@ const Header = () => {
             {
               userData?.cartProducts ? <span className="navbar__count">{userData?.cartProducts <= 9 ? userData?.cartProducts : "9+"}</span> : null
             }
-            
             <IoCart
               onClick={() => navigate("/cart")}
               className="icons cart-icon"
