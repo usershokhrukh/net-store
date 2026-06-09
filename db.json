@@ -1,6 +1,6 @@
 {
   "user": {
-    "cartCount": 1
+    "cartMoney": 43930000
   },
   "banners": [
     {
@@ -60,16 +60,17 @@
   "products": [
     {
       "id": "1",
-      "inStock": false,
-      "inStockCount": 0,
-      "image": "https://images.unsplash.com/photo-1611186871525-de2d1a9d4e71?w=400",
-      "oldPrice": 16500000,
+      "title": "Apple MacBook Air M2",
       "price": 14990000,
+      "oldPrice": 16500000,
+      "image": "https://images.unsplash.com/photo-1611186871525-de2d1a9d4e71?w=400",
       "rating": 4.9,
       "reviewCount": 128,
-      "title": "Apple MacBook Air M2",
+      "inStock": false,
       "categoryId": 1,
-      "secondaryId": ""
+      "inStockCount": 0,
+      "secondaryId": "",
+      "inShop": false
     },
     {
       "id": "2",
@@ -81,13 +82,14 @@
       "reviewCount": 94,
       "inStock": true,
       "categoryId": 1,
-      "inStockCount": 1,
-      "secondaryId": "5bUNDMSK4bY"
+      "inStockCount": 3,
+      "secondaryId": "FFd0918M-Ts",
+      "inShop": true
     },
     {
       "id": "3",
       "inStock": true,
-      "inStockCount": 2,
+      "inStockCount": 4,
       "image": "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400",
       "oldPrice": 3990000,
       "price": 3490000,
@@ -95,7 +97,8 @@
       "reviewCount": 210,
       "title": "Sony WH-1000XM5 Naushnik",
       "categoryId": 1,
-      "secondaryId": "akdoHxHouhY"
+      "secondaryId": "OJZMIxnwmg0",
+      "inShop": true
     },
     {
       "id": "4",
@@ -105,10 +108,11 @@
       "image": "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400",
       "rating": 4.8,
       "reviewCount": 76,
-      "inStock": true,
+      "inStock": false,
       "categoryId": 1,
-      "inStockCount": 1,
-      "secondaryId": "_VClhKMyMpE"
+      "inStockCount": 0,
+      "secondaryId": "",
+      "inShop": false
     },
     {
       "id": "5",
@@ -121,7 +125,8 @@
       "inStock": false,
       "categoryId": 3,
       "inStockCount": 0,
-      "secondaryId": ""
+      "secondaryId": "",
+      "inShop": false
     },
     {
       "id": "6",
@@ -134,33 +139,36 @@
       "inStock": false,
       "categoryId": 3,
       "inStockCount": 0,
-      "secondaryId": ""
+      "secondaryId": "",
+      "inShop": false
     },
     {
       "id": "7",
-      "title": "Erkaklar Charm Ko'ylagi",
-      "price": 289000,
-      "oldPrice": 350000,
+      "inStock": false,
+      "inStockCount": 0,
       "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400",
+      "oldPrice": 350000,
+      "price": 289000,
       "rating": 4.3,
       "reviewCount": 55,
-      "inStock": false,
+      "title": "Erkaklar Charm Ko'ylagi",
       "categoryId": 2,
-      "inStockCount": 0,
-      "secondaryId": ""
+      "secondaryId": "",
+      "inShop": false
     },
     {
       "id": "8",
-      "title": "Ayollar Yozgi Ko'ylagi",
-      "price": 320000,
-      "oldPrice": null,
+      "inStock": false,
+      "inStockCount": 0,
       "image": "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400",
+      "oldPrice": null,
+      "price": 320000,
       "rating": 4.4,
       "reviewCount": 98,
-      "inStock": false,
+      "title": "Ayollar Yozgi Ko'ylagi",
       "categoryId": 2,
-      "inStockCount": 0,
-      "secondaryId": ""
+      "secondaryId": "",
+      "inShop": false
     },
     {
       "id": "9",
@@ -173,7 +181,8 @@
       "inStock": false,
       "categoryId": 2,
       "inStockCount": 0,
-      "secondaryId": ""
+      "secondaryId": "",
+      "inShop": false
     },
     {
       "id": "10",
@@ -186,7 +195,8 @@
       "inStock": false,
       "categoryId": 3,
       "inStockCount": 0,
-      "secondaryId": ""
+      "secondaryId": "",
+      "inShop": false
     },
     {
       "id": "11",
@@ -199,7 +209,8 @@
       "inStock": false,
       "categoryId": 3,
       "inStockCount": 0,
-      "secondaryId": ""
+      "secondaryId": "",
+      "inShop": false
     },
     {
       "id": "12",
@@ -212,7 +223,8 @@
       "inStock": false,
       "categoryId": 4,
       "inStockCount": 0,
-      "secondaryId": ""
+      "secondaryId": "",
+      "inShop": false
     },
     {
       "id": "13",
@@ -225,7 +237,8 @@
       "reviewCount": 61,
       "title": "Philips Changichli Supurgich",
       "categoryId": 4,
-      "secondaryId": ""
+      "secondaryId": "",
+      "inShop": false
     },
     {
       "id": "14",
@@ -238,7 +251,8 @@
       "inStock": false,
       "categoryId": 4,
       "inStockCount": 0,
-      "secondaryId": ""
+      "secondaryId": "",
+      "inShop": false
     },
     {
       "id": "15",
@@ -251,7 +265,8 @@
       "inStock": false,
       "categoryId": 5,
       "inStockCount": 0,
-      "secondaryId": ""
+      "secondaryId": "",
+      "inShop": false
     },
     {
       "id": "16",
@@ -264,7 +279,8 @@
       "inStock": false,
       "categoryId": 5,
       "inStockCount": 0,
-      "secondaryId": ""
+      "secondaryId": "",
+      "inShop": false
     },
     {
       "id": "17",
@@ -277,7 +293,8 @@
       "reviewCount": 115,
       "inStock": false,
       "inStockCount": 0,
-      "secondaryId": ""
+      "secondaryId": "",
+      "inShop": false
     },
     {
       "id": "18",
@@ -290,7 +307,8 @@
       "reviewCount": 423,
       "inStock": false,
       "inStockCount": 0,
-      "secondaryId": ""
+      "secondaryId": "",
+      "inShop": false
     },
     {
       "id": "19",
@@ -303,7 +321,8 @@
       "reviewCount": 198,
       "inStock": false,
       "inStockCount": 0,
-      "secondaryId": ""
+      "secondaryId": "",
+      "inShop": false
     },
     {
       "id": "20",
@@ -316,14 +335,15 @@
       "reviewCount": 167,
       "inStock": false,
       "inStockCount": 0,
-      "secondaryId": ""
+      "secondaryId": "",
+      "inShop": false
     }
   ],
   "cart": [
     {
-      "id": "akdoHxHouhY",
+      "id": "OJZMIxnwmg0",
       "inStock": true,
-      "inStockCount": 2,
+      "inStockCount": 4,
       "image": "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400",
       "oldPrice": 3990000,
       "price": 3490000,
@@ -331,10 +351,11 @@
       "reviewCount": 210,
       "title": "Sony WH-1000XM5 Naushnik",
       "categoryId": 1,
-      "secondaryId": 3
+      "secondaryId": 3,
+      "inShop": true
     },
     {
-      "id": "5bUNDMSK4bY",
+      "id": "FFd0918M-Ts",
       "title": "Samsung Galaxy S24",
       "price": 9990000,
       "oldPrice": null,
@@ -343,21 +364,9 @@
       "reviewCount": 94,
       "inStock": true,
       "categoryId": 1,
-      "inStockCount": 1,
-      "secondaryId": 2
-    },
-    {
-      "id": "_VClhKMyMpE",
-      "title": "iPad Pro 11\" M4",
-      "price": 11200000,
-      "oldPrice": null,
-      "image": "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400",
-      "rating": 4.8,
-      "reviewCount": 76,
-      "inStock": true,
-      "categoryId": 1,
-      "inStockCount": 1,
-      "secondaryId": 4
+      "inStockCount": 3,
+      "secondaryId": 2,
+      "inShop": true
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

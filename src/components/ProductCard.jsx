@@ -25,8 +25,6 @@ const ProductCard = () => {
     const currentId = data.id;
     const updaterCount = data.inStockCount + 1;
     putMutateProduct([currentId, {...data, inStockCount: updaterCount}]);
-    console.log(data);
-
     putMutateCart([
       data?.secondaryId,
       {
@@ -60,7 +58,7 @@ const ProductCard = () => {
     }
   };
 
-  const handleShop = (e, data) => {
+  const handleShop = (e, data) => {    
     e.preventDefault();
     if (!e.target.className.baseVal.includes("shopped")) {
       const currentId = data.id;
@@ -70,10 +68,11 @@ const ProductCard = () => {
           ...data,
           inStock: true,
           inStockCount: 1,
+          inShop: true
         },
       ]);
       postMutateCart(
-        {...data, inStock: true, inStockCount: 1, secondaryId: currentId},
+        {...data, inStock: true, inStockCount: 1, secondaryId: currentId, inShop: true},
         {
           onSuccess: async (serverResponse) => {
             const newCartId = serverResponse.id;
@@ -102,6 +101,8 @@ const ProductCard = () => {
         ...data,
         inStock: false,
         inStockCount: 0,
+        secondaryId: "",
+        inShop: false,
       },
     ]);
     deleteCartMutate(data?.secondaryId);
@@ -133,6 +134,7 @@ const ProductCard = () => {
             categoryId,
             inStockCount,
             secondaryId,
+            inShop
           }) => (
             <div key={`${id} ${title}`} className="products__item">
               <div className="products__top">
@@ -180,7 +182,8 @@ const ProductCard = () => {
                           reviewCount,
                           title,
                           categoryId,
-                          secondaryId,
+                          secondaryId: Number(secondaryId) || secondaryId,
+                          inShop
                         });
                       }}
                       className="products__button-s-icons"
@@ -199,7 +202,8 @@ const ProductCard = () => {
                             reviewCount,
                             title,
                             categoryId,
-                            secondaryId,
+                            secondaryId: Number(secondaryId) || secondaryId,
+                            inShop
                           });
                         }}
                         className="products__button-s-icons"
@@ -220,7 +224,8 @@ const ProductCard = () => {
                             reviewCount,
                             title,
                             categoryId,
-                            secondaryId,
+                            secondaryId: Number(secondaryId) || secondaryId,
+                            inShop
                           });
                         }}
                         className="products__button-s-icons"
@@ -242,7 +247,8 @@ const ProductCard = () => {
                       inStock,
                       categoryId,
                       inStockCount,
-                      secondaryId,
+                      secondaryId: Number(secondaryId) || secondaryId,
+                      inShop
                     });
                   }}
                   className={`products__button-icons ${inStock ? "shopped" : ""}`}
