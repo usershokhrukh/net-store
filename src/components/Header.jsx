@@ -1,13 +1,28 @@
 import {MdOutlineStorefront} from "react-icons/md";
 import {IoCart, IoHeartOutline} from "react-icons/io5";
-import {useNavigate} from "react-router-dom";
-import { useGetUser } from "../hooks/GET/useGetUser";
-import { memo } from "react";
+import {NavLink, useNavigate} from "react-router-dom";
+import {useGetUser} from "../hooks/GET/useGetUser";
+import {memo, useContext, useEffect, useState} from "react";
+import Login from "./Login";
+import {GlobalContext} from "../context/globalContext";
+import {checkToken} from "../api/apiClient";
+import {useGetCart} from "../hooks/GET/useGetCart";
 const Header = () => {
   const navigate = useNavigate();
+  const {cartProducts} = useContext(GlobalContext);
+  const {data: cartData, isFetching, error: getErrorCarts} = useGetCart();
+  const [tokenValid, setTokenValid] = useState(false);
+  console.log(cartData);
 
-  const {data: userData} = useGetUser();
-      
+  useEffect(() => {
+    const verify = async () => {
+      const result = await checkToken();
+      setTokenValid(result);
+    };
+
+    verify();
+  }, []);
+
   return (
     <header className=" container header">
       <nav className="navbar">
@@ -22,18 +37,31 @@ const Header = () => {
           />
         </ul>
         <ul className="navbar__ul-list">
+          {!tokenValid ? (
+            <li>
+              <NavLink className="navbar__link" to="/login">
+                Login
+              </NavLink>
+            </li>
+          ) : <li onClick={() => {
+            localStorage.clear();
+            window.location.reload();
+          }} className="navbar__link">
+                Log out
+            </li>}
+
           <li>
             <a onClick={() => navigate("/")} className="navbar__link" href="">
               Home
             </a>
           </li>
           <li>
-            <a className="navbar__link" href="">
+            <a className="navbar__link" href="#">
               About
             </a>
           </li>
           <li>
-            <a className="navbar__link" href="">
+            <a className="navbar__link" href="#">
               Connect
             </a>
           </li>
@@ -41,9 +69,15 @@ const Header = () => {
             <IoHeartOutline className="navbar__wish-icon" />
           </li>
           <li className="navbar-list">
-            {
-              userData?.cartProducts ? <span className="navbar__count">{userData?.cartProducts <= 9 ? userData?.cartProducts : "9+"}</span> : null
-            }
+            {cartProducts && !tokenValid ? (
+              <span className="navbar__count">
+                {cartProducts <= 9 ? cartProducts : "9+"}
+              </span>
+            ) : tokenValid ? (
+              <span className="navbar__count">
+                {cartData?.length <= 9 ? cartData?.length : "9+"}
+              </span>
+            ) : null}
             <IoCart
               onClick={() => navigate("/cart")}
               className="icons cart-icon"
@@ -51,6 +85,7 @@ const Header = () => {
           </li>
         </ul>
       </nav>
+      {/* <Login/> */}
     </header>
   );
 };

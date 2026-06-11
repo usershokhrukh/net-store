@@ -1,29 +1,55 @@
-import React, { useEffect } from 'react'
-import Header from './components/Header'
+import React, {useEffect, useState} from "react";
+import Header from "./components/Header";
 import "./block/general.scss";
 import "./block/navbar.scss";
 import "./block/banners.scss";
 import "./block/category.scss";
 import "./block/products.scss";
-import "./block/cart.scss"
+import "./block/cart.scss";
+import "./block/login.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Footer from './components/Footer';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import Home from './components/Home';
-import Cart from './components/Cart';
+import Footer from "./components/Footer";
+import {Route, Routes} from "react-router-dom";
+import Home from "./components/Home";
+import Cart from "./components/Cart";
+import {GlobalContext} from "./context/globalContext";
+import Login from "./components/Login";
+import Register from "./components/Register";
 const App = () => {
-  return (
-    <div className='wrapper app'>
-      <Header/>
-      <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='*' element={<Home/>}/>
-        <Route path="/cart" element={<Cart/>}/>
-      </Routes>
-      <Footer/>
-    </div>
-  )
-}
+  const [localData, setLocalData] = useState(() => {
+    return JSON.parse(localStorage.getItem("userCartProducts")) || [];
+  });
 
-export default App
+  const cartProducts = localData?.length || 0;
+  const blockMoney = localData?.reduce(
+    (total, item) =>
+      total + item?.price * item?.inStockCount * Number(item?.inShop),
+    0,
+  );
+  useEffect(() => {
+    localStorage.setItem("userUI", JSON.stringify({cartProducts, blockMoney}));
+  }, [cartProducts, blockMoney]);
+
+  return (
+    <div className="wrapper app">
+      <GlobalContext.Provider value={{cartProducts, blockMoney, setLocalData}}>
+        <Header />
+       
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="*" element={<Home />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+         <div style={{
+          flexGrow: 1
+        }}></div>
+        <Footer />
+      </GlobalContext.Provider>
+    </div>
+  );
+};
+
+export default App;

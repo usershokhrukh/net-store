@@ -3,11 +3,10 @@
   flex-direction: column;
   justify-content: start;
   gap: 30px;
-  flex-grow: 1;
-  // min-height: 80vh;
+  flex-grow: 2 !important;
+  min-height: 70vh;
   align-items: start;
   height: fit-content;
-
   &__top {
     width: 100%;
     display: flex;
@@ -72,6 +71,7 @@
 
   &__item-star {
     color: rgba(243, 178, 37, 0.959);
+
   }
 
   &__item-b-right {
@@ -107,6 +107,10 @@
     cursor: pointer;
   }
 
+  &__item-top-box-star {
+    user-select: none;
+  }
+
   &__item-t-text {
     font-size: 14px;
   }
@@ -131,12 +135,17 @@
     cursor: pointer;
   }
 
+  &__item-count {
+    user-select: none;
+  }
+
   &__item-price-box {
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: end;
     gap: 4px;
+    user-select: none;
   }
 
   &__item-price {
@@ -171,6 +180,7 @@
     border-radius: 10px;
     border: 1px solid rgba(128, 128, 128, 0.233);
     min-width: 200px;
+    width: auto;
   }
 
   // &__box {
@@ -214,5 +224,14 @@
     justify-content: center;
     flex-wrap: wrap;
     flex-direction: row;
+  }
+
+  &__cat-box {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    flex-wrap: wrap;
   }
 }

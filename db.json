@@ -1,8 +1,4 @@
 {
-  "user": {
-    "cartMoney": 0,
-    "cartProducts": 1
-  },
   "banners": [
     {
       "id": "1",
@@ -70,24 +66,20 @@
       "inStock": false,
       "categoryId": 1,
       "inStockCount": 0,
-      "toProductId": "",
-      "inShop": false,
-      "toCartId": ""
+      "inShop": false
     },
     {
       "id": "2",
-      "title": "Samsung Galaxy S24",
-      "price": 9990000,
-      "oldPrice": null,
+      "inStock": false,
+      "inStockCount": 0,
       "image": "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400",
+      "oldPrice": null,
+      "price": 9990000,
       "rating": 4.7,
       "reviewCount": 94,
-      "inStock": false,
+      "title": "Samsung Galaxy S24",
       "categoryId": 1,
-      "inStockCount": 0,
-      "toProductId": "",
-      "inShop": false,
-      "toCartId": ""
+      "inShop": false
     },
     {
       "id": "3",
@@ -100,266 +92,93 @@
       "reviewCount": 210,
       "title": "Sony WH-1000XM5 Naushnik",
       "categoryId": 1,
-      "toCartId": "",
-      "inShop": false
-    },
-    {
-      "id": "4",
-      "inStock": false,
-      "inStockCount": 0,
-      "image": "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400",
-      "oldPrice": null,
-      "price": 11200000,
-      "rating": 4.8,
-      "reviewCount": 76,
-      "title": "iPad Pro 11\" M4",
-      "categoryId": 1,
-      "toCartId": "",
-      "inShop": false
-    },
-    {
-      "id": "5",
-      "inStock": false,
-      "inStockCount": 0,
-      "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",
-      "oldPrice": 1590000,
-      "price": 1290000,
-      "rating": 4.6,
-      "reviewCount": 312,
-      "title": "Nike Air Max 270 Krossovka",
-      "categoryId": 3,
-      "toCartId": "",
-      "inShop": false
-    },
-    {
-      "id": "6",
-      "inStock": false,
-      "inStockCount": 0,
-      "image": "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400",
-      "oldPrice": null,
-      "price": 1490000,
-      "rating": 4.5,
-      "reviewCount": 187,
-      "title": "Adidas Ultraboost 22",
-      "categoryId": 3,
-      "toCartId": "",
-      "inShop": false
-    },
-    {
-      "id": "7",
-      "inStock": false,
-      "inStockCount": 0,
-      "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400",
-      "oldPrice": 350000,
-      "price": 289000,
-      "rating": 4.3,
-      "reviewCount": 55,
-      "title": "Erkaklar Charm Ko'ylagi",
-      "categoryId": 2,
-      "toCartId": "",
-      "inShop": false
-    },
-    {
-      "id": "8",
-      "inStock": false,
-      "inStockCount": 0,
-      "image": "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400",
-      "oldPrice": null,
-      "price": 320000,
-      "rating": 4.4,
-      "reviewCount": 98,
-      "title": "Ayollar Yozgi Ko'ylagi",
-      "categoryId": 2,
-      "toCartId": "",
-      "inShop": false
-    },
-    {
-      "id": "9",
-      "title": "Denim Jilet",
-      "price": 450000,
-      "oldPrice": 590000,
-      "image": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400",
-      "rating": 4.2,
-      "reviewCount": 43,
-      "inStock": false,
-      "categoryId": 2,
-      "inStockCount": 0,
-      "toCartId": "",
-      "inShop": false
-    },
-    {
-      "id": "10",
-      "title": "Futbol to'pi Adidas",
-      "price": 390000,
-      "oldPrice": null,
-      "image": "https://images.unsplash.com/photo-1614632537197-38a17061c2bd?w=400",
-      "rating": 4.6,
-      "reviewCount": 72,
-      "inStock": false,
-      "categoryId": 3,
-      "inStockCount": 0,
-      "toCartId": "",
-      "inShop": false
-    },
-    {
-      "id": "11",
-      "title": "Yoga Mati Pro",
-      "price": 220000,
-      "oldPrice": 270000,
-      "image": "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=400",
-      "rating": 4.4,
-      "reviewCount": 134,
-      "inStock": false,
-      "categoryId": 3,
-      "inStockCount": 0,
-      "toCartId": "",
-      "inShop": false
-    },
-    {
-      "id": "12",
-      "title": "Tefal Qozon To'plami",
-      "price": 980000,
-      "oldPrice": 1200000,
-      "image": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
-      "rating": 4.7,
-      "reviewCount": 89,
-      "inStock": false,
-      "categoryId": 4,
-      "inStockCount": 0,
-      "toCartId": "",
-      "inShop": false
-    },
-    {
-      "id": "13",
-      "inStock": false,
-      "inStockCount": 0,
-      "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400",
-      "oldPrice": null,
-      "price": 1850000,
-      "rating": 4.5,
-      "reviewCount": 61,
-      "title": "Philips Changichli Supurgich",
-      "categoryId": 4,
-      "toCartId": "",
-      "inShop": false
-    },
-    {
-      "id": "14",
-      "title": "Dekorativ Yostiq To'plami",
-      "price": 175000,
-      "oldPrice": 210000,
-      "image": "https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=400",
-      "rating": 4.3,
-      "reviewCount": 47,
-      "inStock": false,
-      "categoryId": 4,
-      "inStockCount": 0,
-      "toCartId": "",
-      "inShop": false
-    },
-    {
-      "id": "15",
-      "title": "The Ordinary Sero'yog' To'plam",
-      "price": 320000,
-      "oldPrice": null,
-      "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400",
-      "rating": 4.8,
-      "reviewCount": 256,
-      "inStock": false,
-      "categoryId": 5,
-      "inStockCount": 0,
-      "toCartId": "",
-      "inShop": false
-    },
-    {
-      "id": "16",
-      "title": "MAC Lipstick To'plami",
-      "price": 480000,
-      "oldPrice": 550000,
-      "image": "https://images.unsplash.com/photo-1586495777744-4e6232bf2961?w=400",
-      "rating": 4.6,
-      "reviewCount": 178,
-      "inStock": false,
-      "categoryId": 5,
-      "inStockCount": 0,
-      "toCartId": "",
-      "inShop": false
-    },
-    {
-      "id": "17",
-      "title": "Parfyum Hugo Boss 100ml",
-      "price": 890000,
-      "oldPrice": null,
-      "image": "https://images.unsplash.com/photo-1541643600914-78b084683702?w=400",
-      "categoryId": 5,
-      "rating": 4.7,
-      "reviewCount": 115,
-      "inStock": false,
-      "inStockCount": 0,
-      "toCartId": "",
-      "inShop": false
-    },
-    {
-      "id": "18",
-      "title": "Atomic Habits — James Clear",
-      "price": 95000,
-      "oldPrice": 120000,
-      "image": "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400",
-      "categoryId": 6,
-      "rating": 4.9,
-      "reviewCount": 423,
-      "inStock": false,
-      "inStockCount": 0,
-      "toCartId": "",
-      "inShop": false
-    },
-    {
-      "id": "19",
-      "title": "The Psychology of Money",
-      "price": 89000,
-      "oldPrice": null,
-      "image": "https://images.unsplash.com/photo-1589998059171-988d887df646?w=400",
-      "categoryId": 6,
-      "rating": 4.8,
-      "reviewCount": 198,
-      "inStock": false,
-      "inStockCount": 0,
-      "toCartId": "",
-      "inShop": false
-    },
-    {
-      "id": "20",
-      "title": "Deep Work — Cal Newport",
-      "price": 82000,
-      "oldPrice": 100000,
-      "image": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400",
-      "categoryId": 6,
-      "rating": 4.7,
-      "reviewCount": 167,
-      "inStock": false,
-      "inStockCount": 0,
-      "toCartId": "",
       "inShop": false
     }
   ],
-  "cart": [],
-  "wish": [
-    {
-      "id": "0Z3lJAuxZXQ",
-      "inStock": true,
-      "inStockCount": 3,
-      "image": "https://images.unsplash.com/photo-1611186871525-de2d1a9d4e71?w=400",
-      "oldPrice": 16500000,
-      "price": 14990000,
-      "rating": 4.9,
-      "reviewCount": 128,
-      "title": "Apple MacBook Air M2",
-      "categoryId": 1,
-      "inShop": true,
-      "inWish": true,
-      "toProductId": 1,
-      "toCartId": "0Z3lJAuxZXQ"
-    }
+  "cart": [
   ],
-  "$schema": "./node_modules/json-server/schema.json"
+  "users": [
+    {
+      "email": "qwef@fwq.fwe",
+      "password": "$2a$10$QkAWwjdeetqwI6Dt7KBlqOFCyFtXhPufiKMGR0n2kgS8cO.hHYQ1W",
+      "id": 1
+    },
+    {
+      "email": "qwef@fwq.efwe",
+      "password": "$2a$10$QdSj6bNPJcDPg/CIIUkhWeFtt8Y1.p6P7CqtRv.hl/RBcVAxl2voi",
+      "id": 2
+    },
+    {
+      "email": "qwef@qw.efqwef",
+      "password": "$2a$10$c8/XZB6cLHLK5lvecwFKkuYUnhcSEzYEiU8b5TUxlfZqmTHL1tIjO",
+      "name": "shoxrux",
+      "id": 3
+    },
+    {
+      "email": "qwef@qwe.fqwef",
+      "password": "$2a$10$os8k4Bf./3ZAMV5HNDok.Of8dZh.4zg1L3uEAe6VN6/Sp3YB.KsbO",
+      "name": "shoxrux",
+      "id": 4
+    },
+    {
+      "email": "asxurovsit@gmail.comqwef",
+      "password": "$2a$10$IQ3VX5QEwXKg3EGFDf1gGet6JDmpbJWJjA0CWUX8UNykMWNKW/Pa2",
+      "name": "shoxrux",
+      "id": 5
+    },
+    {
+      "email": "asxurovsit@gmail.comqwe",
+      "password": "$2a$10$cBS.x3bsfI9y9MGWquKDyuPCM/c3H4fqpBdV9d5yXxN/u5SbYtUgS",
+      "name": "shoxrux",
+      "id": 6
+    },
+    {
+      "email": "emilys@fwe.f",
+      "password": "$2a$10$5UZzkdtopEnTbBfiZpi5tuWdY/lAF.FKdARsNyCyHbmokEaJy89Um",
+      "name": "qwef",
+      "id": 7
+    },
+    {
+      "email": "emilys@qw.fwqef",
+      "password": "$2a$10$SArbBC6uAP7yC.uFhjqId.Pw9qRLSAlkzkBD7nl9IIFrBmB7x8Aba",
+      "name": "qwefqw",
+      "id": 8
+    },
+    {
+      "email": "emilys@wef.fe",
+      "password": "$2a$10$atpJETODmQcSaTz1.hJRNuLlP2CqFz.hsDY3QnC.Wq5an7gOwjAii",
+      "name": "qwefwqe",
+      "id": 9
+    },
+    {
+      "email": "emilys@qw.fwe",
+      "password": "$2a$10$dHes5mkXPyILjztIYLkDt.3nqm.nBawCxvg0aiNzPnDi4WHpxeYfy",
+      "name": "qwef",
+      "id": 10
+    },
+    {
+      "email": "emilys@qwe.fwe",
+      "password": "$2a$10$6Qc6GFsDN.Jhr.nB7/iI1.WDpiybZfjxvaHL9QHa72suOCvGWdrme",
+      "name": "qwe",
+      "id": 11
+    },
+    {
+      "email": "ascueor@we.fe",
+      "password": "$2a$10$3OV4pvjSD6d2ZM4HxfZMOODHNiGAYkuUCg9/k33jPcpNqd7r8MyMW",
+      "name": "qwejf",
+      "id": 12
+    },
+    {
+      "email": "shokhrukh@gmail.com",
+      "password": "$2a$10$ogxrfQpDDdFYp0nUXz4KQ.9gcHqDCEox97xGFzwJCer7o4prDzeNG",
+      "name": "shokhrukh",
+      "id": 13
+    },
+    {
+      "email": "shokhrukha@gmail.com",
+      "password": "$2a$10$Ht/KrJ52BMNpvfUo2WSwYuGWcDsT12oUiNqOjno5ae/IkpTNsDbqG",
+      "name": "shokhrukha",
+      "id": 14
+    }
+  ]
 }

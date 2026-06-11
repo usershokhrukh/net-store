@@ -1,158 +1,173 @@
 import {IoHeartOutline} from "react-icons/io5";
-import {LuEye, LuTrash} from "react-icons/lu";
-import {MdError, MdStarRate} from "react-icons/md";
-import {PiShoppingCartLight} from "react-icons/pi";
 import {useGetProducts} from "../hooks/GET/useGetProducts";
+import {LuEye, LuTrash} from "react-icons/lu";
+import {MdStarRate} from "react-icons/md";
 import {GoPlus} from "react-icons/go";
 import {AiOutlineMinus} from "react-icons/ai";
+import {PiShoppingCartLight} from "react-icons/pi";
+import {useContext, useEffect, useState} from "react";
+import {checkToken} from "../api/apiClient";
+import {GlobalContext} from "../context/globalContext";
 import {usePutProduct} from "../hooks/PUT/usePutProduct";
-import {useDeleteCart} from "../hooks/DELETE/useDeleteCart";
-import {usePutCart} from "../hooks/PUT/usePutCart";
-import {usePostCart} from "../hooks/POST/usePostCart";
-import {useGetUser} from "../hooks/GET/useGetUser";
-import {usePutUser} from "../hooks/PUT/usePutUser";
 import {useGetCart} from "../hooks/GET/useGetCart";
-import {useEffect} from "react";
 
 const ProductCard = () => {
   const {data, isFetching, error: getErrorProducts} = useGetProducts();
-  const {mutate: putMutateProduct, error: putErrorProduct} = usePutProduct();
-  const {mutate: deleteCartMutate, error: deleteErrorCart} = useDeleteCart();
-  const {mutate: postMutateCart, error: postErrorCart} = usePostCart();
-  const {mutate: putMutateCart, error: putErrorCart} = usePutCart();
-  const {data: userData, error: getUserError} = useGetUser();
-  const {mutate: putMutateUser, error: putErrorUser} = usePutUser();
-  const {data: cartData} = useGetCart();
 
-  useEffect(() => {
-    putMutateUser({
-      ...userData,
-      cartProducts: cartData?.length || 0,
-    });
-  }, [cartData]);
+  const [localeProducts, setLocaleProducts] = useState(() => {
+    return JSON.parse(localStorage.getItem("userCartProducts")) || [];
+  });
 
-  const handlePlus = (data) => {
-    const currentId = data.id;
-    const updaterCount = data.inStockCount + 1;
-    putMutateProduct([currentId, {...data, inStockCount: updaterCount}]);
-    putMutateCart([
-      data?.toCartId,
-      {
-        ...data,
-        inStockCount: updaterCount,
-        toProductId: currentId,
-      },
-    ]);
-  };
-
-  const handleMinus = (data) => {
-    const currentId = data.id;
-    if (data.inStockCount - 1 >= 1) {
-      const updaterCount = data.inStockCount - 1;
-      putMutateProduct([
-        currentId,
-        {
-          ...data,
-          inStockCount: updaterCount,
-        },
-      ]);
-
-      putMutateCart([
-        data?.toCartId,
-        {
-          ...data,
-          inStockCount: updaterCount,
-          toProductId: currentId,
-        },
-      ]);
+  const mergedProducts = data?.map((product) => {
+    const foundInLocal = localeProducts?.find(
+      ({id}) => String(id) === String(product.id),
+    );
+    if (foundInLocal) {
+      return {
+        ...product,
+        inStock: true,
+        inStockCount: foundInLocal.inStockCount,
+      };
+    } else {
+      return {
+        ...product,
+      };
     }
-  };
+  });
+
+  const {setLocalData: setLocalDatContext} = useContext(GlobalContext);
 
   const handleShop = (e, data) => {
     e.preventDefault();
-    if (!e.target.className.baseVal.includes("shopped")) {
-      const currentId = data.id;
-      putMutateProduct([
-        currentId,
-        {
-          ...data,
-          inStock: true,
-          inStockCount: 1,
-          inShop: true,
-        },
-      ]);
-      postMutateCart(
-        {
-          ...data,
-          inStock: true,
-          inStockCount: 1,
-          toProductId: currentId,
-          inShop: true,
-        },
-        {
-          onSuccess: async (serverResponse) => {
-            const newCartId = serverResponse.id;
-            putMutateProduct([
-              serverResponse?.toProductId,
-              {
-                ...serverResponse,
-                toCartId: newCartId,
-              },
-            ]);
-          },
-        },
-      );
+    const localData =
+      JSON.parse(localStorage.getItem("userCartProducts")) || [];
 
-      let className = e.target.className.baseVal;
-      className = className.concat(" shopped");
-      e.target.className.baseVal = className;
+    let found = false;
+    for (let i = 0; i < localData.length; i++) {
+      if (localData[i].id === data.id) {
+        found = true;
+        localData[i] = {
+          ...localData[i],
+          inStockCount: 1,
+          inStock: true,
+          inShop: true,
+        };
+      }
     }
-  };
 
-  const handleTrash = (data) => {
-    const currentId = data.id;
-    putMutateProduct([
-      currentId,
-      {
+    if (!localData.length) {
+      localData.push({
         ...data,
-        inStock: false,
-        inStockCount: 0,
-        toCartId: "",
-        inShop: false,
-      },
-    ]);
-    deleteCartMutate(data?.toCartId);
+        inStock: true,
+        inShop: true,
+        inStockCount: 1,
+      });
+    } else if (!found) {
+      localData.push({
+        ...data,
+        inStock: true,
+        inStockCount: 1,
+        inShop: true,
+      });
+    }
+
+    setLocaleProducts(localData);
+    setLocalDatContext(localData);
+    localStorage.setItem("userCartProducts", JSON.stringify(localData));
+
+    let className = e.target.className.baseVal;
+    className = className.concat(" shopped");
+    e.target.className.baseVal = className;
   };
 
-  const error =
-    getErrorProducts?.message ||
-    putErrorProduct?.message ||
-    deleteErrorCart?.message ||
-    postErrorCart?.message ||
-    putErrorCart?.message ||
-    getUserError?.message ||
-    putErrorUser?.message;
+  const handlePlusLocal = (data) => {
+    const updatedCart = localeProducts?.map((item) => {
+      if (item.id === data.id) {
+        return {
+          ...item,
+          inStockCount: item.inStockCount + 1,
+        };
+      }
 
-  if (isFetching) {
-    return (
-      <div className="products container">
-        <div className="loading-cart"></div>
-        <div className="loading-cart"></div>
-        <div className="loading-cart"></div>
-        <div className="loading-cart"></div>
-        <div className="loading-cart"></div>
-      </div>
+      return item;
+    });
+    setLocaleProducts(updatedCart);
+    setLocalDatContext(updatedCart);
+    localStorage.setItem("userCartProducts", JSON.stringify(updatedCart));
+  };
+  const handleMinusLocal = (data) => {
+    const updatedCart = localeProducts?.map((item) => {
+      if (item.id === data.id) {
+        if (item.inStockCount - 1 >= 1) {
+          return {
+            ...item,
+            inStockCount: item.inStockCount - 1,
+          };
+        }
+      }
+
+      return item;
+    });
+    setLocaleProducts(updatedCart);
+    setLocalDatContext(updatedCart);
+    localStorage.setItem("userCartProducts", JSON.stringify(updatedCart));
+  };
+  const handleTrashLocal = (data) => {
+    let clean = [];
+    const updatedCart = localeProducts?.map((item) => {
+      if (item.id !== data.id) {
+        return item;
+      }
+      return null;
+    });
+
+    clean = updatedCart.filter((item) => item !== null);
+
+    setLocaleProducts(clean);
+    setLocalDatContext(clean);
+    localStorage.setItem("userCartProducts", JSON.stringify(clean));
+  };
+
+  const [tokenValid, setTokenValid] = useState(false);
+  useEffect(() => {
+    const verify = async () => {
+      const result = await checkToken();
+      setTokenValid(result);
+    };
+
+    verify();
+  }, []);
+
+  console.log(data);
+  const {
+    isFetching: putProductsFetch,
+    error: putProductsError,
+    data: getCart,
+  } = useGetCart();
+  console.log(getCart);
+
+  const mergeProductsServer = data?.map((product) => {
+    const foundInCart = getCart?.find(
+      ({id}) => String(id) === String(product.id),
     );
-  } else {
-    return (
-      <div className="products container">
-        {error ? (
-          <div className="error-box">
-            <p className="error-text">{error}</p>
-            <MdError className="error-icon" />
-          </div>
-        ) : null}
-        {data?.map(
+    if (foundInCart) {
+      return {
+        ...product,
+        inStock: true,
+        inStockCount: foundInCart.inStockCount,
+      };
+    } else {
+      return {
+        ...product,
+      };
+    }
+  });
+  
+
+  return (
+    <div className="products container">
+      {tokenValid ? (
+        mergeProductsServer?.map(
           ({
             id,
             title,
@@ -165,7 +180,138 @@ const ProductCard = () => {
             categoryId,
             inStockCount,
             inShop,
-            toCartId,
+          }) => (
+            <div key={`${id} ${title}`} className="products__item">
+              <div className="products__top">
+                <span>
+                  <IoHeartOutline className="products__top-icons" />
+                </span>
+              </div>
+              <img className="products__image" src={image} alt={title} />
+              <div className="products__bottom">
+                <h4 className="products__title">{title}</h4>
+                <p className="products__price">
+                  ${price}
+                  {oldPrice ? (
+                    <span className="products__del-price">
+                      <del>${oldPrice}</del>
+                    </span>
+                  ) : null}
+                </p>
+                <p className="products__views">
+                  <span>
+                    <LuEye className="products__view-icon" />
+                  </span>
+                  {reviewCount}
+                </p>
+                <p className="products__rate">
+                  <span>
+                    <MdStarRate className="products__rate-icon" />
+                  </span>
+                  {rating}
+                </p>
+              </div>
+              <button className="products__button">
+                {inStock ? (
+                  <div className="products__button-box">
+                    <LuTrash
+                      // onClick={() => {
+                      //   handleTrashLocal({
+                      //     id: Number(id) || id,
+                      //     title,
+                      //     price,
+                      //     oldPrice,
+                      //     image,
+                      //     rating,
+                      //     reviewCount,
+                      //     inStock,
+                      //     categoryId,
+                      //     inStockCount,
+                      //     inShop,
+                      //   });
+                      // }}
+                      className="products__button-s-icons"
+                    />
+                    <span className="products__b-center">
+                      <GoPlus
+                        // onClick={() => {
+                        //   handlePlusLocal({
+                        //     id: Number(id) || id,
+                        //     title,
+                        //     price,
+                        //     oldPrice,
+                        //     image,
+                        //     rating,
+                        //     reviewCount,
+                        //     inStock,
+                        //     categoryId,
+                        //     inStockCount,
+                        //     inShop,
+                        //   });
+                        // }}
+                        className="products__button-s-icons"
+                      />
+                      <span className="products__b-count">
+                        {inStockCount > 9 ? "9+" : inStockCount}
+                      </span>
+                      <AiOutlineMinus
+                        // onClick={() => {
+                        //   handleMinusLocal({
+                        //     id: Number(id) || id,
+                        //     title,
+                        //     price,
+                        //     oldPrice,
+                        //     image,
+                        //     rating,
+                        //     reviewCount,
+                        //     inStock,
+                        //     categoryId,
+                        //     inStockCount,
+                        //     inShop,
+                        //   });
+                        // }}
+                        className="products__button-s-icons"
+                      />
+                    </span>
+                  </div>
+                ) : null}
+
+                <PiShoppingCartLight
+                  // onClick={(e) => {
+                  //   handleShop(e, {
+                  //     id: Number(id) || id,
+                  //     title,
+                  //     price,
+                  //     oldPrice,
+                  //     image,
+                  //     rating,
+                  //     reviewCount,
+                  //     inStock,
+                  //     categoryId,
+                  //     inStockCount,
+                  //     inShop,
+                  //   });
+                  // }}
+                  className={`products__button-icons ${inStock ? "shopped" : ""}`}
+                />
+              </button>
+            </div>
+          ),
+        )
+      ) : (
+        mergedProducts?.map(
+          ({
+            id,
+            title,
+            price,
+            oldPrice,
+            image,
+            rating,
+            reviewCount,
+            inStock,
+            categoryId,
+            inStockCount,
+            inShop,
           }) => (
             <div key={`${id} ${title}`} className="products__item">
               <div className="products__top">
@@ -202,18 +348,17 @@ const ProductCard = () => {
                   <div className="products__button-box">
                     <LuTrash
                       onClick={() => {
-                        handleTrash({
+                        handleTrashLocal({
                           id: Number(id) || id,
-                          inStock,
-                          inStockCount,
-                          image,
-                          oldPrice,
+                          title,
                           price,
+                          oldPrice,
+                          image,
                           rating,
                           reviewCount,
-                          title,
+                          inStock,
                           categoryId,
-                          toCartId: Number(toCartId) || toCartId,
+                          inStockCount,
                           inShop,
                         });
                       }}
@@ -222,18 +367,17 @@ const ProductCard = () => {
                     <span className="products__b-center">
                       <GoPlus
                         onClick={() => {
-                          handlePlus({
+                          handlePlusLocal({
                             id: Number(id) || id,
-                            inStock,
-                            inStockCount,
-                            image,
-                            oldPrice,
+                            title,
                             price,
+                            oldPrice,
+                            image,
                             rating,
                             reviewCount,
-                            title,
+                            inStock,
                             categoryId,
-                            toCartId: Number(toCartId) || toCartId,
+                            inStockCount,
                             inShop,
                           });
                         }}
@@ -244,18 +388,17 @@ const ProductCard = () => {
                       </span>
                       <AiOutlineMinus
                         onClick={() => {
-                          handleMinus({
+                          handleMinusLocal({
                             id: Number(id) || id,
-                            inStock,
-                            inStockCount,
-                            image,
-                            oldPrice,
+                            title,
                             price,
+                            oldPrice,
+                            image,
                             rating,
                             reviewCount,
-                            title,
+                            inStock,
                             categoryId,
-                            toCartId: Number(toCartId) || toCartId,
+                            inStockCount,
                             inShop,
                           });
                         }}
@@ -278,7 +421,6 @@ const ProductCard = () => {
                       inStock,
                       categoryId,
                       inStockCount,
-                      toCartId: Number(toCartId) || toCartId,
                       inShop,
                     });
                   }}
@@ -287,10 +429,10 @@ const ProductCard = () => {
               </button>
             </div>
           ),
-        )}
-      </div>
-    );
-  }
+        )
+      )}
+    </div>
+  );
 };
 
 export default ProductCard;
