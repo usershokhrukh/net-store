@@ -107,7 +107,21 @@
       "reviewCount": 210,
       "inStock": true,
       "categoryId": 1,
-      "inStockCount": 1,
+      "inStockCount": 6,
+      "inShop": true
+    },
+    {
+      "userId": 13,
+      "id": 2,
+      "title": "Samsung Galaxy S24",
+      "price": 9990000,
+      "oldPrice": null,
+      "image": "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400",
+      "rating": 4.7,
+      "reviewCount": 94,
+      "inStock": true,
+      "categoryId": 1,
+      "inStockCount": 4,
       "inShop": true
     }
   ],
@@ -193,6 +207,18 @@
       "password": "$2a$10$Ht/KrJ52BMNpvfUo2WSwYuGWcDsT12oUiNqOjno5ae/IkpTNsDbqG",
       "name": "shokhrukha",
       "id": 14
+    },
+    {
+      "email": "emilys@fwefew",
+      "password": "$2a$10$KbyA9JpunjK9N.WWSgVRWe5syHH3gG/ybEWuwMa5mId62nRY7QCSq",
+      "name": "qwef",
+      "id": 15
+    },
+    {
+      "email": "emilys@emilys",
+      "password": "$2a$10$U5E6/AbuVwDsD7iG9JGmJOgubNAd32xbe36qDpY0I1ifUwIhq6D0O",
+      "name": "emilys",
+      "id": 16
     }
   ]
 }

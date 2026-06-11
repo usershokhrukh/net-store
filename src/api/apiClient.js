@@ -68,8 +68,43 @@ export const mergeGuestCartToServer = async (userId) => {
   if (guestCart.length === 0) return;
 
   try {
+
+    const req = await axios.get(`${API}/cart?userId=${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    })
+
+    const serverCart = req.data;
+
+
     for (const item of guestCart) {
-      await axios.post(
+
+      const {id, ...rest} = item;
+
+      const existItem = serverCart.find(serverItem => String(serverItem.id) === String(id))
+
+      if(existItem) {
+        await axios.patch(`${API}/cart/${existItem.id}`, {
+          userId: Number(userId) || userId,
+          id: item.id,
+          title: item.title,
+          price: item.price,
+          oldPrice: item.oldPrice,
+          image: item.image,
+          rating: item.rating,
+          reviewCount: item.reviewCount,
+          inStock: item.inStock,
+          categoryId: item.categoryId,
+          inStockCount: item.inStockCount,
+          inShop: item.inShop,
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+      }else {
+        await axios.post(
         `${API}/cart`,
         {
           userId: Number(userId) || userId,
@@ -91,6 +126,9 @@ export const mergeGuestCartToServer = async (userId) => {
           },
         },
       );
+      }
+
+      
     }
 
     localStorage.removeItem("userCartProducts");

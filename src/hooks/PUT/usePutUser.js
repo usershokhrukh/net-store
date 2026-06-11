@@ -5,7 +5,7 @@ export const usePutUser = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (payload) => {      
-      const res  = await axios.put("http://localhost:4000/user", payload);
+      const res  = await axios.put(`http://localhost:4000/user`, payload);
       return res
     },
     onSuccess: () => {

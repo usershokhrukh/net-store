@@ -294,6 +294,7 @@ import {GoPlus} from "react-icons/go";
 import {checkToken} from "../api/apiClient";
 import {useAsyncError} from "react-router-dom";
 import {GlobalContext} from "../context/globalContext";
+import { usePutCart } from "../hooks/PUT/usePutCart";
 
 const Cart = () => {
   const {data: cartData, isFetching, error: getErrorCarts} = useGetCart();
@@ -386,6 +387,29 @@ const Cart = () => {
     localStorage.setItem("userCartProducts", JSON.stringify(updatedCart));
   };
 
+
+  const {mutate: patchCart, isFetching: fetchingPutCart, error: errorPutCart} = usePutCart();
+
+  const [blockMoneyServer, setBlockMoneyServer] = useState(0)
+  
+  useEffect(() => {
+    if(cartData?.length > 0) {
+      setBlockMoneyServer(
+        cartData?.reduce((total, item) => total + item.price * item.inStockCount * Number(item.inShop), 0)
+      )
+    }
+  }, [cartData])
+
+
+  const handlePlusServer = (data) => {
+    console.log(data);
+    patchCart({
+      ...data,
+      inStockCount: data.inStockCount + 1
+    })
+    
+  }
+
   return (
     <div className="container cart">
       {tokenValid ? <>
@@ -413,6 +437,7 @@ const Cart = () => {
                       categoryId,
                       inStockCount,
                       inShop,
+                      userId,
                     }) => (
                       <div key={`${title} ${id}`} className="cart__item">
                         <div className="cart__item-top-box">
@@ -421,21 +446,21 @@ const Cart = () => {
                         </div>
                         <div className="cart__item-bottom">
                           <input
-                            onChange={() =>
-                              handleInShopLocal({
-                                id: Number(id) || id,
-                                title,
-                                price,
-                                oldPrice,
-                                image,
-                                rating,
-                                reviewCount,
-                                inStock,
-                                categoryId,
-                                inStockCount,
-                                inShop,
-                              })
-                            }
+                            // onChange={() =>
+                            //   handleInShopLocal({
+                            //     id: Number(id) || id,
+                            //     title,
+                            //     price,
+                            //     oldPrice,
+                            //     image,
+                            //     rating,
+                            //     reviewCount,
+                            //     inStock,
+                            //     categoryId,
+                            //     inStockCount,
+                            //     inShop,
+                            //   })
+                            // }
                             checked={inShop}
                             type="checkbox"
                           />
@@ -495,21 +520,22 @@ const Cart = () => {
                                     {inStockCount}
                                   </span>
                                   <GoPlus
-                                    // onClick={() =>
-                                    //   handlePlusLocal({
-                                    //     id: Number(id) || id,
-                                    //     title,
-                                    //     price,
-                                    //     oldPrice,
-                                    //     image,
-                                    //     rating,
-                                    //     reviewCount,
-                                    //     inStock,
-                                    //     categoryId,
-                                    //     inStockCount,
-                                    //     inShop,
-                                    //   })
-                                    // }
+                                    onClick={() =>
+                                      handlePlusServer({
+                                        id: Number(id) || id,
+                                        title,
+                                        price,
+                                        oldPrice,
+                                        image,
+                                        rating,
+                                        reviewCount,
+                                        inStock,
+                                        categoryId,
+                                        inStockCount,
+                                        inShop,
+                                        userId
+                                      })
+                                    }
                                   />
                                 </div>
                                 <div className="cart__item-price-box">
@@ -532,7 +558,7 @@ const Cart = () => {
             <div className="cart__catalog">
               <div className="cart__cat-box">
                 <p className="cart__cat-title">Over all:</p>
-                {/* <span className="cart__item-price">${blockMoney}</span> */}
+                <span className="cart__item-price">${blockMoneyServer}</span>
               </div>
               <button className="cart__cat-button">Buy</button>
             </div>
