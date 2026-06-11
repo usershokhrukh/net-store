@@ -12,7 +12,6 @@ const Header = () => {
   const {cartProducts} = useContext(GlobalContext);
   const {data: cartData, isFetching, error: getErrorCarts} = useGetCart();
   const [tokenValid, setTokenValid] = useState(false);
-  console.log(cartData);
 
   useEffect(() => {
     const verify = async () => {
@@ -74,9 +73,16 @@ const Header = () => {
                 {cartProducts <= 9 ? cartProducts : "9+"}
               </span>
             ) : tokenValid ? (
-              <span className="navbar__count">
+              <>
+               {
+                cartData?.length > 0 ?<span className="navbar__count">{}
                 {cartData?.length <= 9 ? cartData?.length : "9+"}
-              </span>
+              </span> : null
+               }
+              </>
+                
+
+              
             ) : null}
             <IoCart
               onClick={() => navigate("/cart")}

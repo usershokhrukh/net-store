@@ -137,14 +137,11 @@ const ProductCard = () => {
 
     verify();
   }, []);
-
-  console.log(data);
   const {
     isFetching: putProductsFetch,
     error: putProductsError,
     data: getCart,
   } = useGetCart();
-  console.log(getCart);
 
   const mergeProductsServer = data?.map((product) => {
     const foundInCart = getCart?.find(
