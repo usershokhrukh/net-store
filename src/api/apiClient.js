@@ -75,10 +75,10 @@ export const mergeGuestCartToServer = async (userId) => {
     const serverCart = req.data;
 
     for (const item of guestCart) {
-      const {id, ...rest} = item;
+      const {productId, ...rest} = item;
 
       const existItem = serverCart.find(
-        (serverItem) => String(serverItem.id) === String(id),
+        (serverItem) => String(serverItem.productId) === String(productId),
       );
 
       if (existItem) {
@@ -97,6 +97,7 @@ export const mergeGuestCartToServer = async (userId) => {
             categoryId: item.categoryId,
             inStockCount: item.inStockCount,
             inShop: item.inShop,
+            productId: item.productId,
           },
           {
             headers: {
@@ -120,6 +121,7 @@ export const mergeGuestCartToServer = async (userId) => {
             categoryId: item.categoryId,
             inStockCount: item.inStockCount,
             inShop: item.inShop,
+            productId: item.productId,
           },
           {
             headers: {

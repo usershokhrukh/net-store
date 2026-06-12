@@ -54,7 +54,7 @@ const Cart = () => {
 
   const handlePlusLocal = (data) => {
     const updatedCart = localData?.map((item) => {
-      if (item.id === data.id) {
+      if (item.productId === data.productId) {
         return {
           ...item,
           inStockCount: item.inStockCount + 1,
@@ -69,7 +69,7 @@ const Cart = () => {
   };
   const handleMinusLocal = (data) => {
     const updatedCart = localData?.map((item) => {
-      if (item.id === data.id) {
+      if (item.productId === data.productId) {
         if (item.inStockCount - 1 >= 1) {
           return {
             ...item,
@@ -88,7 +88,7 @@ const Cart = () => {
   const handleTrashLocal = (data) => {
     let clean = [];
     const updatedCart = localData?.map((item) => {
-      if (item.id !== data.id) {
+      if (item.productId !== data.productId) {
         return item;
       }
       return null;
@@ -102,7 +102,7 @@ const Cart = () => {
   };
   const handleInShopLocal = (data) => {
     const updatedCart = localData?.map((item) => {
-      if (item.id === data.id) {
+      if (item.productId === data.productId) {
         return {
           ...item,
           inShop: !item.inShop,
@@ -207,6 +207,7 @@ const Cart = () => {
                       inStockCount,
                       inShop,
                       userId,
+                      productId
                     }) => (
                       <div key={`${title} ${id}`} className="cart__item">
                         <div className="cart__item-top-box">
@@ -229,6 +230,7 @@ const Cart = () => {
                                 inStockCount,
                                 inShop,
                                 userId,
+                                productId
                               })
                             }
                             checked={inShop}
@@ -260,6 +262,7 @@ const Cart = () => {
                                       inStockCount,
                                       inShop,
                                       userId,
+                                      productId
                                     })
                                   }
                                   className="cart__item-trash-box"
@@ -285,6 +288,7 @@ const Cart = () => {
                                         inStockCount,
                                         inShop,
                                         userId,
+                                        productId
                                       })
                                     }
                                   />
@@ -306,6 +310,7 @@ const Cart = () => {
                                         inStockCount,
                                         inShop,
                                         userId,
+                                        productId
                                       })
                                     }
                                   />
@@ -362,6 +367,7 @@ const Cart = () => {
                       categoryId,
                       inStockCount,
                       inShop,
+                      productId
                     }) => (
                       <div key={`${title} ${id}`} className="cart__item">
                         <div className="cart__item-top-box">
@@ -383,6 +389,7 @@ const Cart = () => {
                                 categoryId,
                                 inStockCount,
                                 inShop,
+                                productId
                               })
                             }
                             checked={inShop}
@@ -413,6 +420,7 @@ const Cart = () => {
                                       categoryId,
                                       inStockCount,
                                       inShop,
+                                      productId
                                     })
                                   }
                                   className="cart__item-trash-box"
@@ -437,6 +445,7 @@ const Cart = () => {
                                         categoryId,
                                         inStockCount,
                                         inShop,
+                                        productId
                                       })
                                     }
                                   />
@@ -457,6 +466,7 @@ const Cart = () => {
                                         categoryId,
                                         inStockCount,
                                         inShop,
+                                        productId
                                       })
                                     }
                                   />

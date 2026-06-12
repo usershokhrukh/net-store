@@ -13,6 +13,7 @@ import {useGetCart} from "../hooks/GET/useGetCart";
 import {usePutCart} from "../hooks/PUT/usePutCart";
 import {useDeleteCart} from "../hooks/DELETE/useDeleteCart";
 import { usePostCart } from "../hooks/POST/usePostCart";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ProductCard = () => {
   const {data, isFetching, error: getErrorProducts} = useGetProducts();
@@ -23,7 +24,7 @@ const ProductCard = () => {
 
   const mergedProducts = data?.map((product) => {
     const foundInLocal = localeProducts?.find(
-      ({id}) => String(id) === String(product.id),
+      ({productId}) => String(productId) === String(product.productId),
     );
     if (foundInLocal) {
       return {
@@ -40,14 +41,16 @@ const ProductCard = () => {
 
   const {setLocalData: setLocalDatContext} = useContext(GlobalContext);
 
+  
   const handleShop = (e, data) => {
+    
     e.preventDefault();
     const localData =
       JSON.parse(localStorage.getItem("userCartProducts")) || [];
 
     let found = false;
     for (let i = 0; i < localData.length; i++) {
-      if (localData[i].id === data.id) {
+      if (localData[i].productId === data.productId) {
         found = true;
         localData[i] = {
           ...localData[i],
@@ -85,7 +88,7 @@ const ProductCard = () => {
 
   const handlePlusLocal = (data) => {
     const updatedCart = localeProducts?.map((item) => {
-      if (item.id === data.id) {
+      if (item.productId === data.productId) {
         return {
           ...item,
           inStockCount: item.inStockCount + 1,
@@ -100,7 +103,7 @@ const ProductCard = () => {
   };
   const handleMinusLocal = (data) => {
     const updatedCart = localeProducts?.map((item) => {
-      if (item.id === data.id) {
+      if (item.productId === data.productId) {
         if (item.inStockCount - 1 >= 1) {
           return {
             ...item,
@@ -118,7 +121,7 @@ const ProductCard = () => {
   const handleTrashLocal = (data) => {
     let clean = [];
     const updatedCart = localeProducts?.map((item) => {
-      if (item.id !== data.id) {
+      if (item.productId !== data.productId) {
         return item;
       }
       return null;
@@ -159,28 +162,32 @@ const ProductCard = () => {
 
   const [globalServerProducts, setGlobalServerProducts] = useState([]);
 
-  useEffect(() => {
-    const mergeProductsServer = data?.map((product) => {
+  useEffect(() => {    
+    const mergeProductsServer = data?.map((product) => {      
       const foundInCart = getCart?.find(
-        ({id}) => String(id) === String(product.id),
-      );
-      if (foundInCart) {
+        ({productId}) => String(productId) === String(product.productId),
+      );      
+      if (foundInCart) {        
         return {
           ...product,
           inStock: true,
           inStockCount: foundInCart.inStockCount,
           userId: userIdState || null,
+          id: foundInCart.id,
         };
-      } else {
+      } else {        
         return {
           ...product,
           userId: userIdState || null,
         };
       }
     });
+    
 
     setGlobalServerProducts(mergeProductsServer);
   }, [userIdState, getCart]);
+  
+  
 
   const {
     mutate: patchCart,
@@ -227,18 +234,21 @@ const ProductCard = () => {
     deleteCart(data?.id);
   };
 
-  const handleShopServer = (e, data) => {
+  const handleShopServer = (e, data) => {    
+    
     postCart({
       ...data,
       inStock: true,
       inStockCount: 1,
       inShop: true,
+      id: null
     })
 
     let className = e.target.className.baseVal;
     className = className.concat(" shopped");
     e.target.className.baseVal = className;
   };
+
 
   return (
     <div className="products container">
@@ -257,6 +267,7 @@ const ProductCard = () => {
               inStockCount,
               inShop,
               userId,
+              productId
             }) => (
               <div key={`${id} ${title}`} className="products__item">
                 <div className="products__top">
@@ -306,6 +317,7 @@ const ProductCard = () => {
                             inStockCount,
                             inShop,
                             userId,
+                            productId
                           })
                         }
                         className="products__button-s-icons"
@@ -326,6 +338,7 @@ const ProductCard = () => {
                               inStockCount,
                               inShop,
                               userId,
+                              productId
                             })
                           }
                           className="products__button-s-icons"
@@ -348,6 +361,7 @@ const ProductCard = () => {
                               inStockCount,
                               inShop,
                               userId,
+                              productId
                             })
                           }
                           className="products__button-s-icons"
@@ -371,6 +385,7 @@ const ProductCard = () => {
                         inStockCount,
                         inShop,
                         userId,
+                        productId
                       })
                     }
                     className={`products__button-icons ${inStock ? "shopped" : ""}`}
@@ -392,6 +407,7 @@ const ProductCard = () => {
               categoryId,
               inStockCount,
               inShop,
+              productId
             }) => (
               <div key={`${id} ${title}`} className="products__item">
                 <div className="products__top">
@@ -440,6 +456,7 @@ const ProductCard = () => {
                             categoryId,
                             inStockCount,
                             inShop,
+                            productId
                           });
                         }}
                         className="products__button-s-icons"
@@ -459,6 +476,7 @@ const ProductCard = () => {
                               categoryId,
                               inStockCount,
                               inShop,
+                              productId
                             });
                           }}
                           className="products__button-s-icons"
@@ -480,6 +498,7 @@ const ProductCard = () => {
                               categoryId,
                               inStockCount,
                               inShop,
+                              productId
                             });
                           }}
                           className="products__button-s-icons"
@@ -502,6 +521,7 @@ const ProductCard = () => {
                         categoryId,
                         inStockCount,
                         inShop,
+                        productId
                       });
                     }}
                     className={`products__button-icons ${inStock ? "shopped" : ""}`}
