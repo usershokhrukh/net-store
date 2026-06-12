@@ -97,7 +97,6 @@
   ],
   "cart": [
     {
-      "userId": 13,
       "id": 3,
       "title": "Sony WH-1000XM5 Naushnik",
       "price": 3490000,
@@ -107,8 +106,23 @@
       "reviewCount": 210,
       "inStock": true,
       "categoryId": 1,
-      "inStockCount": 6,
-      "inShop": true
+      "inStockCount": 5,
+      "inShop": false,
+      "userId": 13
+    },
+    {
+      "id": 1,
+      "title": "Apple MacBook Air M2",
+      "price": 14990000,
+      "oldPrice": 16500000,
+      "image": "https://images.unsplash.com/photo-1611186871525-de2d1a9d4e71?w=400",
+      "rating": 4.9,
+      "reviewCount": 128,
+      "inStock": true,
+      "categoryId": 1,
+      "inStockCount": 1,
+      "inShop": true,
+      "userId": 13
     },
     {
       "userId": 13,
@@ -121,7 +135,7 @@
       "reviewCount": 94,
       "inStock": true,
       "categoryId": 1,
-      "inStockCount": 4,
+      "inStockCount": 1,
       "inShop": true
     }
   ],

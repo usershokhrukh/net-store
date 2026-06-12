@@ -5,12 +5,22 @@ import {useGetUser} from "../hooks/GET/useGetUser";
 import {memo, useContext, useEffect, useState} from "react";
 import Login from "./Login";
 import {GlobalContext} from "../context/globalContext";
-import {checkToken} from "../api/apiClient";
+import {checkToken, checkUserId} from "../api/apiClient";
 import {useGetCart} from "../hooks/GET/useGetCart";
 const Header = () => {
   const navigate = useNavigate();
   const {cartProducts} = useContext(GlobalContext);
-  const {data: cartData, isFetching, error: getErrorCarts} = useGetCart();
+  const [userIdState, setUserIdState] = useState(false);
+
+  useEffect(() => {
+    const verify = async () => {
+      const res = await checkUserId();
+      setUserIdState(res);
+    };
+    verify();
+  }, []);
+
+  const {data: cartData, isFetching, error: getErrorCarts} = userIdState ? useGetCart(userIdState) : useGetCart();
   const [tokenValid, setTokenValid] = useState(false);
 
   useEffect(() => {
@@ -42,12 +52,17 @@ const Header = () => {
                 Login
               </NavLink>
             </li>
-          ) : <li onClick={() => {
-            localStorage.clear();
-            window.location.reload();
-          }} className="navbar__link">
-                Log out
-            </li>}
+          ) : (
+            <li
+              onClick={() => {
+                localStorage.clear();
+                window.location.reload();
+              }}
+              className="navbar__link"
+            >
+              Log out
+            </li>
+          )}
 
           <li>
             <a onClick={() => navigate("/")} className="navbar__link" href="">
@@ -74,15 +89,13 @@ const Header = () => {
               </span>
             ) : tokenValid ? (
               <>
-               {
-                cartData?.length > 0 ?<span className="navbar__count">{}
-                {cartData?.length <= 9 ? cartData?.length : "9+"}
-              </span> : null
-               }
+                {cartData?.length > 0 ? (
+                  <span className="navbar__count">
+                    {}
+                    {cartData?.length <= 9 ? cartData?.length : "9+"}
+                  </span>
+                ) : null}
               </>
-                
-
-              
             ) : null}
             <IoCart
               onClick={() => navigate("/cart")}

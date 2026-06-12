@@ -6,10 +6,13 @@ import {GoPlus} from "react-icons/go";
 import {AiOutlineMinus} from "react-icons/ai";
 import {PiShoppingCartLight} from "react-icons/pi";
 import {useContext, useEffect, useState} from "react";
-import {checkToken} from "../api/apiClient";
+import {checkToken, checkUserId} from "../api/apiClient";
 import {GlobalContext} from "../context/globalContext";
 import {usePutProduct} from "../hooks/PUT/usePutProduct";
 import {useGetCart} from "../hooks/GET/useGetCart";
+import {usePutCart} from "../hooks/PUT/usePutCart";
+import {useDeleteCart} from "../hooks/DELETE/useDeleteCart";
+import { usePostCart } from "../hooks/POST/usePostCart";
 
 const ProductCard = () => {
   const {data, isFetching, error: getErrorProducts} = useGetProducts();
@@ -137,234 +140,295 @@ const ProductCard = () => {
 
     verify();
   }, []);
+
+  const [userIdState, setUserIdState] = useState(false);
+
+  useEffect(() => {
+    const verify = async () => {
+      const res = await checkUserId();
+      setUserIdState(res);
+    };
+    verify();
+  }, []);
+
   const {
     isFetching: putProductsFetch,
     error: putProductsError,
     data: getCart,
-  } = useGetCart();
+  } = userIdState ? useGetCart(userIdState) : useGetCart();
 
-  const mergeProductsServer = data?.map((product) => {
-    const foundInCart = getCart?.find(
-      ({id}) => String(id) === String(product.id),
-    );
-    if (foundInCart) {
-      return {
-        ...product,
-        inStock: true,
-        inStockCount: foundInCart.inStockCount,
-      };
-    } else {
-      return {
-        ...product,
-      };
+  const [globalServerProducts, setGlobalServerProducts] = useState([]);
+
+  useEffect(() => {
+    const mergeProductsServer = data?.map((product) => {
+      const foundInCart = getCart?.find(
+        ({id}) => String(id) === String(product.id),
+      );
+      if (foundInCart) {
+        return {
+          ...product,
+          inStock: true,
+          inStockCount: foundInCart.inStockCount,
+          userId: userIdState || null,
+        };
+      } else {
+        return {
+          ...product,
+          userId: userIdState || null,
+        };
+      }
+    });
+
+    setGlobalServerProducts(mergeProductsServer);
+  }, [userIdState, getCart]);
+
+  const {
+    mutate: patchCart,
+    isFetching: fetchingPutCart,
+    error: errorPutCart,
+  } = usePutCart();
+
+  const {
+    mutate: deleteCart,
+    isFetching: fetchingDeleteCart,
+    error: errorDeleteCart,
+  } = useDeleteCart();
+
+
+  const {
+    mutate: postCart,
+    isFetching: fetchingPostCart,
+    error: errorPostCart,
+  } = usePostCart();
+
+  const handlePlusServer = (data) => {
+    patchCart([
+      data?.id,
+      {
+        ...data,
+        inStockCount: data.inStockCount + 1,
+      },
+    ]);
+  };
+
+  const handleMinusServer = (data) => {
+    if (data.inStockCount - 1 >= 1) {
+      patchCart([
+        data?.id,
+        {
+          ...data,
+          inStockCount: data.inStockCount - 1,
+        },
+      ]);
     }
-  });
-  
+  };
+
+  const handleTrashServer = (data) => {
+    deleteCart(data?.id);
+  };
+
+  const handleShopServer = (e, data) => {
+    postCart({
+      ...data,
+      inStock: true,
+      inStockCount: 1,
+      inShop: true,
+    })
+
+    let className = e.target.className.baseVal;
+    className = className.concat(" shopped");
+    e.target.className.baseVal = className;
+  };
 
   return (
     <div className="products container">
-      {tokenValid ? (
-        mergeProductsServer?.map(
-          ({
-            id,
-            title,
-            price,
-            oldPrice,
-            image,
-            rating,
-            reviewCount,
-            inStock,
-            categoryId,
-            inStockCount,
-            inShop,
-          }) => (
-            <div key={`${id} ${title}`} className="products__item">
-              <div className="products__top">
-                <span>
-                  <IoHeartOutline className="products__top-icons" />
-                </span>
-              </div>
-              <img className="products__image" src={image} alt={title} />
-              <div className="products__bottom">
-                <h4 className="products__title">{title}</h4>
-                <p className="products__price">
-                  ${price}
-                  {oldPrice ? (
-                    <span className="products__del-price">
-                      <del>${oldPrice}</del>
-                    </span>
-                  ) : null}
-                </p>
-                <p className="products__views">
+      {tokenValid
+        ? globalServerProducts?.map(
+            ({
+              id,
+              title,
+              price,
+              oldPrice,
+              image,
+              rating,
+              reviewCount,
+              inStock,
+              categoryId,
+              inStockCount,
+              inShop,
+              userId,
+            }) => (
+              <div key={`${id} ${title}`} className="products__item">
+                <div className="products__top">
                   <span>
-                    <LuEye className="products__view-icon" />
+                    <IoHeartOutline className="products__top-icons" />
                   </span>
-                  {reviewCount}
-                </p>
-                <p className="products__rate">
-                  <span>
-                    <MdStarRate className="products__rate-icon" />
-                  </span>
-                  {rating}
-                </p>
-              </div>
-              <button className="products__button">
-                {inStock ? (
-                  <div className="products__button-box">
-                    <LuTrash
-                      // onClick={() => {
-                      //   handleTrashLocal({
-                      //     id: Number(id) || id,
-                      //     title,
-                      //     price,
-                      //     oldPrice,
-                      //     image,
-                      //     rating,
-                      //     reviewCount,
-                      //     inStock,
-                      //     categoryId,
-                      //     inStockCount,
-                      //     inShop,
-                      //   });
-                      // }}
-                      className="products__button-s-icons"
-                    />
-                    <span className="products__b-center">
-                      <GoPlus
-                        // onClick={() => {
-                        //   handlePlusLocal({
-                        //     id: Number(id) || id,
-                        //     title,
-                        //     price,
-                        //     oldPrice,
-                        //     image,
-                        //     rating,
-                        //     reviewCount,
-                        //     inStock,
-                        //     categoryId,
-                        //     inStockCount,
-                        //     inShop,
-                        //   });
-                        // }}
-                        className="products__button-s-icons"
-                      />
-                      <span className="products__b-count">
-                        {inStockCount > 9 ? "9+" : inStockCount}
+                </div>
+                <img className="products__image" src={image} alt={title} />
+                <div className="products__bottom">
+                  <h4 className="products__title">{title}</h4>
+                  <p className="products__price">
+                    ${price}
+                    {oldPrice ? (
+                      <span className="products__del-price">
+                        <del>${oldPrice}</del>
                       </span>
-                      <AiOutlineMinus
-                        // onClick={() => {
-                        //   handleMinusLocal({
-                        //     id: Number(id) || id,
-                        //     title,
-                        //     price,
-                        //     oldPrice,
-                        //     image,
-                        //     rating,
-                        //     reviewCount,
-                        //     inStock,
-                        //     categoryId,
-                        //     inStockCount,
-                        //     inShop,
-                        //   });
-                        // }}
+                    ) : null}
+                  </p>
+                  <p className="products__views">
+                    <span>
+                      <LuEye className="products__view-icon" />
+                    </span>
+                    {reviewCount}
+                  </p>
+                  <p className="products__rate">
+                    <span>
+                      <MdStarRate className="products__rate-icon" />
+                    </span>
+                    {rating}
+                  </p>
+                </div>
+                <button className="products__button">
+                  {inStock ? (
+                    <div className="products__button-box">
+                      <LuTrash
+                        onClick={() =>
+                          handleTrashServer({
+                            id: Number(id) || id,
+                            title,
+                            price,
+                            oldPrice,
+                            image,
+                            rating,
+                            reviewCount,
+                            inStock,
+                            categoryId,
+                            inStockCount,
+                            inShop,
+                            userId,
+                          })
+                        }
                         className="products__button-s-icons"
                       />
-                    </span>
-                  </div>
-                ) : null}
-
-                <PiShoppingCartLight
-                  // onClick={(e) => {
-                  //   handleShop(e, {
-                  //     id: Number(id) || id,
-                  //     title,
-                  //     price,
-                  //     oldPrice,
-                  //     image,
-                  //     rating,
-                  //     reviewCount,
-                  //     inStock,
-                  //     categoryId,
-                  //     inStockCount,
-                  //     inShop,
-                  //   });
-                  // }}
-                  className={`products__button-icons ${inStock ? "shopped" : ""}`}
-                />
-              </button>
-            </div>
-          ),
-        )
-      ) : (
-        mergedProducts?.map(
-          ({
-            id,
-            title,
-            price,
-            oldPrice,
-            image,
-            rating,
-            reviewCount,
-            inStock,
-            categoryId,
-            inStockCount,
-            inShop,
-          }) => (
-            <div key={`${id} ${title}`} className="products__item">
-              <div className="products__top">
-                <span>
-                  <IoHeartOutline className="products__top-icons" />
-                </span>
-              </div>
-              <img className="products__image" src={image} alt={title} />
-              <div className="products__bottom">
-                <h4 className="products__title">{title}</h4>
-                <p className="products__price">
-                  ${price}
-                  {oldPrice ? (
-                    <span className="products__del-price">
-                      <del>${oldPrice}</del>
-                    </span>
+                      <span className="products__b-center">
+                        <GoPlus
+                          onClick={() =>
+                            handlePlusServer({
+                              id: Number(id) || id,
+                              title,
+                              price,
+                              oldPrice,
+                              image,
+                              rating,
+                              reviewCount,
+                              inStock,
+                              categoryId,
+                              inStockCount,
+                              inShop,
+                              userId,
+                            })
+                          }
+                          className="products__button-s-icons"
+                        />
+                        <span className="products__b-count">
+                          {inStockCount > 9 ? "9+" : inStockCount}
+                        </span>
+                        <AiOutlineMinus
+                          onClick={() =>
+                            handleMinusServer({
+                              id: Number(id) || id,
+                              title,
+                              price,
+                              oldPrice,
+                              image,
+                              rating,
+                              reviewCount,
+                              inStock,
+                              categoryId,
+                              inStockCount,
+                              inShop,
+                              userId,
+                            })
+                          }
+                          className="products__button-s-icons"
+                        />
+                      </span>
+                    </div>
                   ) : null}
-                </p>
-                <p className="products__views">
-                  <span>
-                    <LuEye className="products__view-icon" />
-                  </span>
-                  {reviewCount}
-                </p>
-                <p className="products__rate">
-                  <span>
-                    <MdStarRate className="products__rate-icon" />
-                  </span>
-                  {rating}
-                </p>
+
+                  <PiShoppingCartLight
+                    onClick={(e) =>
+                      handleShopServer(e, {
+                        id: Number(id) || id,
+                        title,
+                        price,
+                        oldPrice,
+                        image,
+                        rating,
+                        reviewCount,
+                        inStock,
+                        categoryId,
+                        inStockCount,
+                        inShop,
+                        userId,
+                      })
+                    }
+                    className={`products__button-icons ${inStock ? "shopped" : ""}`}
+                  />
+                </button>
               </div>
-              <button className="products__button">
-                {inStock ? (
-                  <div className="products__button-box">
-                    <LuTrash
-                      onClick={() => {
-                        handleTrashLocal({
-                          id: Number(id) || id,
-                          title,
-                          price,
-                          oldPrice,
-                          image,
-                          rating,
-                          reviewCount,
-                          inStock,
-                          categoryId,
-                          inStockCount,
-                          inShop,
-                        });
-                      }}
-                      className="products__button-s-icons"
-                    />
-                    <span className="products__b-center">
-                      <GoPlus
+            ),
+          )
+        : mergedProducts?.map(
+            ({
+              id,
+              title,
+              price,
+              oldPrice,
+              image,
+              rating,
+              reviewCount,
+              inStock,
+              categoryId,
+              inStockCount,
+              inShop,
+            }) => (
+              <div key={`${id} ${title}`} className="products__item">
+                <div className="products__top">
+                  <span>
+                    <IoHeartOutline className="products__top-icons" />
+                  </span>
+                </div>
+                <img className="products__image" src={image} alt={title} />
+                <div className="products__bottom">
+                  <h4 className="products__title">{title}</h4>
+                  <p className="products__price">
+                    ${price}
+                    {oldPrice ? (
+                      <span className="products__del-price">
+                        <del>${oldPrice}</del>
+                      </span>
+                    ) : null}
+                  </p>
+                  <p className="products__views">
+                    <span>
+                      <LuEye className="products__view-icon" />
+                    </span>
+                    {reviewCount}
+                  </p>
+                  <p className="products__rate">
+                    <span>
+                      <MdStarRate className="products__rate-icon" />
+                    </span>
+                    {rating}
+                  </p>
+                </div>
+                <button className="products__button">
+                  {inStock ? (
+                    <div className="products__button-box">
+                      <LuTrash
                         onClick={() => {
-                          handlePlusLocal({
+                          handleTrashLocal({
                             id: Number(id) || id,
                             title,
                             price,
@@ -380,54 +444,72 @@ const ProductCard = () => {
                         }}
                         className="products__button-s-icons"
                       />
-                      <span className="products__b-count">
-                        {inStockCount > 9 ? "9+" : inStockCount}
+                      <span className="products__b-center">
+                        <GoPlus
+                          onClick={() => {
+                            handlePlusLocal({
+                              id: Number(id) || id,
+                              title,
+                              price,
+                              oldPrice,
+                              image,
+                              rating,
+                              reviewCount,
+                              inStock,
+                              categoryId,
+                              inStockCount,
+                              inShop,
+                            });
+                          }}
+                          className="products__button-s-icons"
+                        />
+                        <span className="products__b-count">
+                          {inStockCount > 9 ? "9+" : inStockCount}
+                        </span>
+                        <AiOutlineMinus
+                          onClick={() => {
+                            handleMinusLocal({
+                              id: Number(id) || id,
+                              title,
+                              price,
+                              oldPrice,
+                              image,
+                              rating,
+                              reviewCount,
+                              inStock,
+                              categoryId,
+                              inStockCount,
+                              inShop,
+                            });
+                          }}
+                          className="products__button-s-icons"
+                        />
                       </span>
-                      <AiOutlineMinus
-                        onClick={() => {
-                          handleMinusLocal({
-                            id: Number(id) || id,
-                            title,
-                            price,
-                            oldPrice,
-                            image,
-                            rating,
-                            reviewCount,
-                            inStock,
-                            categoryId,
-                            inStockCount,
-                            inShop,
-                          });
-                        }}
-                        className="products__button-s-icons"
-                      />
-                    </span>
-                  </div>
-                ) : null}
+                    </div>
+                  ) : null}
 
-                <PiShoppingCartLight
-                  onClick={(e) => {
-                    handleShop(e, {
-                      id: Number(id) || id,
-                      title,
-                      price,
-                      oldPrice,
-                      image,
-                      rating,
-                      reviewCount,
-                      inStock,
-                      categoryId,
-                      inStockCount,
-                      inShop,
-                    });
-                  }}
-                  className={`products__button-icons ${inStock ? "shopped" : ""}`}
-                />
-              </button>
-            </div>
-          ),
-        )
-      )}
+                  <PiShoppingCartLight
+                    onClick={(e) => {
+                      handleShop(e, {
+                        id: Number(id) || id,
+                        title,
+                        price,
+                        oldPrice,
+                        image,
+                        rating,
+                        reviewCount,
+                        inStock,
+                        categoryId,
+                        inStockCount,
+                        inShop,
+                      });
+                    }}
+                    className={`products__button-icons ${inStock ? "shopped" : ""}`}
+                  />
+                </button>
+              </div>
+            ),
+          )}
     </div>
   );
 };
