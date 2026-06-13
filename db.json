@@ -109,8 +109,8 @@
       "reviewCount": 210,
       "inStock": true,
       "categoryId": 1,
-      "inStockCount": 2,
-      "inShop": true,
+      "inStockCount": 5,
+      "inShop": false,
       "userId": 1,
       "productId": 3
     }

@@ -223,11 +223,9 @@ const ProductCard = () => {
           inStockCount: data.inStockCount - 1,
         },
       ]);
+    }else if (data.inStockCount - 1 == 0) {
+      deleteCart(data?.id);
     }
-  };
-
-  const handleTrashServer = (data) => {
-    deleteCart(data?.id);
   };
 
   const handleShopServer = (e, data) => {
@@ -247,7 +245,6 @@ const ProductCard = () => {
   const navigate = useNavigate();
 
   const handleItem = (productId) => {
-    console.log(productId);
     navigate(`/product/${productId}`);
   };
 
@@ -309,26 +306,6 @@ const ProductCard = () => {
                 <button className="products__button">
                   {inStock ? (
                     <div className="products__button-box">
-                      <LuTrash
-                        onClick={() =>
-                          handleTrashServer({
-                            id: Number(id) || id,
-                            title,
-                            price,
-                            oldPrice,
-                            image,
-                            rating,
-                            reviewCount,
-                            inStock,
-                            categoryId,
-                            inStockCount,
-                            inShop,
-                            userId,
-                            productId,
-                          })
-                        }
-                        className="products__button-s-icons"
-                      />
                       <span className="products__b-center">
                         <GoPlus
                           onClick={() =>
@@ -353,7 +330,9 @@ const ProductCard = () => {
                         <span className="products__b-count">
                           {inStockCount > 9 ? "9+" : inStockCount}
                         </span>
-                        <AiOutlineMinus
+
+                        {
+                          inStockCount > 1 ? <><AiOutlineMinus
                           onClick={() =>
                             handleMinusServer({
                               id: Number(id) || id,
@@ -372,7 +351,28 @@ const ProductCard = () => {
                             })
                           }
                           className="products__button-s-icons"
-                        />
+                        /></> : <><LuTrash
+                        onClick={() =>
+                          handleMinusServer({
+                            id: Number(id) || id,
+                            title,
+                            price,
+                            oldPrice,
+                            image,
+                            rating,
+                            reviewCount,
+                            inStock,
+                            categoryId,
+                            inStockCount,
+                            inShop,
+                            userId,
+                            productId,
+                          })
+                        }
+                        className="products__button-s-icons"
+                      /></>
+                        }
+                        
                       </span>
                     </div>
                   ) : null}

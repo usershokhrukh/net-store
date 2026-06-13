@@ -5,11 +5,13 @@ import {TbTrashFilled} from "react-icons/tb";
 import {FiMinus} from "react-icons/fi";
 import {GoPlus} from "react-icons/go";
 import {checkToken, checkUserId} from "../api/apiClient";
-import {useAsyncError, useNavigate} from "react-router-dom";
+import {data, useAsyncError, useNavigate} from "react-router-dom";
 import {GlobalContext} from "../context/globalContext";
 import {usePutCart} from "../hooks/PUT/usePutCart";
 import {FaUserGear} from "react-icons/fa6";
-import { useDeleteCart } from "../hooks/DELETE/useDeleteCart";
+import {useDeleteCart} from "../hooks/DELETE/useDeleteCart";
+import {LuTrash} from "react-icons/lu";
+import {AiOutlineMinus} from "react-icons/ai";
 
 const Cart = () => {
   const [userIdState, setUserIdState] = useState(false);
@@ -163,6 +165,8 @@ const Cart = () => {
           inStockCount: data.inStockCount - 1,
         },
       ]);
+    } else if (data.inStockCount - 1 == 0) {
+      deleteCart(data?.id);
     }
   };
 
@@ -209,7 +213,7 @@ const Cart = () => {
                       inStockCount,
                       inShop,
                       userId,
-                      productId
+                      productId,
                     }) => (
                       <div key={`${title} ${id}`} className="cart__item">
                         <div className="cart__item-top-box">
@@ -232,7 +236,7 @@ const Cart = () => {
                                 inStockCount,
                                 inShop,
                                 userId,
-                                productId
+                                productId,
                               })
                             }
                             checked={inShop}
@@ -248,52 +252,91 @@ const Cart = () => {
                             />
                             <div className="cart__item-b-right">
                               <div className="cart__item-top">
-                                <p onClick={() => navigate(`/product/${productId}`)} className="cart__item-title">{title}</p>
-                                <div
+                                <p
                                   onClick={() =>
-                                    handleTrashServer({
-                                      id: Number(id) || id,
-                                      title,
-                                      price,
-                                      oldPrice,
-                                      image,
-                                      rating,
-                                      reviewCount,
-                                      inStock,
-                                      categoryId,
-                                      inStockCount,
-                                      inShop,
-                                      userId,
-                                      productId
-                                    })
+                                    navigate(`/product/${productId}`)
                                   }
-                                  className="cart__item-trash-box"
+                                  className="cart__item-title"
                                 >
-                                  <TbTrashFilled className="cart__item-trash" />
-                                  <p className="cart__item-t-text">Destroy</p>
-                                </div>
+                                  {title}
+                                </p>
+
+                                {inStockCount > 1 ? 
+                                    <div
+                                      onClick={() =>
+                                        handleTrashServer({
+                                          id: Number(id) || id,
+                                          title,
+                                          price,
+                                          oldPrice,
+                                          image,
+                                          rating,
+                                          reviewCount,
+                                          inStock,
+                                          categoryId,
+                                          inStockCount,
+                                          inShop,
+                                          userId,
+                                          productId,
+                                        })
+                                      }
+                                      className="cart__item-trash-box"
+                                    >
+                                      <TbTrashFilled className="cart__item-trash" />
+                                      <p className="cart__item-t-text">
+                                        Destroy
+                                      </p>
+                                    </div>
+                                 : null}
                               </div>
                               <div className="cart__item-top-b">
                                 <div className="cart__item-count-box">
-                                  <FiMinus
-                                    onClick={() =>
-                                      handleMinusServer({
-                                        id: Number(id) || id,
-                                        title,
-                                        price,
-                                        oldPrice,
-                                        image,
-                                        rating,
-                                        reviewCount,
-                                        inStock,
-                                        categoryId,
-                                        inStockCount,
-                                        inShop,
-                                        userId,
-                                        productId
-                                      })
-                                    }
-                                  />
+                                  {inStockCount > 1 ? (
+                                    <>
+                                      <AiOutlineMinus
+                                        onClick={() =>
+                                          handleMinusServer({
+                                            title,
+                                            price,
+                                            oldPrice,
+                                            image,
+                                            rating,
+                                            reviewCount,
+                                            inStock,
+                                            categoryId,
+                                            inStockCount,
+                                            inShop,
+                                            userId,
+                                            productId,
+                                            id: Number(id) || id,
+                                          })
+                                        }
+                                      />
+                                    </>
+                                  ) : (
+                                    <>
+                                      <TbTrashFilled
+                                        onClick={() =>
+                                          handleMinusServer({
+                                            title,
+                                            price,
+                                            oldPrice,
+                                            image,
+                                            rating,
+                                            reviewCount,
+                                            inStock,
+                                            categoryId,
+                                            inStockCount,
+                                            inShop,
+                                            userId,
+                                            productId,
+                                            id: Number(id) || id,
+                                          })
+                                        }
+                                        className="cart__item-trash"
+                                      />
+                                    </>
+                                  )}
                                   <span className="cart__item-count">
                                     {inStockCount}
                                   </span>
@@ -312,7 +355,7 @@ const Cart = () => {
                                         inStockCount,
                                         inShop,
                                         userId,
-                                        productId
+                                        productId,
                                       })
                                     }
                                   />
@@ -369,7 +412,7 @@ const Cart = () => {
                       categoryId,
                       inStockCount,
                       inShop,
-                      productId
+                      productId,
                     }) => (
                       <div key={`${title} ${id}`} className="cart__item">
                         <div className="cart__item-top-box">
@@ -391,7 +434,7 @@ const Cart = () => {
                                 categoryId,
                                 inStockCount,
                                 inShop,
-                                productId
+                                productId,
                               })
                             }
                             checked={inShop}
@@ -407,7 +450,14 @@ const Cart = () => {
                             />
                             <div className="cart__item-b-right">
                               <div className="cart__item-top">
-                                <p onClick={() => navigate(`/product/${productId}`)} className="cart__item-title">{title}</p>
+                                <p
+                                  onClick={() =>
+                                    navigate(`/product/${productId}`)
+                                  }
+                                  className="cart__item-title"
+                                >
+                                  {title}
+                                </p>
                                 <div
                                   onClick={() =>
                                     handleTrashLocal({
@@ -422,7 +472,7 @@ const Cart = () => {
                                       categoryId,
                                       inStockCount,
                                       inShop,
-                                      productId
+                                      productId,
                                     })
                                   }
                                   className="cart__item-trash-box"
@@ -447,7 +497,7 @@ const Cart = () => {
                                         categoryId,
                                         inStockCount,
                                         inShop,
-                                        productId
+                                        productId,
                                       })
                                     }
                                   />
@@ -468,7 +518,7 @@ const Cart = () => {
                                         categoryId,
                                         inStockCount,
                                         inShop,
-                                        productId
+                                        productId,
                                       })
                                     }
                                   />

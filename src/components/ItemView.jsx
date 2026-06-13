@@ -3,13 +3,15 @@ import {useNavigate, useParams} from "react-router-dom";
 import {checkToken, checkUserId} from "../api/apiClient";
 import axios from "axios";
 import {MdStarRate} from "react-icons/md";
-import {LuEye} from "react-icons/lu";
+import {LuEye, LuTrash} from "react-icons/lu";
 import {GoPlus} from "react-icons/go";
 import {AiOutlineMinus} from "react-icons/ai";
 import {useGetProductOneId} from "../hooks/GET/useGetProductOneId";
 import {useGetCartOneId} from "../hooks/GET/useGetCartOneId";
 import {PiShoppingCartLight} from "react-icons/pi";
 import {usePutCart} from "../hooks/PUT/usePutCart";
+import {useDeleteCart} from "../hooks/DELETE/useDeleteCart";
+import {usePostCart} from "../hooks/POST/usePostCart";
 
 const ItemView = () => {
   const {id} = useParams();
@@ -41,8 +43,6 @@ const ItemView = () => {
   const [product, setProduct] = useState();
 
   useEffect(() => {
-    console.log(resCart, resProduct);
-
     if (resCart?.length || resProduct?.length) {
       if (resCart?.length) {
         setProduct([
@@ -63,13 +63,23 @@ const ItemView = () => {
     }
   }, [resProduct, resCart]);
 
-  console.log(product);
-
   const {
     mutate: patchCart,
     isFetching: fetchingPutCart,
     error: errorPutCart,
   } = usePutCart();
+
+  const {
+    mutate: deleteCart,
+    isFetching: fetchingDeleteCart,
+    error: errorDeleteCart,
+  } = useDeleteCart();
+
+  const {
+    mutate: postCart,
+    isFetching: fetchingPostCart,
+    error: errorPostCart,
+  } = usePostCart();
 
   const handlePlusServer = (data) => {
     patchCart([
@@ -81,7 +91,29 @@ const ItemView = () => {
     ]);
   };
 
-  console.log(product);
+  const handleMinusServer = (data) => {
+    if (data.inStockCount - 1 >= 1) {
+      patchCart([
+        data?.id,
+        {
+          ...data,
+          inStockCount: data.inStockCount - 1,
+        },
+      ]);
+    } else if (data.inStockCount - 1 == 0) {
+      deleteCart(data?.id);
+    }
+  };
+
+  const handleShopServer = (data) => {
+    postCart({
+      ...data,
+      inStock: true,
+      inStockCount: 1,
+      inShop: true,
+      id: null,
+    });
+  };
 
   return (
     <div className="container">
@@ -143,7 +175,52 @@ const ItemView = () => {
                   {inStock ? (
                     <>
                       <div className="view__right-b-box-count">
-                        <AiOutlineMinus />
+
+                        {inStockCount > 1 ? (
+                          <>
+                            <AiOutlineMinus
+                              onClick={() =>
+                                handleMinusServer({
+                                  title,
+                                  price,
+                                  oldPrice,
+                                  image,
+                                  rating,
+                                  reviewCount,
+                                  inStock,
+                                  categoryId,
+                                  inStockCount,
+                                  inShop,
+                                  userId,
+                                  productId,
+                                  id: Number(itemId) || itemId,
+                                })
+                              }
+                            />
+                          </>
+                        ) : (
+                          <>
+                            <LuTrash
+                              onClick={() =>
+                                handleMinusServer({
+                                  title,
+                                  price,
+                                  oldPrice,
+                                  image,
+                                  rating,
+                                  reviewCount,
+                                  inStock,
+                                  categoryId,
+                                  inStockCount,
+                                  inShop,
+                                  userId,
+                                  productId,
+                                  id: Number(itemId) || itemId,
+                                })
+                              }
+                            />
+                          </>
+                        )}
                         <span>{inStockCount}</span>
                         <GoPlus
                           onClick={() => {
@@ -164,7 +241,6 @@ const ItemView = () => {
                             });
                           }}
                         />
-                        {product?.id}
                       </div>
                       <span
                         onClick={() => navigate("/cart")}
@@ -174,7 +250,26 @@ const ItemView = () => {
                       </span>
                     </>
                   ) : (
-                    <button className="view__right-add">
+                    <button
+                      onClick={() => {
+                        handleShopServer({
+                          title,
+                          price,
+                          oldPrice,
+                          image,
+                          rating,
+                          reviewCount,
+                          inStock,
+                          categoryId,
+                          inStockCount,
+                          inShop,
+                          userId,
+                          productId,
+                          id: Number(itemId) || itemId,
+                        });
+                      }}
+                      className="view__right-add"
+                    >
                       <GoPlus /> cart
                     </button>
                   )}
