@@ -100,7 +100,6 @@
   ],
   "cart": [
     {
-      "id": 1,
       "title": "Sony WH-1000XM5 Naushnik",
       "price": 3490000,
       "oldPrice": 3990000,
@@ -110,9 +109,10 @@
       "inStock": true,
       "categoryId": 1,
       "inStockCount": 5,
-      "inShop": false,
-      "userId": 1,
-      "productId": 3
+      "inShop": true,
+      "productId": 3,
+      "id": 1,
+      "userId": 1
     }
   ],
   "users": [

@@ -101,6 +101,24 @@ const ProductCard = () => {
     setLocalDatContext(updatedCart);
     localStorage.setItem("userCartProducts", JSON.stringify(updatedCart));
   };
+
+  const handleTrashLocal = (data) => {
+    let clean = [];
+    const updatedCart = localeProducts?.map((item) => {
+      if (item.productId !== data.productId) {
+        return item;
+      }
+      return null;
+    });
+
+    clean = updatedCart.filter((item) => item !== null);
+
+    setLocaleProducts(clean);
+    setLocalDatContext(clean);
+    localStorage.setItem("userCartProducts", JSON.stringify(clean));
+  };
+
+
   const handleMinusLocal = (data) => {
     const updatedCart = localeProducts?.map((item) => {
       if (item.productId === data.productId) {
@@ -118,21 +136,7 @@ const ProductCard = () => {
     setLocalDatContext(updatedCart);
     localStorage.setItem("userCartProducts", JSON.stringify(updatedCart));
   };
-  const handleTrashLocal = (data) => {
-    let clean = [];
-    const updatedCart = localeProducts?.map((item) => {
-      if (item.productId !== data.productId) {
-        return item;
-      }
-      return null;
-    });
 
-    clean = updatedCart.filter((item) => item !== null);
-
-    setLocaleProducts(clean);
-    setLocalDatContext(clean);
-    localStorage.setItem("userCartProducts", JSON.stringify(clean));
-  };
 
   const [tokenValid, setTokenValid] = useState(false);
   useEffect(() => {
@@ -455,25 +459,6 @@ const ProductCard = () => {
                 <button className="products__button">
                   {inStock ? (
                     <div className="products__button-box">
-                      <LuTrash
-                        onClick={() => {
-                          handleTrashLocal({
-                            id: Number(id) || id,
-                            title,
-                            price,
-                            oldPrice,
-                            image,
-                            rating,
-                            reviewCount,
-                            inStock,
-                            categoryId,
-                            inStockCount,
-                            inShop,
-                            productId,
-                          });
-                        }}
-                        className="products__button-s-icons"
-                      />
                       <span className="products__b-center">
                         <GoPlus
                           onClick={() => {
@@ -497,8 +482,9 @@ const ProductCard = () => {
                         <span className="products__b-count">
                           {inStockCount > 9 ? "9+" : inStockCount}
                         </span>
-                        <AiOutlineMinus
-                          onClick={() => {
+                        {
+                          inStockCount > 1 ? <><AiOutlineMinus
+                          onClick={() =>
                             handleMinusLocal({
                               id: Number(id) || id,
                               title,
@@ -512,10 +498,29 @@ const ProductCard = () => {
                               inStockCount,
                               inShop,
                               productId,
-                            });
-                          }}
+                            })
+                          }
                           className="products__button-s-icons"
-                        />
+                        /></> : <><LuTrash
+                        onClick={() => {
+                          handleTrashLocal({
+                            id: Number(id) || id,
+                            title,
+                            price,
+                            oldPrice,
+                            image,
+                            rating,
+                            reviewCount,
+                            inStock,
+                            categoryId,
+                            inStockCount,
+                            inShop,
+                            productId,
+                          });
+                        }}
+                        className="products__button-s-icons"
+                      /> </>
+                        }
                       </span>
                     </div>
                   ) : null}
