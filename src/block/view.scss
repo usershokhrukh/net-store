@@ -1,0 +1,132 @@
+.view {
+  width: 100%;
+  // background-color: red;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 20px;
+  flex-wrap: wrap;
+  &__left {
+    flex-grow: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 20px;
+  }
+
+  &__img {
+    border-radius: 30px;
+  }
+
+  &__left-top {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 10px;
+  }
+
+  &__title {
+    font-weight: 500;
+    font-size: 30px;
+    letter-spacing: 0.3px;
+  }
+
+  &__ltop-box {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+  }
+
+  &__right {
+    flex-grow: 2;
+    // background-color: red;
+    padding: 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(128, 128, 128, 0.24);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__right-top {
+    display: flex;
+    align-items: start;
+    width: 100%;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  &__price {
+    font-size: 25px;
+    font-weight: 600;
+    color: rgb(29, 143, 29);
+  }
+
+  &__del-price {
+    font-size: 15px;
+    color: rgba(75, 73, 73, 0.952);
+    align-self: flex-end;
+  }
+
+  &__right-bottom {
+    display: flex;
+    gap: 10px;
+    // background-color: red;
+    width: 100%;
+    justify-content: space-between;
+    gap: 5px;
+  }
+
+  &__right-b-box-count {
+    flex-grow: 1;
+    // background-color: blue;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgba(75, 73, 73, 0.39);
+    gap: 5px;
+    color: black;
+    font-size: 20px;
+  }
+
+  &__right-cart {
+    flex-grow: 1;
+    padding: 10px;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+    color: rgb(129, 52, 16);
+    font-size: 17px;
+    background-color: rgba(243, 178, 37, 0.959);
+    border-radius: 10px;
+    border: 1px solid rgba(243, 178, 37, 0.959);
+    cursor: pointer;
+  }
+
+  &__right-add {
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 10px;
+    background-color: rgb(89, 137, 224);
+    border: 1px solid rgb(89, 137, 224);
+    cursor: pointer;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 20px 0px rgba(89, 136, 224, 0.397);
+    gap: 5px;
+    outline: none;
+  }
+}

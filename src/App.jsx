@@ -7,6 +7,7 @@ import "./block/category.scss";
 import "./block/products.scss";
 import "./block/cart.scss";
 import "./block/login.scss";
+import "./block/view.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Footer from "./components/Footer";
@@ -16,6 +17,7 @@ import Cart from "./components/Cart";
 import {GlobalContext} from "./context/globalContext";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import ItemView from "./components/ItemView";
 const App = () => {
   const [localData, setLocalData] = useState(() => {
     return JSON.parse(localStorage.getItem("userCartProducts")) || [];
@@ -42,6 +44,7 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/product/:id" element={<ItemView/>}/>
         </Routes>
          <div style={{
           flexGrow: 1

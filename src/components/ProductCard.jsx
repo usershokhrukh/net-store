@@ -12,8 +12,10 @@ import {usePutProduct} from "../hooks/PUT/usePutProduct";
 import {useGetCart} from "../hooks/GET/useGetCart";
 import {usePutCart} from "../hooks/PUT/usePutCart";
 import {useDeleteCart} from "../hooks/DELETE/useDeleteCart";
-import { usePostCart } from "../hooks/POST/usePostCart";
-import { useQueryClient } from "@tanstack/react-query";
+import {usePostCart} from "../hooks/POST/usePostCart";
+import {useQueryClient} from "@tanstack/react-query";
+import {GiHandOk} from "react-icons/gi";
+import {useNavigate} from "react-router-dom";
 
 const ProductCard = () => {
   const {data, isFetching, error: getErrorProducts} = useGetProducts();
@@ -41,9 +43,7 @@ const ProductCard = () => {
 
   const {setLocalData: setLocalDatContext} = useContext(GlobalContext);
 
-  
   const handleShop = (e, data) => {
-    
     e.preventDefault();
     const localData =
       JSON.parse(localStorage.getItem("userCartProducts")) || [];
@@ -162,12 +162,12 @@ const ProductCard = () => {
 
   const [globalServerProducts, setGlobalServerProducts] = useState([]);
 
-  useEffect(() => {    
-    const mergeProductsServer = data?.map((product) => {      
+  useEffect(() => {
+    const mergeProductsServer = data?.map((product) => {
       const foundInCart = getCart?.find(
         ({productId}) => String(productId) === String(product.productId),
-      );      
-      if (foundInCart) {        
+      );
+      if (foundInCart) {
         return {
           ...product,
           inStock: true,
@@ -175,19 +175,16 @@ const ProductCard = () => {
           userId: userIdState || null,
           id: foundInCart.id,
         };
-      } else {        
+      } else {
         return {
           ...product,
           userId: userIdState || null,
         };
       }
     });
-    
 
     setGlobalServerProducts(mergeProductsServer);
   }, [userIdState, getCart]);
-  
-  
 
   const {
     mutate: patchCart,
@@ -200,7 +197,6 @@ const ProductCard = () => {
     isFetching: fetchingDeleteCart,
     error: errorDeleteCart,
   } = useDeleteCart();
-
 
   const {
     mutate: postCart,
@@ -234,21 +230,26 @@ const ProductCard = () => {
     deleteCart(data?.id);
   };
 
-  const handleShopServer = (e, data) => {    
-    
+  const handleShopServer = (e, data) => {
     postCart({
       ...data,
       inStock: true,
       inStockCount: 1,
       inShop: true,
-      id: null
-    })
+      id: null,
+    });
 
     let className = e.target.className.baseVal;
     className = className.concat(" shopped");
     e.target.className.baseVal = className;
   };
 
+  const navigate = useNavigate();
+
+  const handleItem = (productId) => {
+    console.log(productId);
+    navigate(`/product/${productId}`);
+  };
 
   return (
     <div className="products container">
@@ -267,9 +268,9 @@ const ProductCard = () => {
               inStockCount,
               inShop,
               userId,
-              productId
+              productId,
             }) => (
-              <div key={`${id} ${title}`} className="products__item">
+              <div key={`${title} ${id}`} className="products__item">
                 <div className="products__top">
                   <span>
                     <IoHeartOutline className="products__top-icons" />
@@ -298,6 +299,12 @@ const ProductCard = () => {
                     </span>
                     {rating}
                   </p>
+                  <button
+                    onClick={() => handleItem(productId)}
+                    className="products__view-button"
+                  >
+                    View
+                  </button>
                 </div>
                 <button className="products__button">
                   {inStock ? (
@@ -317,7 +324,7 @@ const ProductCard = () => {
                             inStockCount,
                             inShop,
                             userId,
-                            productId
+                            productId,
                           })
                         }
                         className="products__button-s-icons"
@@ -338,7 +345,7 @@ const ProductCard = () => {
                               inStockCount,
                               inShop,
                               userId,
-                              productId
+                              productId,
                             })
                           }
                           className="products__button-s-icons"
@@ -361,7 +368,7 @@ const ProductCard = () => {
                               inStockCount,
                               inShop,
                               userId,
-                              productId
+                              productId,
                             })
                           }
                           className="products__button-s-icons"
@@ -385,7 +392,7 @@ const ProductCard = () => {
                         inStockCount,
                         inShop,
                         userId,
-                        productId
+                        productId,
                       })
                     }
                     className={`products__button-icons ${inStock ? "shopped" : ""}`}
@@ -407,7 +414,7 @@ const ProductCard = () => {
               categoryId,
               inStockCount,
               inShop,
-              productId
+              productId,
             }) => (
               <div key={`${id} ${title}`} className="products__item">
                 <div className="products__top">
@@ -438,6 +445,12 @@ const ProductCard = () => {
                     </span>
                     {rating}
                   </p>
+                  <button
+                    onClick={() => handleItem(productId)}
+                    className="products__view-button"
+                  >
+                    View
+                  </button>
                 </div>
                 <button className="products__button">
                   {inStock ? (
@@ -456,7 +469,7 @@ const ProductCard = () => {
                             categoryId,
                             inStockCount,
                             inShop,
-                            productId
+                            productId,
                           });
                         }}
                         className="products__button-s-icons"
@@ -476,7 +489,7 @@ const ProductCard = () => {
                               categoryId,
                               inStockCount,
                               inShop,
-                              productId
+                              productId,
                             });
                           }}
                           className="products__button-s-icons"
@@ -498,7 +511,7 @@ const ProductCard = () => {
                               categoryId,
                               inStockCount,
                               inShop,
-                              productId
+                              productId,
                             });
                           }}
                           className="products__button-s-icons"
@@ -521,7 +534,7 @@ const ProductCard = () => {
                         categoryId,
                         inStockCount,
                         inShop,
-                        productId
+                        productId,
                       });
                     }}
                     className={`products__button-icons ${inStock ? "shopped" : ""}`}

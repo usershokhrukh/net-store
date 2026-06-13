@@ -5,7 +5,7 @@ import {TbTrashFilled} from "react-icons/tb";
 import {FiMinus} from "react-icons/fi";
 import {GoPlus} from "react-icons/go";
 import {checkToken, checkUserId} from "../api/apiClient";
-import {useAsyncError} from "react-router-dom";
+import {useAsyncError, useNavigate} from "react-router-dom";
 import {GlobalContext} from "../context/globalContext";
 import {usePutCart} from "../hooks/PUT/usePutCart";
 import {FaUserGear} from "react-icons/fa6";
@@ -21,6 +21,8 @@ const Cart = () => {
     };
     verify();
   }, []);
+
+  const navigate = useNavigate();
 
   const {
     data: cartData,
@@ -246,7 +248,7 @@ const Cart = () => {
                             />
                             <div className="cart__item-b-right">
                               <div className="cart__item-top">
-                                <p className="cart__item-title">{title}</p>
+                                <p onClick={() => navigate(`/product/${productId}`)} className="cart__item-title">{title}</p>
                                 <div
                                   onClick={() =>
                                     handleTrashServer({
@@ -405,7 +407,7 @@ const Cart = () => {
                             />
                             <div className="cart__item-b-right">
                               <div className="cart__item-top">
-                                <p className="cart__item-title">{title}</p>
+                                <p onClick={() => navigate(`/product/${productId}`)} className="cart__item-title">{title}</p>
                                 <div
                                   onClick={() =>
                                     handleTrashLocal({
