@@ -71,8 +71,15 @@ export const mergeGuestCartToServer = async (userId) => {
         Authorization: `Bearer ${token}`,
       },
     });
+    const wishReq = await axios.get(`${API}/wish?userId=${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-    const serverCart = req.data;
+    const serverWish = wishReq?.data;
+
+    const serverCart = req?.data;
 
     for (const item of guestCart) {
       const {productId, ...rest} = item;
@@ -81,7 +88,11 @@ export const mergeGuestCartToServer = async (userId) => {
         (serverItem) => String(serverItem.productId) === String(productId),
       );
 
-      if (existItem) {
+      const existItemWish = serverWish.find(
+        (serverItem) => String(serverItem.productId) === String(productId),
+      );
+
+      if (existItem && item.inStock) {
         await axios.patch(
           `${API}/cart/${existItem.id}`,
           {
@@ -98,6 +109,11 @@ export const mergeGuestCartToServer = async (userId) => {
             inStockCount: item.inStockCount,
             inShop: item.inShop,
             productId: item.productId,
+            wish: item.wish
+              ? item.wish
+              : existItemWish.wish
+                ? existItemWish.wish
+                : false,
           },
           {
             headers: {
@@ -105,7 +121,7 @@ export const mergeGuestCartToServer = async (userId) => {
             },
           },
         );
-      } else {
+      } else if (!existItem && item.inStock) {
         await axios.post(
           `${API}/cart`,
           {
@@ -122,6 +138,11 @@ export const mergeGuestCartToServer = async (userId) => {
             inStockCount: item.inStockCount,
             inShop: item.inShop,
             productId: item.productId,
+            wish: item.wish
+              ? item.wish
+              : existItemWish.wish
+                ? existItemWish.wish
+                : false,
           },
           {
             headers: {
@@ -129,6 +150,50 @@ export const mergeGuestCartToServer = async (userId) => {
             },
           },
         );
+      }
+
+      if (item.wish && existItemWish) {
+        await axios.patch(`${API}/wish/${existItemWish.id}`, {
+          userId: Number(userId) || userId,
+          id: item.id,
+          title: item.title,
+          price: item.price,
+          oldPrice: item.oldPrice,
+          image: item.image,
+          rating: item.rating,
+          reviewCount: item.reviewCount,
+          inStock: item.inStock,
+          categoryId: item.categoryId,
+          inStockCount: item.inStockCount,
+          inShop: item.inShop,
+          productId: item.productId,
+          wish: item.wish,
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        });
+      } else if (item.wish && !existItemWish) {
+        await axios.post(`${API}/wish`, {
+          userId: Number(userId) || userId,
+          id: item.id,
+          title: item.title,
+          price: item.price,
+          oldPrice: item.oldPrice,
+          image: item.image,
+          rating: item.rating,
+          reviewCount: item.reviewCount,
+          inStock: item.inStock,
+          categoryId: item.categoryId,
+          inStockCount: item.inStockCount,
+          inShop: item.inShop,
+          productId: item.productId,
+          wish: item.wish,
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        });
       }
     }
 

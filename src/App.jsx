@@ -18,26 +18,29 @@ import {GlobalContext} from "./context/globalContext";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import ItemView from "./components/ItemView";
+import Wish from "./components/Wish";
 const App = () => {
   const [localData, setLocalData] = useState(() => {
     return JSON.parse(localStorage.getItem("userCartProducts")) || [];
   });
 
-  const cartProducts = localData?.length || 0;
+  const cartProducts = (localData?.filter(item => item.inStock == true))?.length || 0;
   const blockMoney = localData?.reduce(
     (total, item) =>
       total + item?.price * item?.inStockCount * Number(item?.inShop),
     0,
-  );
+  );  
   useEffect(() => {
     localStorage.setItem("userUI", JSON.stringify({cartProducts, blockMoney}));
   }, [cartProducts, blockMoney]);
 
+  
+
+
   return (
     <div className="wrapper app">
       <GlobalContext.Provider value={{cartProducts, blockMoney, setLocalData}}>
-        <Header />
-       
+        <Header  />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="*" element={<Home />} />
@@ -45,6 +48,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/product/:id" element={<ItemView/>}/>
+          <Route path="/wish" element={<Wish/>}/>
         </Routes>
          <div style={{
           flexGrow: 1

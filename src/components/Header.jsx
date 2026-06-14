@@ -10,7 +10,7 @@ import {useGetCart} from "../hooks/GET/useGetCart";
 const Header = () => {
   const navigate = useNavigate();
   const {cartProducts} = useContext(GlobalContext);
-  const [userIdState, setUserIdState] = useState(false);
+  const [userIdState, setUserIdState] = useState(false);  
 
   useEffect(() => {
     const verify = async () => {
@@ -20,7 +20,11 @@ const Header = () => {
     verify();
   }, []);
 
-  const {data: cartData, isFetching, error: getErrorCarts} = userIdState ? useGetCart(userIdState) : useGetCart();
+  const {
+    data: cartData,
+    isFetching,
+    error: getErrorCarts,
+  } = userIdState ? useGetCart(userIdState) : useGetCart();
   const [tokenValid, setTokenValid] = useState(false);
 
   useEffect(() => {
@@ -32,11 +36,31 @@ const Header = () => {
     verify();
   }, []);
 
+  const [count, setCount] = useState(cartProducts);
+
+  useEffect(() => {
+    setCount(cartProducts)
+  }, [cartProducts])
+
+  if (tokenValid) {
+    cartData?.forEach((element) => {
+      if (element.inStock) {
+        setCount((prev) => prev + 1);
+      }
+    });
+  }
+  
+  
+
+  
   return (
     <header className=" container header">
       <nav className="navbar">
         <ul className="navbar__ul-list navbar__ul-list-left">
-          <li className="navbar-list">
+          <li
+            onClick={() => navigate("/")}
+            className="navbar-list navbar__link"
+          >
             <MdOutlineStorefront className="icons main-icon" />
           </li>
           <input
@@ -79,24 +103,17 @@ const Header = () => {
               Connect
             </a>
           </li>
-          <li className="navbar-list">
+          <li
+            className="navbar-list navbar__link"
+            onClick={() => navigate("/wish")}
+          >
             <IoHeartOutline className="navbar__wish-icon" />
           </li>
           <li className="navbar-list">
-            {cartProducts && !tokenValid ? (
-              <span className="navbar__count">
-                {cartProducts <= 9 ? cartProducts : "9+"}
-              </span>
-            ) : tokenValid ? (
-              <>
-                {cartData?.length > 0 ? (
-                  <span className="navbar__count">
-                    {}
-                    {cartData?.length <= 9 ? cartData?.length : "9+"}
-                  </span>
-                ) : null}
-              </>
+            {count && (cartData?.length || cartProducts) ? (
+              <span className="navbar__count">{count <= 9 ? count : "9+"}</span>
             ) : null}
+
             <IoCart
               onClick={() => navigate("/cart")}
               className="icons cart-icon"

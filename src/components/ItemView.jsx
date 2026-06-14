@@ -14,6 +14,7 @@ import {useDeleteCart} from "../hooks/DELETE/useDeleteCart";
 import {usePostCart} from "../hooks/POST/usePostCart";
 import {useGetProducts} from "../hooks/GET/useGetProducts";
 import {GlobalContext} from "../context/globalContext";
+import {useGetWishOneId} from "../hooks/GET/useGetWishOneId";
 
 const ItemView = () => {
   const {id} = useParams();
@@ -47,7 +48,7 @@ const ItemView = () => {
 
   const {setLocalData: setLocalDatContext} = useContext(GlobalContext);
 
-  const handleShop = ( data) => {
+  const handleShop = (data) => {
     const localData =
       JSON.parse(localStorage.getItem("userCartProducts")) || [];
 
@@ -104,10 +105,15 @@ const ItemView = () => {
   const handleTrashLocal = (data) => {
     let clean = [];
     const updatedCart = localeProducts?.map((item) => {
-      if (item.productId !== data.productId) {
-        return item;
+      if (item.productId === data.productId) {
+        return {
+          ...item,
+          inStock: false,
+          inShop: false,
+          inStockCount: 1,
+        };
       }
-      return null;
+      return item;
     });
 
     clean = updatedCart.filter((item) => item !== null);
@@ -127,7 +133,6 @@ const ItemView = () => {
           };
         }
       }
-
       return item;
     });
     setLocaleProducts(updatedCart);
@@ -155,30 +160,63 @@ const ItemView = () => {
 
   const [error, setError] = useState();
 
-  const {data: resProduct} = useGetProductOneId(id);
-  const {data: resCart} = useGetCartOneId([id, userIdState]);
+  const {data: resProduct, error: getErrorProduct} = useGetProductOneId(id);
+  const {data: resCart, error: getErrorCart} = useGetCartOneId([
+    id,
+    userIdState,
+  ]);
+
+  const {data: resWish} = useGetWishOneId(id);
   const [product, setProduct] = useState();
 
   useEffect(() => {
-    if (resCart?.length || resProduct?.length) {
-      if (resCart?.length) {
-        setProduct([
-          {
-            ...resCart[0],
-          },
-        ]);
-      } else {
-        setProduct([
-          {
-            ...resProduct[0],
-          },
-        ]);
+    if (resWish?.length) {
+      if (resCart?.length || resProduct?.length) {
+        if (resCart?.length) {
+          setProduct([
+            {
+              ...resCart[0],
+              wish: resWish[0]?.wish
+            },
+          ]);
+        } else {
+          setProduct([
+            {
+              ...resProduct[0],
+              wish: resWish[0]?.wish
+            },
+          ]);
+        }
+        setError("");
       }
-      setError("");
     } else {
-      setError("Product not found!");
+      if (resCart?.length || resProduct?.length) {
+        if (resCart?.length) {
+          setProduct([
+            {
+              ...resCart[0],
+            },
+          ]);
+        } else {
+          setProduct([
+            {
+              ...resProduct[0],
+            },
+          ]);
+        }
+        setError("");
+      }
     }
   }, [resProduct, resCart]);
+
+  useEffect(() => {
+    if (getErrorCart?.message) {
+      setError(getErrorCart?.message);
+    }
+    if (getErrorProduct?.message) {
+      setError(getErrorProduct?.message);
+    }
+  }, [getErrorProduct, getErrorCart]);
 
   const {
     mutate: patchCart,
@@ -256,8 +294,9 @@ const ItemView = () => {
               inShop,
               userId,
               productId,
+              wish,
             }) => (
-              <div className="view">
+              <div key={`${id} ${title}`} className="view">
                 <div className="view__left">
                   <div className="view__left-top">
                     <h2 className="view__title">{title}</h2>
@@ -310,6 +349,7 @@ const ItemView = () => {
                                     userId,
                                     productId,
                                     id: Number(itemId) || itemId,
+                                    wish,
                                   })
                                 }
                               />
@@ -332,6 +372,7 @@ const ItemView = () => {
                                     userId,
                                     productId,
                                     id: Number(itemId) || itemId,
+                                    wish,
                                   })
                                 }
                               />
@@ -354,6 +395,7 @@ const ItemView = () => {
                                 userId,
                                 productId,
                                 id: Number(itemId) || itemId,
+                                wish,
                               });
                             }}
                           />
@@ -382,6 +424,7 @@ const ItemView = () => {
                             userId,
                             productId,
                             id: Number(itemId) || itemId,
+                            wish,
                           });
                         }}
                         className="view__right-add"
@@ -408,8 +451,9 @@ const ItemView = () => {
               inStockCount,
               inShop,
               productId,
+              wish,
             }) => (
-              <div className="view">
+              <div key={`${id} ${title}`} className="view">
                 <div className="view__left">
                   <div className="view__left-top">
                     <h2 className="view__title">{title}</h2>
@@ -461,9 +505,9 @@ const ItemView = () => {
                                     inStockCount,
                                     inShop,
                                     productId,
+                                    wish,
                                   })
                                 }
-                                className="products__button-s-icons"
                               />
                             </>
                           ) : (
@@ -483,9 +527,9 @@ const ItemView = () => {
                                     inStockCount,
                                     inShop,
                                     productId,
+                                    wish,
                                   });
                                 }}
-                                className="products__button-s-icons"
                               />{" "}
                             </>
                           )}
@@ -505,6 +549,7 @@ const ItemView = () => {
                                 inStockCount,
                                 inShop,
                                 productId,
+                                wish,
                               });
                             }}
                           />
@@ -532,6 +577,7 @@ const ItemView = () => {
                             inStockCount,
                             inShop,
                             productId,
+                            wish,
                           });
                         }}
                         className="view__right-add"

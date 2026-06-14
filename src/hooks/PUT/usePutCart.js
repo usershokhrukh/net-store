@@ -5,7 +5,9 @@ export const usePutCart = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (payload) => {
-      const res = await axios.patch(`http://localhost:4000/cart/${payload[0]}`, payload[1])
+      console.log(payload[1]);
+      
+      const res = await axios.put(`http://localhost:4000/cart/${payload[0]}`, payload[1])
       return res.data
     },
     onSuccess: () => {
