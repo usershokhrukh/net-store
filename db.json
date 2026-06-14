@@ -281,7 +281,24 @@
       "wish": false
     }
   ],
-  "cart": [],
+  "cart": [
+    {
+      "userId": 1,
+      "id": 1,
+      "title": "Gaming Klaviatura Razer BlackWidow",
+      "price": 2100000,
+      "oldPrice": 2500000,
+      "image": "https://images.unsplash.com/photo-1617096819670-6de2869bbd2e?q=80&w=627&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "rating": 4.5,
+      "reviewCount": 42,
+      "inStock": true,
+      "categoryId": 1,
+      "inStockCount": 4,
+      "inShop": true,
+      "productId": 2,
+      "wish": true
+    }
+  ],
   "wish": [],
   "users": [
     {
@@ -289,6 +306,12 @@
       "password": "$2a$10$aPImBx4nWTSo0P.eYm3Vtuq1aOCL6rBIEq7IjyVLKjK6LxY../bum",
       "name": "shokhrukh",
       "id": 1
+    },
+    {
+      "email": "asxurovsit@gmail.com",
+      "password": "$2a$10$OpnFFPy6IX3F9ffJCHqepuEbZ.yVwyrcGwVS3GurxyCe2L3O0pUGS",
+      "name": "shokhrukh",
+      "id": 2
     }
   ]
 }

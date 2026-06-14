@@ -110,9 +110,9 @@ export const mergeGuestCartToServer = async (userId) => {
             inShop: item.inShop,
             productId: item.productId,
             wish: item.wish
-              ? item.wish
-              : existItemWish.wish
-                ? existItemWish.wish
+              ? item?.wish
+              : existItemWish?.wish
+                ? existItemWish?.wish
                 : false,
           },
           {
@@ -126,7 +126,7 @@ export const mergeGuestCartToServer = async (userId) => {
           `${API}/cart`,
           {
             userId: Number(userId) || userId,
-            id: item.id,
+            id: null,
             title: item.title,
             price: item.price,
             oldPrice: item.oldPrice,
@@ -138,10 +138,10 @@ export const mergeGuestCartToServer = async (userId) => {
             inStockCount: item.inStockCount,
             inShop: item.inShop,
             productId: item.productId,
-            wish: item.wish
-              ? item.wish
-              : existItemWish.wish
-                ? existItemWish.wish
+            wish: item?.wish
+              ? item?.wish
+              : existItemWish?.wish
+                ? existItemWish?.wish
                 : false,
           },
           {
@@ -152,7 +152,7 @@ export const mergeGuestCartToServer = async (userId) => {
         );
       }
 
-      if (item.wish && existItemWish) {
+      if (item?.wish && existItemWish) {
         await axios.patch(`${API}/wish/${existItemWish.id}`, {
           userId: Number(userId) || userId,
           id: item.id,
@@ -173,10 +173,10 @@ export const mergeGuestCartToServer = async (userId) => {
             Authorization: `Bearer ${token}`,
           }
         });
-      } else if (item.wish && !existItemWish) {
+      } else if (item?.wish && !existItemWish) {
         await axios.post(`${API}/wish`, {
           userId: Number(userId) || userId,
-          id: item.id,
+          id: null,
           title: item.title,
           price: item.price,
           oldPrice: item.oldPrice,
@@ -188,7 +188,7 @@ export const mergeGuestCartToServer = async (userId) => {
           inStockCount: item.inStockCount,
           inShop: item.inShop,
           productId: item.productId,
-          wish: item.wish,
+          wish: item?.wish,
         }, {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -2,7 +2,7 @@ import {MdOutlineStorefront} from "react-icons/md";
 import {IoCart, IoHeartOutline} from "react-icons/io5";
 import {NavLink, useNavigate} from "react-router-dom";
 import {useGetUser} from "../hooks/GET/useGetUser";
-import {memo, useContext, useEffect, useState} from "react";
+import {memo, use, useContext, useEffect, useState} from "react";
 import Login from "./Login";
 import {GlobalContext} from "../context/globalContext";
 import {checkToken, checkUserId} from "../api/apiClient";
@@ -10,7 +10,7 @@ import {useGetCart} from "../hooks/GET/useGetCart";
 const Header = () => {
   const navigate = useNavigate();
   const {cartProducts} = useContext(GlobalContext);
-  const [userIdState, setUserIdState] = useState(false);  
+  const [userIdState, setUserIdState] = useState(false);
 
   useEffect(() => {
     const verify = async () => {
@@ -36,23 +36,25 @@ const Header = () => {
     verify();
   }, []);
 
-  const [count, setCount] = useState(cartProducts);
+  const [count, setCount] = useState();
+
+
+  const filteredCart = cartData?.filter(item => item?.inStock === true)
+  useEffect(() => {
+    if(tokenValid) {
+      setCount(filteredCart?.length)
+    }
+  }, [filteredCart])
 
   useEffect(() => {
-    setCount(cartProducts)
-  }, [cartProducts])
-
-  if (tokenValid) {
-    cartData?.forEach((element) => {
-      if (element.inStock) {
-        setCount((prev) => prev + 1);
-      }
-    });
-  }
+    if(!tokenValid) {
+      setCount(cartProducts)
+    }
+  },[cartProducts])
+  
   
   
 
-  
   return (
     <header className=" container header">
       <nav className="navbar">

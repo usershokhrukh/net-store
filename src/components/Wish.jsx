@@ -204,7 +204,7 @@ const ProductCard = () => {
   } = userIdState ? useGetCart(userIdState) : useGetCart();
 
   const [globalServerProducts, setGlobalServerProducts] = useState([]);
-  const {data: getWishes} = useGetWishes();
+  const {data: getWishes} = userIdState ?  useGetWishes(userIdState) : useGetWishes();
 
   useEffect(() => {
     const mergeProductsServer = data?.map((product) => {
