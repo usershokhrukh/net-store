@@ -373,6 +373,7 @@ const ProductCard = () => {
               >
                 <div className="products__top">
                   <span
+                  className="products__heart-box"
                     onClick={() =>
                       handleHeartServer({
                         id: Number(id) || id,
@@ -395,13 +396,14 @@ const ProductCard = () => {
                   >
                     {wish ? (
                       <IoHeart
+
                         id="stock"
-                        className="products__top-icons products__heart-icon"
+                        className="products__top-icons products__heart-icon products__heart"
                       />
                     ) : (
                       <IoHeartOutline
                         id="stock"
-                        className="products__top-icons"
+                        className="products__top-icons products__heart"
                       />
                     )}
                   </span>
@@ -570,6 +572,7 @@ const ProductCard = () => {
               >
                 <div className="products__top">
                   <span
+                  className="products__heart-box"
                     onClick={() =>
                       handleHeartLocal({
                         id: Number(id) || id,
@@ -592,12 +595,12 @@ const ProductCard = () => {
                     {wish ? (
                       <IoHeart
                         id="stock"
-                        className="products__top-icons products__heart-icon"
+                        className="products__top-icons products__heart-icon products__heart"
                       />
                     ) : (
                       <IoHeartOutline
                         id="stock"
-                        className="products__top-icons"
+                        className="products__top-icons products__heart"
                       />
                     )}
                   </span>

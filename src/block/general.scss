@@ -37,6 +37,10 @@ li {
   color: rgba(243, 178, 37, 0.959);
 }
 
+*{
+  user-select: none;
+}
+
 
 .cart-icon{
   color: rgb(129, 52, 16);
