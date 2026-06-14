@@ -255,7 +255,8 @@ const ProductCard = () => {
 
   const [wishProductId, setWishProductId] = useState();
 
-  const {data: oneWish} = useGetWishOneId(wishProductId);
+  // const {data: oneWish} = userIdState || wishProductId ? useGetWishOneId([wishProductId, userIdState]) : useGetWishOneId([null, null]);
+  const {data: oneWish} = useGetWishOneId([wishProductId, userIdState])
 
   const {mutate: postWish} = usePostWish();
   const {mutate: putWish} = usePutWish();
@@ -311,6 +312,8 @@ const ProductCard = () => {
   const handleHeartServer = (data) => {
     setWishState("");
     setWishProductId(data.productId);
+    console.log(data);
+    
     if (data.inStock) {
       patchCart([
         data?.id,
@@ -323,6 +326,7 @@ const ProductCard = () => {
       if (!data.wish) {
         postWish({
           ...data,
+          id: null,
           wish: true,
         });
       } else {
@@ -330,15 +334,25 @@ const ProductCard = () => {
       }
     } else {
       if (!data.wish) {
+        console.log("1");
+        
         postWish({
           ...data,
           wish: true,
+          id: null
         });
       } else {
         setWishState("delete");
       }
     }
   };
+
+  console.log(oneWish);
+  console.log(wishProductId);
+  console.log(userIdState);
+  
+  
+  
 
   useEffect(() => {
     if (wishState == "delete" && oneWish?.length) {

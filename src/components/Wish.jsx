@@ -113,7 +113,6 @@ const ProductCard = () => {
       });
     }
 
-
     setLocaleProducts(localData);
     setLocalDatContext(localData);
     localStorage.setItem("userCartProducts", JSON.stringify(localData));
@@ -204,7 +203,9 @@ const ProductCard = () => {
   } = userIdState ? useGetCart(userIdState) : useGetCart();
 
   const [globalServerProducts, setGlobalServerProducts] = useState([]);
-  const {data: getWishes} = userIdState ?  useGetWishes(userIdState) : useGetWishes();
+  const {data: getWishes} = userIdState
+    ? useGetWishes(userIdState)
+    : useGetWishes();
 
   useEffect(() => {
     const mergeProductsServer = data?.map((product) => {
@@ -256,7 +257,7 @@ const ProductCard = () => {
 
   const [wishProductId, setWishProductId] = useState();
 
-  const {data: oneWish} = useGetWishOneId(wishProductId);
+  const {data: oneWish} = useGetWishOneId([wishProductId, userIdState]);
 
   const {mutate: postWish} = usePostWish();
   const {mutate: putWish} = usePutWish();
@@ -325,6 +326,7 @@ const ProductCard = () => {
         postWish({
           ...data,
           wish: true,
+          id: null,
         });
       } else {
         setWishState("delete");
@@ -334,6 +336,7 @@ const ProductCard = () => {
         postWish({
           ...data,
           wish: true,
+          id: null,
         });
       } else {
         setWishState("delete");
@@ -387,7 +390,7 @@ const ProductCard = () => {
             }) => {
               if (wish) {
                 if (!returned) {
-                  returned = true
+                  returned = true;
                 }
                 return (
                   <div
@@ -397,7 +400,7 @@ const ProductCard = () => {
                   >
                     <div className="products__top">
                       <span
-                      className="products__heart-box"
+                        className="products__heart-box"
                         onClick={() =>
                           handleHeartServer({
                             id: Number(id) || id,
@@ -592,7 +595,7 @@ const ProductCard = () => {
             }) => {
               if (wish) {
                 if (!returned) {
-                  returned = true
+                  returned = true;
                 }
                 return (
                   <div
@@ -602,7 +605,7 @@ const ProductCard = () => {
                   >
                     <div className="products__top">
                       <span
-                      className="products__heart-box"
+                        className="products__heart-box"
                         onClick={() =>
                           handleHeartLocal({
                             id: Number(id) || id,
