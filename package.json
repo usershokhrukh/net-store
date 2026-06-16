@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev":"concurrently 'vite' 'npx json-server --watch db.json --port 4000'",
+    "dev": "concurrently 'vite' 'npx json-server --watch db.json --port 4000'",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -20,9 +20,11 @@
     "react-icons": "^5.6.0",
     "react-router-dom": "^7.17.0",
     "react-slick": "^0.31.0",
+    "react-toastify": "^11.1.0",
     "sass": "^1.100.0",
     "slick-carousel": "^1.8.1",
-    "swiper": "^12.2.0"
+    "swiper": "^12.2.0",
+    "toastify": "^2.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

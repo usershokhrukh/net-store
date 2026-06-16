@@ -38,14 +38,13 @@ const API = "http://localhost:4000";
 
 export const loginUser = async (email, password) => {
   const response = await axios.post(`${API}/login`, {email, password});
+    if (response?.data?.accessToken) {
+      localStorage.setItem("accessToken", response.data.accessToken);
+      localStorage.setItem("refreshToken", btoa(`${email}:${password}`));
+      localStorage.setItem("userId", response.data.user.id);
+    }
 
-  if (response?.data?.accessToken) {
-    localStorage.setItem("accessToken", response.data.accessToken);
-    localStorage.setItem("refreshToken", btoa(`${email}:${password}`));
-    localStorage.setItem("userId", response.data.user.id);
-  }
-
-  return response.data;
+    return response.data;
 };
 
 export const registerUser = async (email, password, name) => {
@@ -153,47 +152,55 @@ export const mergeGuestCartToServer = async (userId) => {
       }
 
       if (item?.wish && existItemWish) {
-        await axios.patch(`${API}/wish/${existItemWish.id}`, {
-          userId: Number(userId) || userId,
-          id: item.id,
-          title: item.title,
-          price: item.price,
-          oldPrice: item.oldPrice,
-          image: item.image,
-          rating: item.rating,
-          reviewCount: item.reviewCount,
-          inStock: item.inStock,
-          categoryId: item.categoryId,
-          inStockCount: item.inStockCount,
-          inShop: item.inShop,
-          productId: item.productId,
-          wish: item.wish,
-        }, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          }
-        });
+        await axios.patch(
+          `${API}/wish/${existItemWish.id}`,
+          {
+            userId: Number(userId) || userId,
+            id: item.id,
+            title: item.title,
+            price: item.price,
+            oldPrice: item.oldPrice,
+            image: item.image,
+            rating: item.rating,
+            reviewCount: item.reviewCount,
+            inStock: item.inStock,
+            categoryId: item.categoryId,
+            inStockCount: item.inStockCount,
+            inShop: item.inShop,
+            productId: item.productId,
+            wish: item.wish,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
       } else if (item?.wish && !existItemWish) {
-        await axios.post(`${API}/wish`, {
-          userId: Number(userId) || userId,
-          id: null,
-          title: item.title,
-          price: item.price,
-          oldPrice: item.oldPrice,
-          image: item.image,
-          rating: item.rating,
-          reviewCount: item.reviewCount,
-          inStock: item.inStock,
-          categoryId: item.categoryId,
-          inStockCount: item.inStockCount,
-          inShop: item.inShop,
-          productId: item.productId,
-          wish: item?.wish,
-        }, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          }
-        });
+        await axios.post(
+          `${API}/wish`,
+          {
+            userId: Number(userId) || userId,
+            id: null,
+            title: item.title,
+            price: item.price,
+            oldPrice: item.oldPrice,
+            image: item.image,
+            rating: item.rating,
+            reviewCount: item.reviewCount,
+            inStock: item.inStock,
+            categoryId: item.categoryId,
+            inStockCount: item.inStockCount,
+            inShop: item.inShop,
+            productId: item.productId,
+            wish: item?.wish,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
       }
     }
 

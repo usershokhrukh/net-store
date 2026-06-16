@@ -311,9 +311,7 @@ const ProductCard = () => {
 
   const handleHeartServer = (data) => {
     setWishState("");
-    setWishProductId(data.productId);
-    console.log(data);
-    
+    setWishProductId(data.productId);    
     if (data.inStock) {
       patchCart([
         data?.id,
@@ -333,9 +331,7 @@ const ProductCard = () => {
         setWishState("delete");
       }
     } else {
-      if (!data.wish) {
-        console.log("1");
-        
+      if (!data.wish) {        
         postWish({
           ...data,
           wish: true,
@@ -347,13 +343,7 @@ const ProductCard = () => {
     }
   };
 
-  console.log(oneWish);
-  console.log(wishProductId);
-  console.log(userIdState);
   
-  
-  
-
   useEffect(() => {
     if (wishState == "delete" && oneWish?.length) {
       deleteWish(oneWish[0]?.id);

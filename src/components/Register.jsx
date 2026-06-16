@@ -7,7 +7,7 @@ import {
   mergeGuestCartToServer,
   registerUser,
 } from "../api/apiClient";
-import { IoCloseOutline } from "react-icons/io5";
+import {IoCloseOutline} from "react-icons/io5";
 
 const Register = () => {
   const [input, setInput] = useState({
@@ -16,11 +16,19 @@ const Register = () => {
     name: "",
   });
 
+  const [error, setError] = useState();
+
   const [eye, setEye] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[A-Za-z\d]{8,}$/;
+      if (!input.email || !input.password) return setError("Fill all inputs!");
+      if (!passwordRegex.test(`${input.password}`))
+        return setError(
+          "Password must consist at least 1-9 a-z A-Z, and length min 8!",
+        );
       const data = await registerUser(input.email, input.password, input.name);
       await mergeGuestCartToServer(data.user.id);
 
@@ -32,6 +40,7 @@ const Register = () => {
   };
 
   const handleChange = (e) => {
+    setError("")
     setInput({
       ...input,
       [e.target.name]: e.target.value,
@@ -81,6 +90,7 @@ const Register = () => {
           <NavLink to={"/login"} className={"login__link"}>
             I already have an account
           </NavLink>
+          {error ? <p className="login__error-message">{error}</p> : null}
         </div>
         <NavLink to={"/"}>
           <IoCloseOutline className="login__close" />

@@ -4,6 +4,7 @@ import {IoMdEye, IoMdEyeOff} from "react-icons/io";
 import {NavLink, useAsyncError} from "react-router-dom";
 import {loginUser, mergeGuestCartToServer} from "../api/apiClient";
 import { IoCloseOutline } from "react-icons/io5";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [input, setInput] = useState({
@@ -12,21 +13,25 @@ const Login = () => {
   });
 
   const [eye, setEye] = useState(false);
+  const [error, setError] = useState();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("")
     try {
+      const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[A-Za-z\d]{8,}$/;
+      if(!input.email || !input.password) return setError("Fill all inputs!")
+      if(!passwordRegex.test(`${input.password}`)) return setError("Password must consist at least 1-9 a-z A-Z, and length min 8!")
       const data = await loginUser(input.email, input.password);
       await mergeGuestCartToServer(data.user.id);
-
       window.location.href = "/"
     } catch (err) {
-      console.log(err);
-      throw new Error(err);
+      toast.error("Invalid password or email!")      
     }
   };
 
   const handleChange = (e) => {
+    setError("")
     setInput({
       ...input,
       [e.target.name]: e.target.value,
@@ -67,6 +72,10 @@ const Login = () => {
             </label>
           </div>
           <NavLink to={"/register"} className={"login__link"}>create account</NavLink>
+          {
+            error ? <p className="login__error-message">{error}</p> : null
+          }
+          
         </div>
         <NavLink to={"/"}><IoCloseOutline className="login__close" /></NavLink> 
         <button className="login__button" type="submit">
