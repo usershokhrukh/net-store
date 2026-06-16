@@ -19,14 +19,11 @@ const Login = () => {
     e.preventDefault();
     setError("")
     try {
-      const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[A-Za-z\d]{8,}$/;
-      if(!input.email || !input.password) return setError("Fill all inputs!")
-      if(!passwordRegex.test(`${input.password}`)) return setError("Password must consist at least 1-9 a-z A-Z, and length min 8!")
       const data = await loginUser(input.email, input.password);
       await mergeGuestCartToServer(data.user.id);
       window.location.href = "/"
     } catch (err) {
-      toast.error("Invalid password or email!")      
+      setError("Invalid password or email!")   
     }
   };
 

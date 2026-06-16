@@ -1,5 +1,5 @@
 import React, {use, useContext, useEffect, useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import {useAsyncError, useNavigate, useParams} from "react-router-dom";
 import {checkToken, checkUserId} from "../api/apiClient";
 import axios from "axios";
 import {MdStarRate} from "react-icons/md";
@@ -15,10 +15,12 @@ import {usePostCart} from "../hooks/POST/usePostCart";
 import {useGetProducts} from "../hooks/GET/useGetProducts";
 import {GlobalContext} from "../context/globalContext";
 import {useGetWishOneId} from "../hooks/GET/useGetWishOneId";
+import { useGetByCategory } from "../hooks/GET/useGetByCategory";
 
 const ItemView = () => {
   const {id} = useParams();
   const [userIdState, setUserIdState] = useState(false);
+  const [categoryId, setCategoryId] = useState();
   const navigate = useNavigate();
 
   const {data, isFetching, error: getErrorProducts} = useGetProducts();
@@ -46,7 +48,6 @@ const ItemView = () => {
     }
   });
 
-  const {setLocalData: setLocalDatContext} = useContext(GlobalContext);
 
   const handleShop = (data) => {
     const localData =
@@ -168,6 +169,21 @@ const ItemView = () => {
 
   const {data: resWish} = useGetWishOneId(id);
   const [product, setProduct] = useState();
+  const [categoryProductsId, setCategoryProductsId] = useState();
+  const {data: productByCategory} = categoryProductsId ? useGetByCategory(categoryProductsId) : useGetByCategory(null);
+  const {setLocalData: setLocalDatContext} = useContext(GlobalContext);
+
+  useEffect(() => {
+    if(resProduct?.length) {
+      setCategoryProductsId(resProduct[0]?.categoryId)
+    }
+  }, [resProduct])
+
+
+  console.log(productByCategory);
+  
+  
+  
 
   useEffect(() => {
     if (resWish?.length) {
@@ -261,6 +277,8 @@ const ItemView = () => {
   };
 
   const handleShopServer = (data) => {
+    console.log(data);
+    
     postCart({
       ...data,
       inStock: true,
