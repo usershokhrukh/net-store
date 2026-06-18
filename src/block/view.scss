@@ -6,6 +6,29 @@
   align-items: start;
   gap: 20px;
   flex-wrap: wrap;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 100px;
+  }
+
+  &__recommendation {
+    display: flex;
+    // width: ;
+    width: 100%;
+    max-width: 1070px;
+    gap: 30px;
+    justify-content: start;
+    overflow: auto;
+    padding: 10px 5px;
+  }
+
+  &__image {
+    // width: 260px;
+    // height: 300px;
+  }
   &__left {
     flex-grow: 3;
     display: flex;

@@ -15,7 +15,14 @@ import {usePostCart} from "../hooks/POST/usePostCart";
 import {useGetProducts} from "../hooks/GET/useGetProducts";
 import {GlobalContext} from "../context/globalContext";
 import {useGetWishOneId} from "../hooks/GET/useGetWishOneId";
-import { useGetByCategory } from "../hooks/GET/useGetByCategory";
+import {useGetByCategory} from "../hooks/GET/useGetByCategory";
+import {useGetCategoryByUser} from "../hooks/GET/useGetCategoryByUser";
+import {IoHeart, IoHeartOutline} from "react-icons/io5";
+import {usePostWish} from "../hooks/POST/usePostWish";
+import {useGetWishes} from "../hooks/GET/useGetWishes";
+import {useGetCart} from "../hooks/GET/useGetCart";
+import {usePutWish} from "../hooks/PUT/usePutWish";
+import {useDeleteWish} from "../hooks/DELETE/useDeleteWish";
 
 const ItemView = () => {
   const {id} = useParams();
@@ -24,6 +31,10 @@ const ItemView = () => {
   const navigate = useNavigate();
 
   const {data, isFetching, error: getErrorProducts} = useGetProducts();
+
+
+  const {setLocalData: setLocalDatContext} = useContext(GlobalContext);
+
 
   const [localeProducts, setLocaleProducts] = useState(() => {
     return JSON.parse(localStorage.getItem("userCartProducts")) || [];
@@ -47,7 +58,6 @@ const ItemView = () => {
       }
     }
   });
-
 
   const handleShop = (data) => {
     const localData =
@@ -169,21 +179,6 @@ const ItemView = () => {
 
   const {data: resWish} = useGetWishOneId(id);
   const [product, setProduct] = useState();
-  const [categoryProductsId, setCategoryProductsId] = useState();
-  const {data: productByCategory} = categoryProductsId ? useGetByCategory(categoryProductsId) : useGetByCategory(null);
-  const {setLocalData: setLocalDatContext} = useContext(GlobalContext);
-
-  useEffect(() => {
-    if(resProduct?.length) {
-      setCategoryProductsId(resProduct[0]?.categoryId)
-    }
-  }, [resProduct])
-
-
-  console.log(productByCategory);
-  
-  
-  
 
   useEffect(() => {
     if (resWish?.length) {
@@ -192,14 +187,16 @@ const ItemView = () => {
           setProduct([
             {
               ...resCart[0],
-              wish: resWish[0]?.wish
+              wish: resWish[0]?.wish,
+              userId: userIdState || null,
             },
           ]);
         } else {
           setProduct([
             {
               ...resProduct[0],
-              wish: resWish[0]?.wish
+              wish: resWish[0]?.wish,
+              userId: userIdState || null,
             },
           ]);
         }
@@ -211,12 +208,14 @@ const ItemView = () => {
           setProduct([
             {
               ...resCart[0],
+              userId: userIdState || null,
             },
           ]);
         } else {
           setProduct([
             {
               ...resProduct[0],
+              userId: userIdState || null,
             },
           ]);
         }
@@ -277,19 +276,136 @@ const ItemView = () => {
   };
 
   const handleShopServer = (data) => {
-    console.log(data);
-    
     postCart({
       ...data,
       inStock: true,
       inStockCount: 1,
       inShop: true,
       id: null,
+      userId: userIdState || null,
     });
   };
 
+
+  // recommendation server
+
+  const {
+    isFetching: putProductsFetch,
+    error: putProductsError,
+    data: getCart,
+  } = userIdState ? useGetCart(userIdState) : useGetCart();
+
+  const {
+    data: getCategoryProducts
+  } =  categoryId ?  useGetByCategory(categoryId) : useGetByCategory(null)
+  const {
+    data: userCategoryCart
+  } = userIdState && categoryId ? useGetCategoryByUser([userIdState, categoryId]) : useGetCategoryByUser([null, null]);
+
+  const [globalServerProducts, setGlobalServerProducts] = useState([]);
+
+  const {data: getWishes} = userIdState
+    ? useGetWishes(userIdState)
+    : useGetWishes();
+
+    
+  useEffect(() => {
+    if(resProduct?.length) {
+      setCategoryId(resProduct[0]?.categoryId)
+    }
+  }, [resProduct])
+
+  useEffect(() => {    
+    const mergeProductsServer = getCategoryProducts?.map((product) => {
+      
+      const foundInCart = userCategoryCart?.find(
+        ({productId}) => String(productId) === String(product.productId),
+      );
+      const foundInWish = getWishes?.find(
+        ({productId}) => String(productId) === String(product.productId),
+      );
+      if (foundInCart) {
+        return {
+          ...foundInCart,
+          userId: userIdState || null,
+        };
+      } else if (foundInWish) {
+        return {
+          ...product,
+          userId: userIdState || null,
+          wish: true,
+        };
+      } else {
+        return {
+          ...product,
+          userId: userIdState || null,
+        };
+      }
+    });
+
+    setGlobalServerProducts(mergeProductsServer);
+  }, [userIdState, userCategoryCart, getWishes]);
+  
+
+  const [wishProductId, setWishProductId] = useState();
+
+  const {data: oneWish} = useGetWishOneId([wishProductId, userIdState]);
+
+  const {mutate: postWish} = usePostWish();
+  const {mutate: putWish} = usePutWish();
+  const {mutate: deleteWish} = useDeleteWish();
+  const [wishState, setWishState] = useState("");
+
+  const handleItem = (productId, e) => {
+    if (e.target.id != "stock" && e.target.tagName != "path") {
+      navigate(`/product/${productId}`);
+    }
+  };
+
+  const handleHeartServer = (data) => {
+    setWishState("");
+    setWishProductId(data.productId);
+    if (data.inStock) {
+      patchCart([
+        data?.id,
+        {
+          ...data,
+          wish: !data?.wish,
+        },
+      ]);
+
+      if (!data.wish) {
+        postWish({
+          ...data,
+          id: null,
+          wish: true,
+        });
+      } else {
+        setWishState("delete");
+      }
+    } else {
+      if (!data.wish) {
+        postWish({
+          ...data,
+          wish: true,
+          id: null,
+        });
+      } else {
+        setWishState("delete");
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (wishState == "delete" && oneWish?.length) {
+      deleteWish(oneWish[0]?.id);
+    }
+  }, [oneWish, wishState]);
+
+
+  
   return (
-    <div className="container">
+    <div className="container view__container">
       {error ? (
         <div className="error-box">
           <p>{error}</p>
@@ -608,6 +724,211 @@ const ItemView = () => {
               </div>
             ),
           )}
+
+      <div className="view__recommendation">
+        {tokenValid
+        ? globalServerProducts?.map(
+            ({
+              id,
+              title,
+              price,
+              oldPrice,
+              image,
+              rating,
+              reviewCount,
+              inStock,
+              categoryId,
+              inStockCount,
+              inShop,
+              userId,
+              productId,
+              wish,
+            }) => (
+              <div
+                onClick={(e) => handleItem(productId, e)}
+                key={`${title} ${id}`}
+                className="products__item"
+              >
+                <div className="products__top">
+                  <span
+                  className="products__heart-box"
+                    onClick={() =>
+                      handleHeartServer({
+                        id: Number(id) || id,
+                        title,
+                        price,
+                        oldPrice,
+                        image,
+                        rating,
+                        reviewCount,
+                        inStock,
+                        categoryId,
+                        inStockCount,
+                        inShop,
+                        userId,
+                        productId,
+                        wish,
+                      })
+                    }
+                    id="stock"
+                  >
+                    {wish ? (
+                      <IoHeart
+
+                        id="stock"
+                        className="products__top-icons products__heart-icon products__heart"
+                      />
+                    ) : (
+                      <IoHeartOutline
+                        id="stock"
+                        className="products__top-icons products__heart"
+                      />
+                    )}
+                  </span>
+                </div>
+                <img className="products__image view__image" src={image} alt={title} />
+                <div className="products__bottom">
+                  <h4 className="products__title">{title}</h4>
+                  <p className="products__price">
+                    ${price}
+                    {oldPrice ? (
+                      <span className="products__del-price">
+                        <del>${oldPrice}</del>
+                      </span>
+                    ) : null}
+                  </p>
+                  <p className="products__views">
+                    <span>
+                      <LuEye className="products__view-icon" />
+                    </span>
+                    {reviewCount}
+                  </p>
+                  <p className="products__rate">
+                    <span>
+                      <MdStarRate className="products__rate-icon" />
+                    </span>
+                    {rating}
+                  </p>
+                  {/* <button
+                    onClick={() => handleItem(productId)}
+                    className="products__view-button"
+                  >
+                    View
+                  </button> */}
+                </div>
+                <button className="products__button" id="stock">
+                  {inStock ? (
+                    <div className="products__button-box" id="stock">
+                      <span className="products__b-center" id="stock">
+                        <GoPlus
+                          id="stock"
+                          onClick={() =>
+                            handlePlusServer({
+                              id: Number(id) || id,
+                              title,
+                              price,
+                              oldPrice,
+                              image,
+                              rating,
+                              reviewCount,
+                              inStock,
+                              categoryId,
+                              inStockCount,
+                              inShop,
+                              userId,
+                              productId,
+                              wish,
+                            })
+                          }
+                          className="products__button-s-icons"
+                        />
+                        <span id="stock" className="products__b-count">
+                          {inStockCount > 9 ? "9+" : inStockCount}
+                        </span>
+
+                        {inStockCount > 1 ? (
+                          <>
+                            <AiOutlineMinus
+                              id="stock"
+                              onClick={() =>
+                                handleMinusServer({
+                                  id: Number(id) || id,
+                                  title,
+                                  price,
+                                  oldPrice,
+                                  image,
+                                  rating,
+                                  reviewCount,
+                                  inStock,
+                                  categoryId,
+                                  inStockCount,
+                                  inShop,
+                                  userId,
+                                  productId,
+                                  wish,
+                                })
+                              }
+                              className="products__button-s-icons"
+                            />
+                          </>
+                        ) : (
+                          <>
+                            <LuTrash
+                              id="stock"
+                              onClick={() =>
+                                handleMinusServer({
+                                  id: Number(id) || id,
+                                  title,
+                                  price,
+                                  oldPrice,
+                                  image,
+                                  rating,
+                                  reviewCount,
+                                  inStock,
+                                  categoryId,
+                                  inStockCount,
+                                  inShop,
+                                  userId,
+                                  productId,
+                                  wish,
+                                })
+                              }
+                              className="products__button-s-icons"
+                            />
+                          </>
+                        )}
+                      </span>
+                    </div>
+                  ) : null}
+
+                  <PiShoppingCartLight
+                    id="stock"
+                    onClick={() =>
+                      handleShopServer({
+                        id: Number(id) || id,
+                        title,
+                        price,
+                        oldPrice,
+                        image,
+                        rating,
+                        reviewCount,
+                        inStock,
+                        categoryId,
+                        inStockCount,
+                        inShop,
+                        userId,
+                        productId,
+                        wish,
+                      })
+                    }
+                    className={`products__button-icons ${inStock ? "shopped" : ""}`}
+                  />
+                </button>
+              </div>
+            ),
+          )
+        : null}
+      </div>
     </div>
   );
 };

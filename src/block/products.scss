@@ -13,11 +13,13 @@
     flex-direction: column;
     align-items: start;
     justify-content: start;
+    // width: 330px !important;
     // gap: 10px;
     // background-color: rgba(128, 128, 128, 0.151);
     overflow: hidden;
     border-radius: 8px;
     transition: all 0.3s ease-in-out;
+    width: fit-content;
     // background-color: blue;
     &:hover {
       cursor: pointer;
@@ -28,7 +30,8 @@
     //   transform: scale(1.04);
     // }
     height: fit-content;
-    padding: 0px 0px 10px 0px
+    padding: 0px 0px 10px 0px;
+    // width: 260px ;
   }
 
   &__del-price {

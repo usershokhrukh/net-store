@@ -255,7 +255,6 @@ const ProductCard = () => {
 
   const [wishProductId, setWishProductId] = useState();
 
-  // const {data: oneWish} = userIdState || wishProductId ? useGetWishOneId([wishProductId, userIdState]) : useGetWishOneId([null, null]);
   const {data: oneWish} = useGetWishOneId([wishProductId, userIdState])
 
   const {mutate: postWish} = usePostWish();
