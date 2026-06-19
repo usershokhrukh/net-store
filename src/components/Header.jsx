@@ -80,13 +80,15 @@ const Header = () => {
             </li>
           ) : (
             <li
-              onClick={() => {
+              
+            >
+              <a onClick={() => {
                 localStorage.clear();
                 window.location.reload();
               }}
-              className="navbar__link"
-            >
-              Log out
+              className="navbar__link" href="">
+                Log out
+              </a>
             </li>
           )}
 
@@ -95,7 +97,7 @@ const Header = () => {
               Home
             </a>
           </li>
-          <li>
+          {/* <li>
             <a className="navbar__link" href="#">
               About
             </a>
@@ -104,7 +106,7 @@ const Header = () => {
             <a className="navbar__link" href="#">
               Connect
             </a>
-          </li>
+          </li> */}
           <li
             className="navbar-list navbar__link"
             onClick={() => navigate("/wish")}

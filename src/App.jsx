@@ -19,6 +19,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import ItemView from "./components/ItemView";
 import Wish from "./components/Wish";
+import Filter from "./components/Filter";
 const App = () => {
   const [localData, setLocalData] = useState(() => {
     return JSON.parse(localStorage.getItem("userCartProducts")) || [];
@@ -49,6 +50,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/product/:id" element={<ItemView/>}/>
           <Route path="/wish" element={<Wish/>}/>
+          <Route path="/filter/:data" element={<Filter/>}/>
         </Routes>
          <div style={{
           flexGrow: 1

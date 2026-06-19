@@ -1,12 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import {useGetCategories} from "../hooks/GET/useGetCategories";
 
 const Categories = () => {
   const {data} = useGetCategories();
+  const navigate = useNavigate();
 
   return (
     <div className={`categories container`}>
       {data?.map(({name, icon, id}) => (
-        <div key={`${id} ${name}`} className="categories__item">
+        <div onClick={() => navigate(`/filter/${id}`)} key={`${id} ${name}`} className="categories__item">
           <span className="categories__icon">
             <img
               className="categories__icon"

@@ -19,6 +19,7 @@ const Login = () => {
     e.preventDefault();
     setError("")
     try {
+      if(!input.email || !input.password) return  setError("Fill all inputs!") 
       const data = await loginUser(input.email, input.password);
       await mergeGuestCartToServer(data.user.id);
       window.location.href = "/"
