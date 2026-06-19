@@ -38,22 +38,31 @@ const Header = () => {
 
   const [count, setCount] = useState();
 
-
-  const filteredCart = cartData?.filter(item => item?.inStock === true)
+  const filteredCart = cartData?.filter((item) => item?.inStock === true);
   useEffect(() => {
-    if(tokenValid) {
-      setCount(filteredCart?.length)
+    if (tokenValid) {
+      setCount(filteredCart?.length);
     }
-  }, [filteredCart])
+  }, [filteredCart]);
 
   useEffect(() => {
-    if(!tokenValid) {
-      setCount(cartProducts)
+    if (!tokenValid) {
+      setCount(cartProducts);
     }
-  },[cartProducts])
-  
-  
-  
+  }, [cartProducts]);
+
+  const [input, setInput] = useState("");
+
+  useEffect(() => {
+    if (input?.length) {
+      const time = setTimeout(() => {
+        navigate(`search?q=${input}`);
+      }, 800);
+      return () => clearTimeout(time);
+    }else {
+      navigate("/")
+    }
+  }, [input]);
 
   return (
     <header className=" container header">
@@ -69,6 +78,10 @@ const Header = () => {
             className="navbar-input"
             placeholder="Search bar"
             type="text"
+            value={input}
+            onChange={(e) => {
+              setInput(e.target.value.trim());
+            }}
           />
         </ul>
         <ul className="navbar__ul-list">
@@ -79,14 +92,15 @@ const Header = () => {
               </NavLink>
             </li>
           ) : (
-            <li
-              
-            >
-              <a onClick={() => {
-                localStorage.clear();
-                window.location.reload();
-              }}
-              className="navbar__link" href="">
+            <li>
+              <a
+                onClick={() => {
+                  localStorage.clear();
+                  window.location.reload();
+                }}
+                className="navbar__link"
+                href=""
+              >
                 Log out
               </a>
             </li>

@@ -281,7 +281,24 @@
       "wish": false
     }
   ],
-  "cart": [],
+  "cart": [
+    {
+      "id": 1,
+      "title": "Gaming Klaviatura Razer BlackWidow",
+      "price": 2100000,
+      "oldPrice": 2500000,
+      "image": "https://images.unsplash.com/photo-1617096819670-6de2869bbd2e?q=80&w=627&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "rating": 4.5,
+      "reviewCount": 42,
+      "inStock": true,
+      "categoryId": 1,
+      "inStockCount": 1,
+      "inShop": true,
+      "userId": 1,
+      "productId": 2,
+      "wish": true
+    }
+  ],
   "wish": [
     {
       "id": 1,
@@ -313,22 +330,6 @@
       "inStockCount": 3,
       "inShop": true,
       "productId": 2,
-      "wish": true
-    },
-    {
-      "userId": 1,
-      "id": 3,
-      "title": "Boy Ota, Kambag'al Ota - Robert Kiyosaki",
-      "price": 75000,
-      "oldPrice": 90000,
-      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShnlsmr9_say-4--27e3EUPPSNAK8gjQ-P8HYv240r0UpJ8P2gBLmcEo4wPEIvKJvy5Eq59_jXCXs7k_Bl_ai9DWaC-ZoA0yRN6zRjkzJvhg&s=10",
-      "rating": 4.8,
-      "reviewCount": 125,
-      "inStock": false,
-      "categoryId": 6,
-      "inStockCount": 0,
-      "inShop": false,
-      "productId": 15,
       "wish": true
     }
   ],
