@@ -1,15 +1,16 @@
 import {MdOutlineStorefront} from "react-icons/md";
 import {IoCart, IoHeartOutline} from "react-icons/io5";
-import {NavLink, useNavigate} from "react-router-dom";
+import {NavLink, useAsyncError, useNavigate} from "react-router-dom";
 import {useGetUser} from "../hooks/GET/useGetUser";
 import {memo, use, useContext, useEffect, useState} from "react";
 import Login from "./Login";
 import {GlobalContext} from "../context/globalContext";
 import {checkToken, checkUserId} from "../api/apiClient";
 import {useGetCart} from "../hooks/GET/useGetCart";
+import {useGetWishes} from "../hooks/GET/useGetWishes";
 const Header = () => {
   const navigate = useNavigate();
-  const {cartProducts} = useContext(GlobalContext);
+  const {cartProducts, liked} = useContext(GlobalContext);
   const [userIdState, setUserIdState] = useState(false);
 
   useEffect(() => {
@@ -25,6 +26,26 @@ const Header = () => {
     isFetching,
     error: getErrorCarts,
   } = userIdState ? useGetCart(userIdState) : useGetCart();
+
+  const {data: wishData} = userIdState
+    ? useGetWishes(userIdState)
+    : useGetWishes();
+
+  const [wishes, setWishes] = useState();
+  const filteredWishes = wishData?.filter((item) => item?.wish == true);
+
+  useEffect(() => {
+    if (tokenValid) {
+      setWishes(filteredWishes?.length);
+    }
+  }, [filteredWishes]);
+
+  useEffect(() => {
+    if (!tokenValid) {
+      setWishes(liked);
+    }
+  }, [liked]);
+
   const [tokenValid, setTokenValid] = useState(false);
 
   useEffect(() => {
@@ -59,8 +80,8 @@ const Header = () => {
         navigate(`search?q=${input}`);
       }, 800);
       return () => clearTimeout(time);
-    }else {
-      navigate("/")
+    } else {
+      navigate("/");
     }
   }, [input]);
 
@@ -125,6 +146,9 @@ const Header = () => {
             className="navbar-list navbar__link"
             onClick={() => navigate("/wish")}
           >
+            {wishes && (wishData?.length || liked) ? (
+              <span className="navbar__wish">{wishes <= 9 ? wishes : "9+"}</span>
+            ) : null}
             <IoHeartOutline className="navbar__wish-icon" />
           </li>
           <li className="navbar-list">

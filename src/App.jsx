@@ -26,7 +26,12 @@ const App = () => {
     return JSON.parse(localStorage.getItem("userCartProducts")) || [];
   });
 
+  
+
   const cartProducts = (localData?.filter(item => item.inStock == true))?.length || 0;
+  const liked = (localData?.filter(item => item.wish == true))?.length || 0
+  
+  
   const blockMoney = localData?.reduce(
     (total, item) =>
       total + item?.price * item?.inStockCount * Number(item?.inShop),
@@ -41,7 +46,7 @@ const App = () => {
 
   return (
     <div className="wrapper app">
-      <GlobalContext.Provider value={{cartProducts, blockMoney, setLocalData}}>
+      <GlobalContext.Provider value={{cartProducts, blockMoney, setLocalData, liked}}>
         <Header  />
         <Routes>
           <Route path="/" element={<Home />} />
