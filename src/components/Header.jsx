@@ -132,16 +132,6 @@ const Header = () => {
               Home
             </a>
           </li>
-          {/* <li>
-            <a className="navbar__link" href="#">
-              About
-            </a>
-          </li>
-          <li>
-            <a className="navbar__link" href="#">
-              Connect
-            </a>
-          </li> */}
           <li
             className="navbar-list navbar__link"
             onClick={() => navigate("/wish")}
@@ -163,7 +153,6 @@ const Header = () => {
           </li>
         </ul>
       </nav>
-      {/* <Login/> */}
     </header>
   );
 };

@@ -22,8 +22,9 @@ li {
 .container {
   width: 100%;
   max-width: 1200px;
-  padding: 2% 5%;
+  padding: 0px  2% 5% 2% !important;
   border-radius: 20px;
+  height: auto;
 }
 
 .icons {
@@ -97,10 +98,11 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  padding: 0px;
+  padding: 0px !important;
   flex-wrap: wrap;
   background-color: rgb(129, 52, 16);
   max-height: 50px;
+
   &__text {
     color: white;
     font-size: 14px;
@@ -110,7 +112,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between; 
+    width: 100%;
     padding: 0px;
+    max-width: 1200px;
   }
 }
 
