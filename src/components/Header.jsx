@@ -88,7 +88,9 @@ const Header = () => {
   return (
     <header className=" container header">
       <nav className="navbar">
-        <ul className="navbar__ul-list navbar__ul-list-left">
+        <div className="navbar__box">
+
+          <ul className="navbar__ul-list navbar__ul-list-left">
           <li
             onClick={() => navigate("/")}
             className="navbar-list navbar__link"
@@ -152,6 +154,8 @@ const Header = () => {
             />
           </li>
         </ul>
+        </div>
+        
       </nav>
     </header>
   );

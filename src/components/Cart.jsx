@@ -4,7 +4,7 @@ import {MdError, MdOutlineStar} from "react-icons/md";
 import {TbTrashFilled} from "react-icons/tb";
 import {FiMinus} from "react-icons/fi";
 import {GoPlus} from "react-icons/go";
-import {checkToken, checkUserId} from "../api/apiClient";
+import {checkToken, checkUserId, loginUser} from "../api/apiClient";
 import {data, useAsyncError, useNavigate} from "react-router-dom";
 import {GlobalContext} from "../context/globalContext";
 import {usePutCart} from "../hooks/PUT/usePutCart";
@@ -12,6 +12,8 @@ import {FaUserGear} from "react-icons/fa6";
 import {useDeleteCart} from "../hooks/DELETE/useDeleteCart";
 import {LuTrash} from "react-icons/lu";
 import {AiOutlineMinus} from "react-icons/ai";
+import {toast} from "react-toastify";
+import axios from "axios";
 
 const Cart = () => {
   const [userIdState, setUserIdState] = useState(false);
@@ -148,8 +150,8 @@ const Cart = () => {
           0,
         ),
       );
-    }else {
-      setBlockMoneyServer(0)
+    } else {
+      setBlockMoneyServer(0);
     }
   }, [cartData]);
 
@@ -191,6 +193,34 @@ const Cart = () => {
     deleteCart(data?.id);
   };
 
+  const checkBuy = () => {
+    if (tokenValid) {
+      // deleteBuys(cartData)
+    } else {
+      if (!localData?.length) return;
+      navigate("/logins")
+      // const filteredBuy = localData?.map((item) => {
+      //   if (item.inShop) {
+      //     if (item.wish) {
+      //       return {
+      //         ...item,
+      //         inStock: false,
+      //         inShop: false,
+      //         inStockCount: 0,
+      //       };
+      //     }
+      //   } else {
+      //     return item;
+      //   }
+
+      //   return null;
+      // });
+      // const filterResult = filteredBuy?.filter((item) => item);
+      // setLocalDatContext(filterResult);
+      // setLocalData(filterResult);
+      // localStorage.setItem("userCartProducts", JSON.stringify(filterResult));
+    }
+  };
   return (
     <div className="container cart">
       {tokenValid ? (
@@ -393,7 +423,11 @@ const Cart = () => {
                 <p className="cart__cat-title">Over all:</p>
                 <span className="cart__item-price">${blockMoneyServer}</span>
               </div>
-              <button className="cart__cat-button">Buy</button>
+              {blockMoneyServer > 0 ? (
+                <button onClick={checkBuy} className="cart__cat-button">
+                  Buy
+                </button>
+              ) : null}
             </div>
           </div>
         </>
@@ -600,7 +634,11 @@ const Cart = () => {
                 <p className="cart__cat-title">Over all:</p>
                 <span className="cart__item-price">${blockMoney}</span>
               </div>
-              <button className="cart__cat-button">Buy</button>
+              {blockMoney > 0 ? (
+                <button onClick={checkBuy} className="cart__cat-button">
+                  Buy
+                </button>
+              ) : null}
             </div>
           </div>
         </>
