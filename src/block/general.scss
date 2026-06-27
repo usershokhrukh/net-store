@@ -1,8 +1,20 @@
-*{
+* {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   font-family: sans-serif;
+}
+
+:root {
+  --secondary-color: rgba(243, 178, 37, 0.959);
+  --brown: rgb(129, 52, 16);
+}
+
+.promotion-button-active {
+  background-color: var(--secondary-color) !important;
+  border: 1px solid var(--secondary-color) !important;
+  color: var(--brown) !important;
+  cursor:  pointer !important;
 }
 
 li {
@@ -22,7 +34,7 @@ li {
 .container {
   width: 100%;
   max-width: 1200px;
-  padding: 0px  2% 5% 2% !important;
+  padding: 0px 2% 5% 2% !important;
   border-radius: 20px;
   height: auto;
 }
@@ -38,12 +50,11 @@ li {
   color: rgba(243, 178, 37, 0.959);
 }
 
-*{
+* {
   user-select: none;
 }
 
-
-.cart-icon{
+.cart-icon {
   color: rgb(129, 52, 16);
   padding: 8px;
   font-size: 39px;
@@ -63,7 +74,6 @@ body {
   display: block;
   height: 100vh;
 }
-
 
 /* Force standard visibility on the initial track rendering layout */
 .slick-slider {
@@ -92,7 +102,6 @@ body {
   display: block !important;
 }
 
-
 .footer {
   display: flex;
   align-items: center;
@@ -111,7 +120,7 @@ body {
   &__box {
     display: flex;
     align-items: center;
-    justify-content: space-between; 
+    justify-content: space-between;
     width: 100%;
     padding: 0px;
     max-width: 1200px;
@@ -124,21 +133,21 @@ body {
   justify-content: start;
   flex-direction: column;
   gap: 30px;
-  
 }
 
 .loading-cart {
- animation-name: loading-cart;
- animation-duration: 1s;
- animation-iteration-count: infinite;
- width: 300px;
- height: 300px;
+  animation-name: loading-cart;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  width: 300px;
+  height: 300px;
 }
 
 @keyframes loading-cart {
-  0%{
+  0% {
     background-color: rgba(128, 128, 128, 0.336);
-  }50%{
+  }
+  50% {
     background-color: rgba(128, 128, 128, 0.24);
   }
 }

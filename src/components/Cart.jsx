@@ -5,7 +5,13 @@ import {TbTrashFilled} from "react-icons/tb";
 import {FiMinus} from "react-icons/fi";
 import {GoPlus} from "react-icons/go";
 import {checkToken, checkUserId, loginUser} from "../api/apiClient";
-import {data, useAsyncError, useNavigate} from "react-router-dom";
+import {
+  data,
+  Outlet,
+  useAsyncError,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import {GlobalContext} from "../context/globalContext";
 import {usePutCart} from "../hooks/PUT/usePutCart";
 import {FaUserGear} from "react-icons/fa6";
@@ -17,7 +23,7 @@ import axios from "axios";
 
 const Cart = () => {
   const [userIdState, setUserIdState] = useState(false);
-
+  const location = useLocation().pathname;
   useEffect(() => {
     const verify = async () => {
       const res = await checkUserId();
@@ -192,13 +198,13 @@ const Cart = () => {
   const handleTrashServer = (data) => {
     deleteCart(data?.id);
   };
-
   const checkBuy = () => {
     if (tokenValid) {
       // deleteBuys(cartData)
+      navigate("/cart/shipping");
     } else {
       if (!localData?.length) return;
-      navigate("/logins")
+      navigate("/login");
       // const filteredBuy = localData?.map((item) => {
       //   if (item.inShop) {
       //     if (item.wish) {
@@ -223,245 +229,38 @@ const Cart = () => {
   };
   return (
     <div className="container cart">
-      {tokenValid ? (
+      {location == "/cart" ? (
         <>
-          <div className="cart__top">
-            <h2 className="cart__t-title">Your cart </h2>
-            {cartData?.length > 0 ? (
-              <p className="cart__t-count">
-                {cartData?.length} {cartData?.length > 1 ? "items" : "item"}
-              </p>
-            ) : null}
-          </div>
-          <div className="cart__container">
-            <div className="cart__box">
-              {cartData?.length
-                ? cartData?.map(
-                    ({
-                      id,
-                      title,
-                      price,
-                      oldPrice,
-                      image,
-                      rating,
-                      reviewCount,
-                      inStock,
-                      categoryId,
-                      inStockCount,
-                      inShop,
-                      userId,
-                      productId,
-                      wish,
-                    }) => (
-                      <div key={`${title} ${id}`} className="cart__item">
-                        <div className="cart__item-top-box">
-                          <MdOutlineStar className="cart__item-star" />
-                          <p className="cart__item-top-box-star">{rating}</p>
-                        </div>
-                        <div className="cart__item-bottom">
-                          <input
-                            onClick={() =>
-                              handleInShopServer({
-                                id: Number(id) || id,
-                                title,
-                                price,
-                                oldPrice,
-                                image,
-                                rating,
-                                reviewCount,
-                                inStock,
-                                categoryId,
-                                inStockCount,
-                                inShop,
-                                userId,
-                                productId,
-                                wish,
-                              })
-                            }
-                            checked={inShop}
-                            type="checkbox"
-                          />
-                          <div className="cart__item-box">
-                            <img
-                              width={100}
-                              height={110}
-                              className="cart__item-img"
-                              src={image}
-                              alt=""
-                            />
-                            <div className="cart__item-b-right">
-                              <div className="cart__item-top">
-                                <p
-                                  onClick={() =>
-                                    navigate(`/product/${productId}`)
-                                  }
-                                  className="cart__item-title"
-                                >
-                                  {title}
-                                </p>
-
-                                {inStockCount > 1 ? (
-                                  <div
-                                    onClick={() =>
-                                      handleTrashServer({
-                                        id: Number(id) || id,
-                                        title,
-                                        price,
-                                        oldPrice,
-                                        image,
-                                        rating,
-                                        reviewCount,
-                                        inStock,
-                                        categoryId,
-                                        inStockCount,
-                                        inShop,
-                                        userId,
-                                        productId,
-                                        wish,
-                                      })
-                                    }
-                                    className="cart__item-trash-box"
-                                  >
-                                    <TbTrashFilled className="cart__item-trash" />
-                                    <p className="cart__item-t-text">Destroy</p>
-                                  </div>
-                                ) : null}
-                              </div>
-                              <div className="cart__item-top-b">
-                                <div className="cart__item-count-box">
-                                  {inStockCount > 1 ? (
-                                    <>
-                                      <AiOutlineMinus
-                                        onClick={() =>
-                                          handleMinusServer({
-                                            title,
-                                            price,
-                                            oldPrice,
-                                            image,
-                                            rating,
-                                            reviewCount,
-                                            inStock,
-                                            categoryId,
-                                            inStockCount,
-                                            inShop,
-                                            userId,
-                                            productId,
-                                            id: Number(id) || id,
-                                            wish,
-                                          })
-                                        }
-                                      />
-                                    </>
-                                  ) : (
-                                    <>
-                                      <TbTrashFilled
-                                        onClick={() =>
-                                          handleTrashServer({
-                                            id: Number(id) || id,
-                                            title,
-                                            price,
-                                            oldPrice,
-                                            image,
-                                            rating,
-                                            reviewCount,
-                                            inStock,
-                                            categoryId,
-                                            inStockCount,
-                                            inShop,
-                                            userId,
-                                            productId,
-                                            wish,
-                                          })
-                                        }
-                                        className="cart__item-trash"
-                                      />
-                                    </>
-                                  )}
-                                  <span className="cart__item-count">
-                                    {inStockCount}
-                                  </span>
-                                  <GoPlus
-                                    onClick={() =>
-                                      handlePlusServer({
-                                        id: Number(id) || id,
-                                        title,
-                                        price,
-                                        oldPrice,
-                                        image,
-                                        rating,
-                                        reviewCount,
-                                        inStock,
-                                        categoryId,
-                                        inStockCount,
-                                        inShop,
-                                        userId,
-                                        productId,
-                                        wish,
-                                      })
-                                    }
-                                  />
-                                </div>
-                                <div className="cart__item-price-box">
-                                  <p className="cart__item-price">${price}</p>
-                                  {oldPrice ? (
-                                    <p className="cart__item-old-price">
-                                      {oldPrice}
-                                    </p>
-                                  ) : null}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ),
-                  )
-                : "You have nothing to buy"}
-            </div>
-            <div className="cart__catalog">
-              <div className="cart__cat-box">
-                <p className="cart__cat-title">Over all:</p>
-                <span className="cart__item-price">${blockMoneyServer}</span>
+          {tokenValid ? (
+            <>
+              <div className="cart__top">
+                <h2 className="cart__t-title">Your cart </h2>
+                {cartData?.length > 0 ? (
+                  <p className="cart__t-count">
+                    {cartData?.length} {cartData?.length > 1 ? "items" : "item"}
+                  </p>
+                ) : null}
               </div>
-              {blockMoneyServer > 0 ? (
-                <button onClick={checkBuy} className="cart__cat-button">
-                  Buy
-                </button>
-              ) : null}
-            </div>
-          </div>
-        </>
-      ) : (
-        <>
-          <div className="cart__top">
-            <h2 className="cart__t-title">Your cart </h2>
-            {cartProducts > 0 ? (
-              <p className="cart__t-count">
-                {cartProducts} {cartProducts > 1 ? "items" : "item"}
-              </p>
-            ) : null}
-          </div>
-          <div className="cart__container">
-            <div className="cart__box">
-              {localData?.length
-                ? localData?.map(
-                    ({
-                      id,
-                      title,
-                      price,
-                      oldPrice,
-                      image,
-                      rating,
-                      reviewCount,
-                      inStock,
-                      categoryId,
-                      inStockCount,
-                      inShop,
-                      productId,
-                      wish,
-                    }) => {
-                      if (inStock) {
-                        return (
+              <div className="cart__container">
+                <div className="cart__box">
+                  {cartData?.length
+                    ? cartData?.map(
+                        ({
+                          id,
+                          title,
+                          price,
+                          oldPrice,
+                          image,
+                          rating,
+                          reviewCount,
+                          inStock,
+                          categoryId,
+                          inStockCount,
+                          inShop,
+                          userId,
+                          productId,
+                          wish,
+                        }) => (
                           <div key={`${title} ${id}`} className="cart__item">
                             <div className="cart__item-top-box">
                               <MdOutlineStar className="cart__item-star" />
@@ -471,8 +270,8 @@ const Cart = () => {
                             </div>
                             <div className="cart__item-bottom">
                               <input
-                                onChange={() =>
-                                  handleInShopLocal({
+                                onClick={() =>
+                                  handleInShopServer({
                                     id: Number(id) || id,
                                     title,
                                     price,
@@ -484,6 +283,7 @@ const Cart = () => {
                                     categoryId,
                                     inStockCount,
                                     inShop,
+                                    userId,
                                     productId,
                                     wish,
                                   })
@@ -509,10 +309,11 @@ const Cart = () => {
                                     >
                                       {title}
                                     </p>
+
                                     {inStockCount > 1 ? (
                                       <div
                                         onClick={() =>
-                                          handleTrashLocal({
+                                          handleTrashServer({
                                             id: Number(id) || id,
                                             title,
                                             price,
@@ -524,6 +325,7 @@ const Cart = () => {
                                             categoryId,
                                             inStockCount,
                                             inShop,
+                                            userId,
                                             productId,
                                             wish,
                                           })
@@ -543,7 +345,7 @@ const Cart = () => {
                                         <>
                                           <AiOutlineMinus
                                             onClick={() =>
-                                              handleMinusLocal({
+                                              handleMinusServer({
                                                 title,
                                                 price,
                                                 oldPrice,
@@ -554,6 +356,7 @@ const Cart = () => {
                                                 categoryId,
                                                 inStockCount,
                                                 inShop,
+                                                userId,
                                                 productId,
                                                 id: Number(id) || id,
                                                 wish,
@@ -565,7 +368,8 @@ const Cart = () => {
                                         <>
                                           <TbTrashFilled
                                             onClick={() =>
-                                              handleTrashLocal({
+                                              handleTrashServer({
+                                                id: Number(id) || id,
                                                 title,
                                                 price,
                                                 oldPrice,
@@ -576,8 +380,8 @@ const Cart = () => {
                                                 categoryId,
                                                 inStockCount,
                                                 inShop,
+                                                userId,
                                                 productId,
-                                                id: Number(id) || id,
                                                 wish,
                                               })
                                             }
@@ -590,7 +394,7 @@ const Cart = () => {
                                       </span>
                                       <GoPlus
                                         onClick={() =>
-                                          handlePlusLocal({
+                                          handlePlusServer({
                                             id: Number(id) || id,
                                             title,
                                             price,
@@ -602,6 +406,7 @@ const Cart = () => {
                                             categoryId,
                                             inStockCount,
                                             inShop,
+                                            userId,
                                             productId,
                                             wish,
                                           })
@@ -623,26 +428,242 @@ const Cart = () => {
                               </div>
                             </div>
                           </div>
-                        );
-                      }
-                    },
-                  )
-                : "You have nothing to buy"}
-            </div>
-            <div className="cart__catalog">
-              <div className="cart__cat-box">
-                <p className="cart__cat-title">Over all:</p>
-                <span className="cart__item-price">${blockMoney}</span>
+                        ),
+                      )
+                    : "You have nothing to buy"}
+                </div>
+                <div className="cart__catalog">
+                  <div className="cart__cat-box">
+                    <p className="cart__cat-title">Over all:</p>
+                    <span className="cart__item-price">
+                      ${blockMoneyServer}
+                    </span>
+                  </div>
+                  {blockMoneyServer > 0 ? (
+                    <button onClick={checkBuy} className="cart__cat-button">
+                      Buy
+                    </button>
+                  ) : null}
+                </div>
               </div>
-              {blockMoney > 0 ? (
-                <button onClick={checkBuy} className="cart__cat-button">
-                  Buy
-                </button>
-              ) : null}
-            </div>
-          </div>
+            </>
+          ) : (
+            <>
+              <div className="cart__top">
+                <h2 className="cart__t-title">Your cart </h2>
+                {cartProducts > 0 ? (
+                  <p className="cart__t-count">
+                    {cartProducts} {cartProducts > 1 ? "items" : "item"}
+                  </p>
+                ) : null}
+              </div>
+              <div className="cart__container">
+                <div className="cart__box">
+                  {localData?.length
+                    ? localData?.map(
+                        ({
+                          id,
+                          title,
+                          price,
+                          oldPrice,
+                          image,
+                          rating,
+                          reviewCount,
+                          inStock,
+                          categoryId,
+                          inStockCount,
+                          inShop,
+                          productId,
+                          wish,
+                        }) => {
+                          if (inStock) {
+                            return (
+                              <div
+                                key={`${title} ${id}`}
+                                className="cart__item"
+                              >
+                                <div className="cart__item-top-box">
+                                  <MdOutlineStar className="cart__item-star" />
+                                  <p className="cart__item-top-box-star">
+                                    {rating}
+                                  </p>
+                                </div>
+                                <div className="cart__item-bottom">
+                                  <input
+                                    onChange={() =>
+                                      handleInShopLocal({
+                                        id: Number(id) || id,
+                                        title,
+                                        price,
+                                        oldPrice,
+                                        image,
+                                        rating,
+                                        reviewCount,
+                                        inStock,
+                                        categoryId,
+                                        inStockCount,
+                                        inShop,
+                                        productId,
+                                        wish,
+                                      })
+                                    }
+                                    checked={inShop}
+                                    type="checkbox"
+                                  />
+                                  <div className="cart__item-box">
+                                    <img
+                                      width={100}
+                                      height={110}
+                                      className="cart__item-img"
+                                      src={image}
+                                      alt=""
+                                    />
+                                    <div className="cart__item-b-right">
+                                      <div className="cart__item-top">
+                                        <p
+                                          onClick={() =>
+                                            navigate(`/product/${productId}`)
+                                          }
+                                          className="cart__item-title"
+                                        >
+                                          {title}
+                                        </p>
+                                        {inStockCount > 1 ? (
+                                          <div
+                                            onClick={() =>
+                                              handleTrashLocal({
+                                                id: Number(id) || id,
+                                                title,
+                                                price,
+                                                oldPrice,
+                                                image,
+                                                rating,
+                                                reviewCount,
+                                                inStock,
+                                                categoryId,
+                                                inStockCount,
+                                                inShop,
+                                                productId,
+                                                wish,
+                                              })
+                                            }
+                                            className="cart__item-trash-box"
+                                          >
+                                            <TbTrashFilled className="cart__item-trash" />
+                                            <p className="cart__item-t-text">
+                                              Destroy
+                                            </p>
+                                          </div>
+                                        ) : null}
+                                      </div>
+                                      <div className="cart__item-top-b">
+                                        <div className="cart__item-count-box">
+                                          {inStockCount > 1 ? (
+                                            <>
+                                              <AiOutlineMinus
+                                                onClick={() =>
+                                                  handleMinusLocal({
+                                                    title,
+                                                    price,
+                                                    oldPrice,
+                                                    image,
+                                                    rating,
+                                                    reviewCount,
+                                                    inStock,
+                                                    categoryId,
+                                                    inStockCount,
+                                                    inShop,
+                                                    productId,
+                                                    id: Number(id) || id,
+                                                    wish,
+                                                  })
+                                                }
+                                              />
+                                            </>
+                                          ) : (
+                                            <>
+                                              <TbTrashFilled
+                                                onClick={() =>
+                                                  handleTrashLocal({
+                                                    title,
+                                                    price,
+                                                    oldPrice,
+                                                    image,
+                                                    rating,
+                                                    reviewCount,
+                                                    inStock,
+                                                    categoryId,
+                                                    inStockCount,
+                                                    inShop,
+                                                    productId,
+                                                    id: Number(id) || id,
+                                                    wish,
+                                                  })
+                                                }
+                                                className="cart__item-trash"
+                                              />
+                                            </>
+                                          )}
+                                          <span className="cart__item-count">
+                                            {inStockCount}
+                                          </span>
+                                          <GoPlus
+                                            onClick={() =>
+                                              handlePlusLocal({
+                                                id: Number(id) || id,
+                                                title,
+                                                price,
+                                                oldPrice,
+                                                image,
+                                                rating,
+                                                reviewCount,
+                                                inStock,
+                                                categoryId,
+                                                inStockCount,
+                                                inShop,
+                                                productId,
+                                                wish,
+                                              })
+                                            }
+                                          />
+                                        </div>
+                                        <div className="cart__item-price-box">
+                                          <p className="cart__item-price">
+                                            ${price}
+                                          </p>
+                                          {oldPrice ? (
+                                            <p className="cart__item-old-price">
+                                              {oldPrice}
+                                            </p>
+                                          ) : null}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          }
+                        },
+                      )
+                    : "You have nothing to buy"}
+                </div>
+                <div className="cart__catalog">
+                  <div className="cart__cat-box">
+                    <p className="cart__cat-title">Over all:</p>
+                    <span className="cart__item-price">${blockMoney}</span>
+                  </div>
+                  {blockMoney > 0 ? (
+                    <button onClick={checkBuy} className="cart__cat-button">
+                      Buy
+                    </button>
+                  ) : null}
+                </div>
+              </div>
+            </>
+          )}
         </>
-      )}
+      ) :<Outlet /> }      
     </div>
   );
 };

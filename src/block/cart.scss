@@ -67,6 +67,9 @@
     display: flex;
     gap: 20px;
     width: 100%;
+    input {
+      outline: none;
+    }
   }
 
   &__item-top-box {
