@@ -417,6 +417,36 @@
       "userId": 1,
       "cost": 2060001.03,
       "id": 2
+    },
+    {
+      "products": [
+        {
+          "id": 1,
+          "title": "Ikki Kamerali Muzlatgich Samsung",
+          "price": 6800000,
+          "oldPrice": 7500000,
+          "image": "https://plus.unsplash.com/premium_photo-1756147707497-ccd480173996?q=80&w=750&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "rating": 4.8,
+          "reviewCount": 23,
+          "inStock": true,
+          "categoryId": 4,
+          "inStockCount": 2,
+          "inShop": true,
+          "userId": 1,
+          "productId": 9,
+          "wish": false
+        }
+      ],
+      "type": "card",
+      "phone": "990007953",
+      "cardNumber": "23940192394129834",
+      "cardDate": "2026-06-18",
+      "cardCVV": "2134",
+      "orderDate": "2 July",
+      "currentDay": "30 June",
+      "userId": 1,
+      "cost": 13600001.68,
+      "id": 3
     }
   ]
 }

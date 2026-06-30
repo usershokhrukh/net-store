@@ -117,7 +117,7 @@ const Orders = () => {
               </div>
               <div className="orders__items">
                 {products?.map(
-                  ({image, title, id, productId, rating, price}) => (
+                  ({image, title, id, productId, rating, price, inStockCount}) => (
                     <div key={`${title} ${id}`} className="cart__item">
                       <div className="cart__item-top-box">
                         <MdOutlineStar className="cart__item-star" />
@@ -145,7 +145,7 @@ const Orders = () => {
                             </div>
                             <div className="cart__item-top-b">
                               <div className="cart__item-price-box">
-                                <p className="cart__item-price">${price}</p>
+                                <span style={{display: "flex", alignItems: "center", gap: 5}}>{inStockCount} x <p className="cart__item-price">${price}</p></span>
                                 {oldPrice ? (
                                   <p className="cart__item-old-price">
                                     {oldPrice}
