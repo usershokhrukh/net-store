@@ -9,7 +9,7 @@ export const useDeleteUserOrder = () => {
       return res?.data
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["orders"]})
+      queryClient.invalidateQueries({queryKey: ["order"]})
     }
   });
 };

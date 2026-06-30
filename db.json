@@ -447,6 +447,96 @@
       "userId": 1,
       "cost": 13600001.68,
       "id": 3
+    },
+    {
+      "products": [
+        {
+          "id": 1,
+          "title": "Fitnes Uchun Gantellar To'plami",
+          "price": 490000,
+          "oldPrice": 550000,
+          "image": "https://images.unsplash.com/photo-1576678927484-cc907957088c?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "rating": 4.7,
+          "reviewCount": 56,
+          "inStock": true,
+          "categoryId": 3,
+          "inStockCount": 1,
+          "inShop": true,
+          "userId": 1,
+          "productId": 8,
+          "wish": false
+        }
+      ],
+      "type": "manual",
+      "phone": "999293023",
+      "cardNumber": "",
+      "cardDate": "",
+      "cardCVV": "",
+      "orderDate": "2 July",
+      "currentDay": "30 June",
+      "userId": 1,
+      "cost": "470401.51",
+      "id": 4
+    },
+    {
+      "products": [
+        {
+          "id": 1,
+          "title": "Professional Futbol To'pi",
+          "price": 150000,
+          "oldPrice": 180000,
+          "image": "https://plus.unsplash.com/premium_photo-1709589145461-4797b4e80e9c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "rating": 4.4,
+          "reviewCount": 35,
+          "inStock": true,
+          "categoryId": 3,
+          "inStockCount": 1,
+          "inShop": true,
+          "userId": 1,
+          "productId": 7,
+          "wish": false
+        }
+      ],
+      "type": "manual",
+      "phone": "990007953",
+      "cardNumber": "",
+      "cardDate": "",
+      "cardCVV": "",
+      "orderDate": "8 July",
+      "currentDay": "30 June",
+      "userId": 1,
+      "cost": 150001.47,
+      "id": 5
+    },
+    {
+      "products": [
+        {
+          "id": 1,
+          "title": "Atom Odatlar - Jeyms Klir",
+          "price": 65000,
+          "oldPrice": 85000,
+          "image": "https://images.unsplash.com/photo-1598301257942-e6bde1d2149b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "rating": 4.9,
+          "reviewCount": 310,
+          "inStock": true,
+          "categoryId": 6,
+          "inStockCount": 1,
+          "inShop": true,
+          "userId": 1,
+          "productId": 13,
+          "wish": false
+        }
+      ],
+      "type": "manual",
+      "phone": "990007953",
+      "cardNumber": "",
+      "cardDate": "",
+      "cardCVV": "",
+      "orderDate": "1 July",
+      "currentDay": "30 June",
+      "userId": 1,
+      "cost": 65001.41,
+      "id": 6
     }
   ]
 }
