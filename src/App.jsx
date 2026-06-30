@@ -9,6 +9,7 @@ import "./block/cart.scss";
 import "./block/login.scss";
 import "./block/view.scss";
 import "./block/payment.scss";
+import "./block/orders.scss";
 import "./block/buy-modal.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -26,6 +27,7 @@ import Search from "./components/Search";
 import BuyModal from "./components/BuyModal";
 import Payment from "./components/Payment";
 import {Cost} from "./context/cost";
+import Orders from "./components/Orders";
 const App = () => {
   const [localData, setLocalData] = useState(() => {
     return JSON.parse(localStorage.getItem("userCartProducts")) || [];
@@ -45,7 +47,6 @@ const App = () => {
   }, [cartProducts, blockMoney]);
 
   const [cost, setCost] = useState();
-
   return (
     <div className="wrapper app">
       <GlobalContext.Provider
@@ -64,8 +65,9 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/product/:id" element={<ItemView />} />
             <Route path="/wish" element={<Wish />} />
-            <Route path="/filter/:data" element={<Filter />} />
-            <Route path="/search" element={<Search />} />
+            <Route path="/filter/:data" element={<Filter />}/>
+            <Route path="/search" element={<Search />}/>
+            <Route path="/orders" element={<Orders/>}/>
           </Routes>
           <div
             style={{

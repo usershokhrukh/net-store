@@ -779,7 +779,7 @@ const ProductCard = () => {
 
       {returnState && !returned ? (
         <div className="products__item">
-          <p>You have not wishes in wish list</p>
+          <p>You don't have wishes in wish list</p>
         </div>
       ) : null}
     </div>

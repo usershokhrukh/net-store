@@ -47,13 +47,12 @@ const Header = () => {
   }, [liked]);
 
   const [tokenValid, setTokenValid] = useState(false);
+  const verify = async () => {
+    const result = await checkToken();
+    setTokenValid(result);
+  };
 
   useEffect(() => {
-    const verify = async () => {
-      const result = await checkToken();
-      setTokenValid(result);
-    };
-
     verify();
   }, []);
 
@@ -85,77 +84,93 @@ const Header = () => {
     }
   }, [input]);
 
+  const checkOrderClick = () => {
+    verify();
+    if (tokenValid) {
+      return "/orders";
+    } else {
+      return "/login";
+    }
+  };
+
   return (
     <header className=" container header">
       <nav className="navbar">
         <div className="navbar__box">
-
           <ul className="navbar__ul-list navbar__ul-list-left">
-          <li
-            onClick={() => navigate("/")}
-            className="navbar-list navbar__link"
-          >
-            <MdOutlineStorefront className="icons main-icon" />
-          </li>
-          <input
-            className="navbar-input"
-            placeholder="Search bar"
-            type="text"
-            value={input}
-            onChange={(e) => {
-              setInput(e.target.value.trim());
-            }}
-          />
-        </ul>
-        <ul className="navbar__ul-list">
-          {!tokenValid ? (
+            <li
+              onClick={() => navigate("/")}
+              className="navbar-list navbar__link"
+            >
+              <MdOutlineStorefront className="icons main-icon" />
+            </li>
+            <input
+              className="navbar-input"
+              placeholder="Search bar"
+              type="text"
+              value={input}
+              onChange={(e) => {
+                setInput(e.target.value.trim());
+              }}
+            />
+          </ul>
+          <ul className="navbar__ul-list">
             <li>
-              <NavLink className="navbar__link" to="/login">
-                Login
+              <NavLink className={"navbar__link"} to={"/"}>
+                Home
               </NavLink>
             </li>
-          ) : (
             <li>
-              <a
-                onClick={() => {
-                  localStorage.clear();
-                  window.location.reload();
-                }}
-                className="navbar__link"
-                href=""
-              >
-                Log out
-              </a>
+              <NavLink className={"navbar__link"} to={`${checkOrderClick()}`}>
+                Orders
+              </NavLink>
             </li>
-          )}
+            {!tokenValid ? (
+              <li>
+                <NavLink className="navbar__link" to="/login">
+                  Login
+                </NavLink>
+              </li>
+            ) : (
+              <li>
+                <a
+                  onClick={() => {
+                    localStorage.clear();
+                    window.location.reload();
+                  }}
+                  className="navbar__link"
+                  href=""
+                >
+                  Log out
+                </a>
+              </li>
+            )}
 
-          <li>
-            <a onClick={() => navigate("/")} className="navbar__link" href="">
-              Home
-            </a>
-          </li>
-          <li
-            className="navbar-list navbar__link"
-            onClick={() => navigate("/wish")}
-          >
-            {wishes && (wishData?.length || liked) ? (
-              <span className="navbar__wish">{wishes <= 9 ? wishes : "9+"}</span>
-            ) : null}
-            <IoHeartOutline className="navbar__wish-icon" />
-          </li>
-          <li className="navbar-list">
-            {count && (cartData?.length || cartProducts) ? (
-              <span className="navbar__count">{count <= 9 ? count : "9+"}</span>
-            ) : null}
+            <li
+              className="navbar-list navbar__link"
+              onClick={() => navigate("/wish")}
+            >
+              {wishes && (wishData?.length || liked) ? (
+                <span className="navbar__wish">
+                  {wishes <= 9 ? wishes : "9+"}
+                </span>
+              ) : null}
+              <IoHeartOutline className="navbar__wish-icon" />
+            </li>
+            <li className="navbar-list">
+              {count && (cartData?.length || cartProducts) ? (
+                <span className="navbar__count">
+                  {count <= 9 ? count : "9+"}
+                </span>
+              ) : null}
 
-            <IoCart
-              onClick={() => navigate("/cart")}
-              className="icons cart-icon"
-            />
-          </li>
-        </ul>
+              <IoCart
+                onClick={() => navigate("/cart")}
+                className="icons cart-icon"
+              />
+            </li>
+          </ul>
         </div>
-        
       </nav>
     </header>
   );

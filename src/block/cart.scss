@@ -8,6 +8,7 @@
   align-items: start;
   // height: fit-content;
   // background-color: red;
+  padding: 30px !important;
   &__top {
     width: 100%;
     display: flex;
@@ -241,5 +242,11 @@
     gap: 10px;
     width: 100%;
     flex-wrap: wrap;
+  }
+
+  &__or-list {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 }

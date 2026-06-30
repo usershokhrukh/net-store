@@ -282,40 +282,7 @@
     }
   ],
   "cart": [],
-  "wish": [
-    {
-      "id": 1,
-      "title": "Sony WH-1000XM5 Naushnik",
-      "price": 3490000,
-      "oldPrice": 3990000,
-      "image": "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400",
-      "rating": 4.8,
-      "reviewCount": 210,
-      "inStock": true,
-      "categoryId": 1,
-      "inStockCount": 1,
-      "inShop": true,
-      "userId": 1,
-      "productId": 3,
-      "wish": true
-    },
-    {
-      "id": 2,
-      "title": "Gaming Klaviatura Razer BlackWidow",
-      "price": 2100000,
-      "oldPrice": 2500000,
-      "image": "https://images.unsplash.com/photo-1617096819670-6de2869bbd2e?q=80&w=627&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "rating": 4.5,
-      "reviewCount": 42,
-      "inStock": false,
-      "categoryId": 1,
-      "inStockCount": 0,
-      "inShop": false,
-      "userId": 1,
-      "productId": 2,
-      "wish": true
-    }
-  ],
+  "wish": [],
   "users": [
     {
       "email": "shokhrukh@gmail.com",
@@ -340,6 +307,116 @@
       "password": "$2a$10$mJ..dImiiZ6M8cavbjy3kOlhHCUtgCQy3r.ax3xqwP61z.qqKgSPC",
       "name": "qweq",
       "id": 4
+    }
+  ],
+  "orders": [
+    {
+      "products": [
+        {
+          "id": 1,
+          "title": "Sony WH-1000XM5 Naushnik",
+          "price": 3490000,
+          "oldPrice": 3990000,
+          "image": "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400",
+          "rating": 4.8,
+          "reviewCount": 210,
+          "inStock": true,
+          "categoryId": 1,
+          "inStockCount": 1,
+          "inShop": true,
+          "userId": 1,
+          "productId": 3,
+          "wish": false
+        },
+        {
+          "id": 2,
+          "title": "Gaming Klaviatura Razer BlackWidow",
+          "price": 2100000,
+          "oldPrice": 2500000,
+          "image": "https://images.unsplash.com/photo-1617096819670-6de2869bbd2e?q=80&w=627&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "rating": 4.5,
+          "reviewCount": 42,
+          "inStock": true,
+          "categoryId": 1,
+          "inStockCount": 1,
+          "inShop": true,
+          "userId": 1,
+          "productId": 2,
+          "wish": false
+        }
+      ],
+      "type": "manual",
+      "phone": "990007953",
+      "cardNumber": "",
+      "cardDate": "",
+      "cardCVV": "",
+      "orderDate": "28 June",
+      "currentDay": "30 June",
+      "userId": 1,
+      "cost": 5590001.74,
+      "id": 1
+    },
+    {
+      "products": [
+        {
+          "id": 1,
+          "title": "Nike Air Max Sport Poyabzali",
+          "price": 690000,
+          "oldPrice": 850000,
+          "image": "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=1025&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "rating": 4.9,
+          "reviewCount": 94,
+          "inStock": true,
+          "categoryId": 2,
+          "inStockCount": 1,
+          "inShop": true,
+          "userId": 1,
+          "productId": 5,
+          "wish": false
+        },
+        {
+          "id": 2,
+          "title": "Erkaklar Ustki Kiyimi (Xudi)",
+          "price": 380000,
+          "oldPrice": 450000,
+          "image": "https://plus.unsplash.com/premium_photo-1673125510222-1a51e3a8ccb0?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "rating": 4.6,
+          "reviewCount": 112,
+          "inStock": true,
+          "categoryId": 2,
+          "inStockCount": 1,
+          "inShop": true,
+          "userId": 1,
+          "productId": 4,
+          "wish": false
+        },
+        {
+          "id": 3,
+          "title": "Smart Soat Apple Watch Series 8",
+          "price": 990000,
+          "oldPrice": 1200000,
+          "image": "https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "rating": 4.7,
+          "reviewCount": 85,
+          "inStock": true,
+          "categoryId": 1,
+          "inStockCount": 1,
+          "inShop": true,
+          "userId": 1,
+          "productId": 1,
+          "wish": false
+        }
+      ],
+      "type": "card",
+      "phone": "990007953",
+      "cardNumber": "42345234523452354",
+      "cardDate": "2026-06-03",
+      "cardCVV": "23234",
+      "orderDate": "6 July",
+      "currentDay": "30 June",
+      "userId": 1,
+      "cost": 2060001.03,
+      "id": 2
     }
   ]
 }

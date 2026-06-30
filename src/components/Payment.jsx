@@ -4,16 +4,17 @@ import {checkUserId} from "../api/apiClient";
 import {Cost} from "../context/cost";
 import {useDeleteCart} from "../hooks/DELETE/useDeleteCart";
 import {useNavigate} from "react-router-dom";
-import { toast } from "react-toastify";
+import {toast} from "react-toastify";
+import {MdVerifiedUser} from "react-icons/md";
+import {usePostUserOrder} from "../hooks/POST/usePostUserOrder";
 
 const Payment = () => {
-  const [userIdState, setUserIdState] = useState(false);
-
+  const [userIdState, setUserIdState] = useState(null);
+  const verify = async () => {
+    const res = await checkUserId();
+    setUserIdState(res);
+  };
   useEffect(() => {
-    const verify = async () => {
-      const res = await checkUserId();
-      setUserIdState(res);
-    };
     verify();
   }, []);
   const {data} = userIdState ? useGetCart(userIdState) : useGetCart();
@@ -23,6 +24,108 @@ const Payment = () => {
 
   const filter = data?.filter((item) => item?.inShop == true);
   const [method, setMethod] = useState("");
+  const [orderedDay, setOrderedDay] = useState();
+  const [currentDay, setCurrentDay] = useState();
+  const getOrderDay = () => {
+    const dateObj = new Date();
+    const date = Number(
+      dateObj.getDate() + Number((Math.random() * 10).toFixed(0)),
+    );
+    const day = (dateObj.getMonth() + Number(date > 30)) % 12;
+    const orderDay = day + Number(day == 0);
+    let orderDayMonth = "";
+    switch (orderDay) {
+      case 0:
+        orderDayMonth = "January";
+        break;
+      case 1:
+        orderDayMonth = "February";
+        break;
+      case 2:
+        orderDayMonth = "March";
+        break;
+      case 3:
+        orderDayMonth = "April";
+        break;
+      case 4:
+        orderDayMonth = "May";
+        break;
+      case 5:
+        orderDayMonth = "June";
+        break;
+      case 6:
+        orderDayMonth = "July";
+        break;
+      case 7:
+        orderDayMonth = "August";
+        break;
+      case 8:
+        orderDayMonth = "September";
+        break;
+      case 9:
+        orderDayMonth = "October";
+        break;
+      case 10:
+        orderDayMonth = "November";
+        break;
+      case 11:
+        orderDayMonth = "December";
+        break;
+    }
+
+    setOrderedDay(`${date % 30} ${orderDayMonth}`);
+  };
+
+  const getCurrentDay = () => {
+    const dateObj = new Date();
+    const currentDate = dateObj.getDate();
+    const currentMonth = dateObj.getMonth();
+    let orderDayMonth = "";
+    switch (currentMonth) {
+      case 0:
+        orderDayMonth = "January";
+        break;
+      case 1:
+        orderDayMonth = "February";
+        break;
+      case 2:
+        orderDayMonth = "March";
+        break;
+      case 3:
+        orderDayMonth = "April";
+        break;
+      case 4:
+        orderDayMonth = "May";
+        break;
+      case 5:
+        orderDayMonth = "June";
+        break;
+      case 6:
+        orderDayMonth = "July";
+        break;
+      case 7:
+        orderDayMonth = "August";
+        break;
+      case 8:
+        orderDayMonth = "September";
+        break;
+      case 9:
+        orderDayMonth = "October";
+        break;
+      case 10:
+        orderDayMonth = "November";
+        break;
+      case 11:
+        orderDayMonth = "December";
+        break;
+    }
+    setCurrentDay(`${currentDate} ${orderDayMonth}`);
+  };
+
+  useEffect(() => {
+    getOrderDay();
+    getCurrentDay();
+  }, []);
   const [orderStatus, setOrderStatus] = useState({
     products: data,
     type: "",
@@ -30,7 +133,29 @@ const Payment = () => {
     cardNumber: "",
     cardDate: "",
     cardCVV: "",
+    orderDate: orderedDay,
+    currentDay: currentDay,
+    userId: null,
+    cost,
+    id: null,
   });
+
+  useEffect(() => {
+    setOrderStatus({
+      ...orderStatus,
+      orderDate: orderedDay,
+      currentDay: currentDay,
+    });
+  }, [orderedDay, currentDay]);
+
+  useEffect(() => {
+    if (userIdState != null) {
+      if (!userIdState) {
+        navigate("/login");
+        toast.warn("Please enter to account, you loosed your products!");
+      }
+    }
+  }, [userIdState]);
 
   const changeMethod = (e) => {
     setMethod(e.target.id);
@@ -46,18 +171,43 @@ const Payment = () => {
   }, [data]);
 
   const [error, setError] = useState("");
+  const {mutate: orderMutate} = usePostUserOrder();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
     try {
-      setError("");
-      for (const item of orderStatus?.products) {
-        mutate(item?.id);
+      if (orderStatus.products?.length) {
+        const regexp = /^(90|91|93|94|95|97|98|99|33|88)\d{7}$/;
+        if (regexp.test(orderStatus.phone)) {
+          const checkSubmitUserId = await checkUserId();
+          if (checkSubmitUserId) {
+            setOrderStatus({
+              ...orderStatus,
+              userId: checkSubmitUserId,
+            });
+            orderMutate({
+              ...orderStatus,
+              userId: checkSubmitUserId,
+            });
+            for (const item of orderStatus?.products) {
+              mutate(item?.id);
+            }
+            toast.success("You are successfully ordered, check orders!");
+            navigate("/")
+          } else {
+            setUserIdState(checkSubmitUserId);
+          }
+        } else {
+          setError("Phone number is incorrect!");
+        }
+      } else {
+        toast.warn("You have nothing to buy, back to homepage!");
         navigate("/")
       }
-      toast.success("You are successfully ordered!")
-    } catch (err) {      
-      setError("Error acquired while ordering!")
+    } catch (err) {
+      console.log(err);
+      setError("Error acquired while ordering!");
     }
   };
 
@@ -81,7 +231,6 @@ const Payment = () => {
           <h2 className="buy-modal__title">Payment</h2>
         </div>
         {error?.length ? <p className="payment__error">{error}</p> : null}
-
         <div className="payment__boxes">
           <label className="buy-modal__section-title" htmlFor="phone">
             Your phone number:{" "}
@@ -90,9 +239,9 @@ const Payment = () => {
             onChange={changeStatus}
             required
             className="payment__input"
-            type="number"
+            type="tel"
             id="phone"
-            placeholder="required"
+            placeholder="+998----------"
             name="phone"
           />
         </div>
@@ -110,7 +259,18 @@ const Payment = () => {
             />
           </div>
           <div className="payment__type-item">
-            <p className="payment__type-text">Online Card <span className="payment__type-svg"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M22.0049 9.99979V19.9998C22.0049 20.5521 21.5572 20.9998 21.0049 20.9998H3.00488C2.4526 20.9998 2.00488 20.5521 2.00488 19.9998V9.99979H22.0049ZM22.0049 7.99979H2.00488V3.99979C2.00488 3.4475 2.4526 2.99979 3.00488 2.99979H21.0049C21.5572 2.99979 22.0049 3.4475 22.0049 3.99979V7.99979ZM15.0049 15.9998V17.9998H19.0049V15.9998H15.0049Z"></path></svg></span></p>
+            <p className="payment__type-text">
+              Online Card{" "}
+              <span className="payment__type-svg">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M22.0049 9.99979V19.9998C22.0049 20.5521 21.5572 20.9998 21.0049 20.9998H3.00488C2.4526 20.9998 2.00488 20.5521 2.00488 19.9998V9.99979H22.0049ZM22.0049 7.99979H2.00488V3.99979C2.00488 3.4475 2.4526 2.99979 3.00488 2.99979H21.0049C21.5572 2.99979 22.0049 3.4475 22.0049 3.99979V7.99979ZM15.0049 15.9998V17.9998H19.0049V15.9998H15.0049Z"></path>
+                </svg>
+              </span>
+            </p>
             <input
               required
               onChange={changeMethod}
@@ -154,7 +314,6 @@ const Payment = () => {
             </div>
           </div>
         ) : null}
-
         <button
           style={{alignSelf: "auto", width: "100%", maxWidth: "none"}}
           className="buy-modal__confirm"

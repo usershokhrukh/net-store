@@ -1,0 +1,61 @@
+.orders {
+  display: flex;
+  flex-direction: column;
+  gap: 30px !important;
+  align-items: center;
+  justify-content: start;
+  // background-color: red;
+  padding: 10px !important;
+
+  &__cards {
+    width: 100%;
+    // background-color: blue;
+    border-radius: 20px;
+    padding: 20px;
+    border: 1px solid var(--gray);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__title{
+    font-size: 16px;
+    color: green;
+    letter-spacing: 0.4px;
+    font-weight: 600;
+  }
+
+  &__top {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    // gap: 10px;
+    width: 100%;
+  }
+
+  &__info-txt {
+    display: flex;
+    align-items: center;
+    gap: 5px; flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 6px;
+    border-radius: 4px;
+    // background-color: var(--gray);
+    font-size: 13px;
+    font-weight: 300;
+    // border: 1px solid var(--gray);
+    width: 100%;
+    color: gray
+
+  }
+
+  &__info-span {
+    font-size: 14px;
+    // font-weight: 600;
+    letter-spacing: 0.4px;
+    color: var(--dark-gray);
+  }
+
+
+}
