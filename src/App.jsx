@@ -56,7 +56,7 @@ const App = () => {
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="*" element={<Home />} />
+            {/* <Route path="*" element={<Home />} /> */}
             <Route path="/cart" element={<Cart />}>
               <Route path="/cart/shipping" element={<BuyModal />} />
               <Route path="/cart/payment" element={<Payment />} />
@@ -68,6 +68,7 @@ const App = () => {
             <Route path="/filter/:data" element={<Filter />}/>
             <Route path="/search" element={<Search />}/>
             <Route path="/orders" element={<Orders/>}/>
+            <Route path="/cart/payment" element={<Payment />} />
           </Routes>
           <div
             style={{

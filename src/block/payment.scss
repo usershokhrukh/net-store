@@ -81,4 +81,47 @@
     align-items: center;
     gap: 10px;
   }
+
+  &__input-phone {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
+    gap: 5px;
+  }
+
+  .PhoneInputCountry {
+    display: flex;
+    gap: 10px;
+    height: 100%;
+  }
+
+  .PhoneInputCountryIcon {
+    width: 30px;
+  }
+
+  .PhoneInputCountrySelect {
+    padding: 3px;
+    flex-grow: 1 !important;
+    max-width: none !important;
+    width: 100% !important;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid rgba(190, 190, 190, 0.473);
+    background-color: transparent;
+  }
+
+  .PhoneInputInput {
+    flex-grow: 1;
+    padding: 10px;
+    width: 100%;
+
+    padding: 10px;
+    flex-grow: 1 !important;
+    max-width: none !important;
+    width: 100% !important;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid rgba(190, 190, 190, 0.473);
+  }
 }

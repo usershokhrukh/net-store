@@ -1,12 +1,13 @@
-import React, {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {useGetCart} from "../hooks/GET/useGetCart";
 import {checkUserId} from "../api/apiClient";
 import {Cost} from "../context/cost";
 import {useDeleteCart} from "../hooks/DELETE/useDeleteCart";
-import {useNavigate} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
-import {MdVerifiedUser} from "react-icons/md";
 import {usePostUserOrder} from "../hooks/POST/usePostUserOrder";
+import PhoneInputWithCountrySelect from "react-phone-number-input";
+import { isValidNumber } from "libphonenumber-js";
 
 const Payment = () => {
   const [userIdState, setUserIdState] = useState(null);
@@ -129,7 +130,7 @@ const Payment = () => {
   const [orderStatus, setOrderStatus] = useState({
     products: data,
     type: "",
-    phone: "",
+    phone: "+998 XX XXX XX XX",
     cardNumber: "",
     cardDate: "",
     cardCVV: "",
@@ -172,14 +173,18 @@ const Payment = () => {
 
   const [error, setError] = useState("");
   const {mutate: orderMutate} = usePostUserOrder();
+  const [country, setCountry] = useState(null)
+  const [phone, setPhone] = useState(null)
 
+  useEffect(() => {
+    setOrderStatus({...orderStatus, phone})
+  }, [phone])  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     try {
       if (orderStatus.products?.length) {
-        const regexp = /^(90|91|93|94|95|97|98|99|33|88)\d{7}$/;
-        if (regexp.test(orderStatus.phone)) {
+        if (isValidNumber(orderStatus.phone, country)) {
           const checkSubmitUserId = await checkUserId();
           if (checkSubmitUserId) {
             setOrderStatus({
@@ -194,7 +199,7 @@ const Payment = () => {
               mutate(item?.id);
             }
             toast.success("You are successfully ordered, check orders!");
-            navigate("/")
+            navigate("/");
           } else {
             setUserIdState(checkSubmitUserId);
           }
@@ -203,14 +208,13 @@ const Payment = () => {
         }
       } else {
         toast.warn("You have nothing to buy, back to homepage!");
-        navigate("/")
+        navigate("/");
       }
     } catch (err) {
       console.log(err);
       setError("Error acquired while ordering!");
     }
   };
-
   return (
     <div className="payment">
       <form onSubmit={handleSubmit} className="payment__form">
@@ -235,14 +239,14 @@ const Payment = () => {
           <label className="buy-modal__section-title" htmlFor="phone">
             Your phone number:{" "}
           </label>
-          <input
-            onChange={changeStatus}
+          <PhoneInputWithCountrySelect
+            className="payment__input-phone"
+            placeholder="Phone number"
+            onChange={setPhone}
+            value={phone}
+            limitMaxLength
             required
-            className="payment__input"
-            type="tel"
-            id="phone"
-            placeholder="+998----------"
-            name="phone"
+            onCountryChange={setCountry}
           />
         </div>
         <div className="payment__type-box">
