@@ -11,6 +11,7 @@ import "./block/view.scss";
 import "./block/payment.scss";
 import "./block/orders.scss";
 import "./block/buy-modal.scss";
+import "./block/rate.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Footer from "./components/Footer";
@@ -28,6 +29,7 @@ import BuyModal from "./components/BuyModal";
 import Payment from "./components/Payment";
 import {Cost} from "./context/cost";
 import Orders from "./components/Orders";
+import Rate from "./components/Rate";
 const App = () => {
   const [localData, setLocalData] = useState(() => {
     return JSON.parse(localStorage.getItem("userCartProducts")) || [];
@@ -56,7 +58,7 @@ const App = () => {
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />
-            {/* <Route path="*" element={<Home />} /> */}
+            <Route path="*" element={<Home />} />
             <Route path="/cart" element={<Cart />}>
               <Route path="/cart/shipping" element={<BuyModal />} />
               <Route path="/cart/payment" element={<Payment />} />
@@ -67,7 +69,9 @@ const App = () => {
             <Route path="/wish" element={<Wish />} />
             <Route path="/filter/:data" element={<Filter />}/>
             <Route path="/search" element={<Search />}/>
-            <Route path="/orders" element={<Orders/>}/>
+            <Route path="/orders" element={<Orders/>}>
+              <Route path="/orders/rate/:id" element={<Rate/>}/>
+            </Route>
             <Route path="/cart/payment" element={<Payment />} />
           </Routes>
           <div

@@ -2,8 +2,8 @@ import React, {useEffect, useState} from "react";
 import {checkUserId} from "../api/apiClient";
 import {useGetUserOrder} from "../hooks/GET/useGetUserOrder";
 import {toast} from "react-toastify";
-import {MdOutlineStar} from "react-icons/md";
-import {useNavigate} from "react-router-dom";
+import {MdOutlineStar, MdStarRate} from "react-icons/md";
+import {Outlet, useNavigate} from "react-router-dom";
 
 const Orders = () => {
   const [userIdState, setUserIdState] = useState(null);
@@ -78,33 +78,43 @@ const Orders = () => {
     } else if (nowMonth > getMonthNumber(orderMonth)) {
       return "Your products are waiting, we save products 5 days...";
     } else if (nowMonth == getMonthNumber(orderMonth)) {
-      if (nowDate < orderDay) return "Shipping";
+      if (nowDate < orderDay) return "Shipping...";
       if (nowDate >= orderDay) return `Your products are waiting, we save products 5 days...`;
     }
   };
+
+  const rate = (id) => {
+    navigate(`/orders/rate/${id}`)    
+  }
 
   return (
     <div className="container orders">
       {data?.length ? (
         data?.map(
-          ({products, type, phone, orderDate, currentDay, cost, oldPrice}) => (
+          ({products, type, phone, orderDate, currentDay, cost, oldPrice, id}) => (
             <div
               key={`${orderDate} ${phone} ${JSON.stringify(products)}`}
               className="orders__cards"
             >
-              <h2 className="orders__title">{checkOrder(orderDate)}</h2>
+              {
+                checkOrder(orderDate) == "Shipping..." ? <h2 className="orders__title">Shipping...</h2> : <div className="orders__top-rate">
+                  <p>Products are ready</p>
+                  <button onClick={() => rate(id)} className="orders__rate-button">Rate <MdStarRate className="orders__rate-icon" /></button>
+                </div>
+              }
+              
               <div className="orders__top">
                 <p className="orders__info-txt">
-                  ordered day:{" "}
+                  ordered day:
                   <span className="orders__info-span">{currentDay}</span>
                 </p>
                 <p className="orders__info-txt">
-                  deriver date:{" "}
+                  deriver date:
                   <span className="orders__info-span">{orderDate}</span>
                 </p>
                 <p className="orders__info-txt">
-                  contact:{" "}
-                  <span className="orders__info-span">+998 {phone}</span>
+                  contact:
+                  <span className="orders__info-span">{phone}</span>
                 </p>
                 <p className="orders__info-txt">
                   in price:
@@ -166,6 +176,8 @@ const Orders = () => {
       ) : (
         <p>You don't have orders yet</p>
       )}
+
+      <Outlet/>
     </div>
   );
 };
